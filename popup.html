@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
     <title>Atila Scholarship Helper - Popup</title>
+    <script src="popup.js"></script>
     <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body id="popupContainer">
 
 <div id="saveScholarshipContainer">
+
+    <label for="scholarshipDeadlineInput">When is this scholarship due?</label>
+    <input id="scholarshipDeadlineInput" type="datetime-local" value="2022-12-31T23:59:00" />
     <button id="saveScholarshipButton" style="width: 170px">
         Save This Scholarship
     </button>
 
-    <p style="display: none" id="savedScholarshipConfirmation">
-        Saved Scholarship
+    <p id="savedScholarshipConfirmation">
     </p>
 </div>
 
@@ -20,6 +23,5 @@
 <a target="_blank" id="optionsLink">
     See Saved Scholarships
 </a>
-<script src="popup.js"></script>
 </body>
 </html>
