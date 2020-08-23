@@ -22,6 +22,10 @@
   "icons": {
     "128": "images/atila-logo-blue_128.png"
   },
-  "content_scripts": [],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["saveScholarship.js"]
+    }],
   "manifest_version": 2
 }
