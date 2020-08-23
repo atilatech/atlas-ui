@@ -1,0 +1,27 @@
+{
+  "name": "Atila Scholarship Helper",
+  "version": "1.0",
+  "description": "Save scholarships with Atila",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "contextMenus"
+  ],
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "images/atila-logo-blue_128.png"
+    }
+  },
+  "icons": {
+    "128": "images/atila-logo-blue_128.png"
+  },
+  "content_scripts": [],
+  "manifest_version": 2
+}

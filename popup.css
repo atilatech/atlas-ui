@@ -1,0 +1,32 @@
+#popupContainer {
+    width: 250px;
+}
+
+button{
+    display:inline-block;
+    padding:0.7em 1.7em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    border: 0;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#FFFFFF;
+    background-color: #194F87;
+    text-align:center;
+    transition: all 0.2s;
+    font-size: 12px;
+}
+button:hover{
+    background-color: #4eb5f1;
+}
+
+#isFillThisFormContainer {
+    font-size: larger;
+}
+
+div {
+    margin: 5px;
+    font-size: larger;
+}
