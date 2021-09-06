@@ -11,7 +11,8 @@
     "activeTab",
     "declarativeContent",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "notifications"
   ],
   "page_action": {
     "default_popup": "popup.html",

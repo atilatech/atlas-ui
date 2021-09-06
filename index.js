@@ -1,7 +1,5 @@
 createSavedScholarshipsList();
 
-
-
 function createSavedScholarshipsList() {
     chrome.storage.sync.get("savedScholarships", function(syncData) {
 
@@ -91,9 +89,12 @@ function createSavedScholarshipsList() {
             const tdDeadline = document.createElement('td');
             tdDeadline.innerText = savedScholarship.deadline;
             tr.appendChild(tdDeadline);
+   
+            const tdActions = document.createElement('td');
 
             let saveToCalendarLink = document.createElement('a'); // create a new list savedScholarship
-            saveToCalendarLink.classList.add(["btn", "btn-link"])
+            saveToCalendarLink.classList.add("btn")
+            saveToCalendarLink.classList.add("btn-link")
             saveToCalendarLink.href = generateCalendarLink(savedScholarship);
             saveToCalendarLink.target = "_blank";
             saveToCalendarLink.rel = "noopener noreferrer";
@@ -102,9 +103,19 @@ function createSavedScholarshipsList() {
             saveToCalendarLink.addEventListener('click', function(event){
                 onSaveToCalendar(savedScholarship);
             });
-   
-            const tdActions = document.createElement('td');
+
             tdActions.appendChild(saveToCalendarLink);
+
+            let sendNotificationButton = document.createElement('a');
+            sendNotificationButton.classList.add("btn")
+            sendNotificationButton.classList.add("btn-link")
+            sendNotificationButton.innerHTML = "Remind Me";
+
+            sendNotificationButton.addEventListener('click', function(event){
+                onCreateScholarshipNotification(savedScholarship);
+            });
+
+            tdActions.appendChild(sendNotificationButton);
             tr.appendChild(tdActions);
 
 
@@ -127,6 +138,28 @@ function onSaveToCalendar(scholarship){
     console.log({scholarship});
 }
 
+function onCreateScholarshipNotification(scholarship){
+    console.log("onCreateScholarshipNotification");
+    chrome.runtime.sendMessage('', {
+        type: 'notification',
+        options: {
+            title: scholarship.name,
+            message: scholarship.description,
+            iconUrl: "images/atila-logo-blue_128.png",
+            type: 'basic',
+            buttons: [
+                {
+                    title: 'View Scholarship'
+                },
+                {
+                    title: 'Visit Atila'
+                }
+            ]
+        },
+        scholarship
+      });
+}
+
 /**
  * @see: https://github.com/InteractionDesignFoundation/add-event-to-calendar-docs/blob/main/services/google.md
  * @see: https://stackoverflow.com/a/23495015
@@ -145,3 +178,4 @@ function generateCalendarLink(scholarship) {
 
     return calendarUrl;
 }
+
