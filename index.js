@@ -1,19 +1,18 @@
 createSavedScholarshipsList();
 
+
+
 function createSavedScholarshipsList() {
+    chrome.storage.sync.get("savedScholarships", function(syncData) {
 
-    chrome.storage.sync.get("savedScholarships", function(items) {
-
-        const savedScholarships = items.savedScholarships.sort((a,b)=> {
-            console.log({a,b});
-            return a.dateAdded-b.dateAdded
-        } );
-
-        if (!savedScholarships) {
-            return
-        }
 
         const container = document.getElementById('savedScholarshipsListContainer');
+
+        const tableTitle = document.createElement("h1");
+        tableTitle.innerText = "Saved Scholarships";
+        tableTitle.classList.add("text-center");
+
+        container.appendChild(tableTitle);
 
         const table = document.createElement('table');
         table.classList.add("table")
@@ -22,8 +21,7 @@ function createSavedScholarshipsList() {
         let tr = document.createElement('tr');   
 
         const tableHeadingName = document.createElement('th');
-        const nameTextNode = document.createTextNode('Name');
-        tableHeadingName.appendChild(nameTextNode);
+        tableHeadingName.innerText = "Name";
         tr.appendChild(tableHeadingName);
 
         const tableHeadingDescription = document.createElement('th');
@@ -48,7 +46,14 @@ function createSavedScholarshipsList() {
 
         const tbody = document.createElement('tbody');
 
-        console.log({savedScholarships});
+        let {savedScholarships} = syncData;
+        if (!savedScholarships) {
+            savedScholarships = []
+        }
+
+        savedScholarships = savedScholarships.sort((a,b)=> {
+            return a.dateAdded < b.dateAdded ? 1 : -1
+        } );
 
         savedScholarships
         .forEach(function(savedScholarship) {
@@ -87,10 +92,9 @@ function createSavedScholarshipsList() {
             tbody.appendChild(tr);
 
         });
+
         table.appendChild(tbody);
         container.appendChild(table);
     });
-
-
 
 }
