@@ -21,17 +21,12 @@ function saveScholarship(scholarship, sendResponse) {
     chrome.storage.sync.get("savedScholarships", function(items) {
         let savedScholarships = [];
         const url = document.URL;
-        const name = scholarship.name;
-        const deadline = scholarship.deadline;
-        const notes = scholarship.notes;
         const dateAdded = new Date().toISOString();
 
         const scholarshipData = {
+            ...scholarship,
             id: getRandomString(),
             url,
-            name,
-            deadline,
-            notes,
             dateAdded,
         };
 

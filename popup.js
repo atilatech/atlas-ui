@@ -33,12 +33,17 @@ window.onload = function() {
                 saveScholarshipResponse.innerText = "Invalid date, please submit a valid date";
                 return
             }
+
+            console.log("scholarshipDescriptionInput.value", scholarshipDescriptionInput.value);
+
             const scholarship = {
                 name: scholarshipNameInput.value,
                 description: scholarshipDescriptionInput.value,
                 notes: scholarshipNotesInput.value,
-                deadline: scholarshipDeadlineInput.value,
+                deadline: new Date(scholarshipDeadlineInput.value).toISOString(),
             };
+
+            console.log({scholarship});
 
             chrome.tabs.sendMessage(tabs[0].id, {messageType: "saveScholarship", scholarship}, function(response) {
                 console.log({response});

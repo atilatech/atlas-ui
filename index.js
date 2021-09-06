@@ -4,7 +4,10 @@ function createSavedScholarshipsList() {
 
     chrome.storage.sync.get("savedScholarships", function(items) {
 
-        const savedScholarships = items.savedScholarships;
+        const savedScholarships = items.savedScholarships.sort((a,b)=> {
+            console.log({a,b});
+            return a.dateAdded-b.dateAdded
+        } );
 
         if (!savedScholarships) {
             return
@@ -18,36 +21,68 @@ function createSavedScholarshipsList() {
         const thead = document.createElement('thead');   
         let tr = document.createElement('tr');   
 
-        const th1 = document.createElement('th');
-        const th2 = document.createElement('th');
+        const tableHeadingName = document.createElement('th');
+        const nameTextNode = document.createTextNode('Name');
+        tableHeadingName.appendChild(nameTextNode);
+        tr.appendChild(tableHeadingName);
 
-        const text1 = document.createTextNode('Name');
-        const text2 = document.createTextNode('Deadline');
-        th1.appendChild(text1);
-        th2.appendChild(text2);
-        tr.appendChild(th1);
-        tr.appendChild(th2);
+        const tableHeadingDescription = document.createElement('th');
+        const descriptionTextNode = document.createTextNode('Description');
+        tableHeadingDescription.appendChild(descriptionTextNode);
+        tr.appendChild(tableHeadingDescription);
+
+        const tableHeadingNotes = document.createElement('th');
+        const notesTextNode = document.createTextNode('Notes');
+        tableHeadingNotes.appendChild(notesTextNode);
+        tr.appendChild(tableHeadingNotes);
+
+        const tableHeadingDeadline = document.createElement('th');
+        const deadlineTextNode = document.createTextNode('Deadline');
+        tableHeadingDeadline.appendChild(deadlineTextNode);
+        tr.appendChild(tableHeadingDeadline);
+
+
         thead.appendChild(tr);
         table.appendChild(thead);
 
 
         const tbody = document.createElement('tbody');
-        savedScholarships.forEach(function(savedScholarship) {
+
+        console.log({savedScholarships});
+
+        savedScholarships
+        .forEach(function(savedScholarship) {
             let paragraph = document.createElement('p'); // create a new list savedScholarship
 
             paragraph.innerHTML = `<a href="${savedScholarship.url}" target="_blank" rel="noopener noreferrer">
             ${savedScholarship.name}</a>`
 
-            tr = document.createElement('tr');   
-            td1 = document.createElement('td');
-            td2 = document.createElement('td');
+            tr = document.createElement('tr');
+   
+            const tdName = document.createElement('td');
+            tdName.style.width = "300px";
+            tdName.appendChild(paragraph);
+            tr.appendChild(tdName);
 
+
+            const tdDescription = document.createElement('td');
+            tdDescription.style.width = "300px";
+            const descriptionText = document.createTextNode(`${savedScholarship.description}`);
+            tdDescription.appendChild(descriptionText);
+            tr.appendChild(tdDescription);
+
+
+            const tdNotes = document.createElement('td');
+            tdNotes.style.width = "300px";
+            const notesText = document.createTextNode(`${savedScholarship.notes}`);
+            tdNotes.appendChild(notesText);
+            tr.appendChild(tdNotes);
+
+
+            const tdDeadline = document.createElement('td');
             const deadlineText = document.createTextNode(`${savedScholarship.deadline}`);
-
-            td1.appendChild(paragraph);
-            td2.appendChild(deadlineText);
-            tr.appendChild(td1);
-            tr.appendChild(td2);
+            tdDeadline.appendChild(deadlineText);
+            tr.appendChild(tdDeadline);
 
             tbody.appendChild(tr);
 
