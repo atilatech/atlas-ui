@@ -1,12 +1,12 @@
 window.onload = function() {
 
-    const optionsLink = document.getElementById('optionsLink');
+    const mainPageLink = document.getElementById('mainPageLink');
     const savedScholarshipConfirmation = document.getElementById("savedScholarshipConfirmation");
     const saveScholarshipButton = document.getElementById('saveScholarshipButton');
     const scholarshipDeadlineInput = document.getElementById('scholarshipDeadlineInput');
 
 
-    optionsLink.setAttribute("href", `chrome-extension://${chrome.runtime.id}/options.html`);
+    mainPageLink.setAttribute("href", `chrome-extension://${chrome.runtime.id}/index.html`);
     saveScholarshipButton.addEventListener('click', function(event){
         triggerSaveScholarshipEvent()
     });
