@@ -6,6 +6,7 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  "options_page": "index.html",
   "permissions": [
     "activeTab",
     "declarativeContent",
@@ -24,7 +25,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["saveScholarship.js"]
+      "js": ["saveScholarship.js", "loadPageContent.js"]
     }],
   "manifest_version": 2
 }

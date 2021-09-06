@@ -10,13 +10,26 @@
 
 <div id="saveScholarshipContainer">
 
-    <label for="scholarshipDeadlineInput">When is this scholarship due?</label>
-    <input id="scholarshipDeadlineInput" type="datetime-local" value="2022-12-31T23:59:00" />
-    <button id="saveScholarshipButton" class="btn btn-primary mt-3">
-        Save This Scholarship
-    </button>
+    <div id="saveScholarshipForm">
+        <label for="scholarshipNameInput">Name</label>
+        <input id="scholarshipNameInput" class="form-control mb-3" type="text" placeholder="Name" />
 
-    <p id="savedScholarshipConfirmation">
+        <label for="scholarshipDescriptionInput">Description</label>
+        <textarea id="scholarshipDescriptionInput" class="form-control mb-3" type="text" placeholder="Description" rows="3"></textarea>
+
+        <label for="scholarshipNotesInput">Notes</label>
+        <textarea id="scholarshipNotesInput" class="form-control mb-3" type="text" placeholder="Notes" rows="3"></textarea>
+
+        <label for="scholarshipDeadlineInput">Deadline</label>
+        <input id="scholarshipDeadlineInput" class="form-control" type="datetime-local" value="2022-12-31T23:59:00" />
+
+
+        <button id="saveScholarshipButton" class="btn btn-primary mt-3">
+            Save This Scholarship
+        </button>
+    </div>
+
+    <p id="saveScholarshipResponse" class="mt-3 mx-2 text-success" style="display: none;">
     </p>
 </div>
 
