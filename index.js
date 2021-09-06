@@ -21,16 +21,19 @@ function createSavedScholarshipsList() {
         let tr = document.createElement('tr');   
 
         const tableHeadingName = document.createElement('th');
+        tableHeadingName.style.width = "300px";
         tableHeadingName.innerText = "Name";
         tr.appendChild(tableHeadingName);
 
         const tableHeadingDescription = document.createElement('th');
         const descriptionTextNode = document.createTextNode('Description');
+        tableHeadingDescription.style.width = "300px";
         tableHeadingDescription.appendChild(descriptionTextNode);
         tr.appendChild(tableHeadingDescription);
 
         const tableHeadingNotes = document.createElement('th');
         const notesTextNode = document.createTextNode('Notes');
+        tableHeadingNotes.style.width = "300px";
         tableHeadingNotes.appendChild(notesTextNode);
         tr.appendChild(tableHeadingNotes);
 
@@ -38,6 +41,10 @@ function createSavedScholarshipsList() {
         const deadlineTextNode = document.createTextNode('Deadline');
         tableHeadingDeadline.appendChild(deadlineTextNode);
         tr.appendChild(tableHeadingDeadline);
+
+        const tableHeadingActions = document.createElement('th');
+        tableHeadingActions.innerText = "Actions";
+        tr.appendChild(tableHeadingActions);
 
 
         thead.appendChild(tr);
@@ -55,6 +62,8 @@ function createSavedScholarshipsList() {
             return a.dateAdded < b.dateAdded ? 1 : -1
         } );
 
+        console.log({savedScholarships});
+
         savedScholarships
         .forEach(function(savedScholarship) {
             let paragraph = document.createElement('p'); // create a new list savedScholarship
@@ -65,29 +74,40 @@ function createSavedScholarshipsList() {
             tr = document.createElement('tr');
    
             const tdName = document.createElement('td');
-            tdName.style.width = "300px";
             tdName.appendChild(paragraph);
             tr.appendChild(tdName);
 
 
             const tdDescription = document.createElement('td');
-            tdDescription.style.width = "300px";
-            const descriptionText = document.createTextNode(`${savedScholarship.description}`);
-            tdDescription.appendChild(descriptionText);
+            tdDescription.innerText = savedScholarship.description;
             tr.appendChild(tdDescription);
 
 
             const tdNotes = document.createElement('td');
-            tdNotes.style.width = "300px";
-            const notesText = document.createTextNode(`${savedScholarship.notes}`);
-            tdNotes.appendChild(notesText);
+            tdNotes.innerText = savedScholarship.notes;
             tr.appendChild(tdNotes);
 
 
             const tdDeadline = document.createElement('td');
-            const deadlineText = document.createTextNode(`${savedScholarship.deadline}`);
-            tdDeadline.appendChild(deadlineText);
+            tdDeadline.innerText = savedScholarship.deadline;
             tr.appendChild(tdDeadline);
+
+            let saveToCalendarLink = document.createElement('a'); // create a new list savedScholarship
+            saveToCalendarLink.classList.add(["btn", "btn-link"])
+            saveToCalendarLink.href = generateCalendarLink(savedScholarship);
+            saveToCalendarLink.target = "_blank";
+            saveToCalendarLink.rel = "noopener noreferrer";
+            saveToCalendarLink.innerHTML = "Save to Calendar";
+
+            saveToCalendarLink.addEventListener('click', function(event){
+                onSaveToCalendar(savedScholarship);
+            });
+   
+            const tdActions = document.createElement('td');
+            tdActions.appendChild(saveToCalendarLink);
+            tr.appendChild(tdActions);
+
+
 
             tbody.appendChild(tr);
 
@@ -97,4 +117,31 @@ function createSavedScholarshipsList() {
         container.appendChild(table);
     });
 
+}
+
+function onSaveToCalendar(scholarship){
+    // sync that this scholarship has already been saved to calendar
+    // Then render the deadline date instead: 
+    // e.g. https://calendar.google.com/calendar/u/0/r/day/2021/9/15
+    console.log("onSaveToCalendar");
+    console.log({scholarship});
+}
+
+/**
+ * @see: https://github.com/InteractionDesignFoundation/add-event-to-calendar-docs/blob/main/services/google.md
+ * @see: https://stackoverflow.com/a/23495015
+ * @param {*} scholarship 
+ */
+function generateCalendarLink(scholarship) {
+    // %0A%0A = new line
+    const eventDetails = `${scholarship.description}%0D%0A%0D%0A${scholarship.url}%0D%0A%0D%0A${scholarship.notes}`;
+
+    // Google Calendar deadline Expects the following format: YYYYMMDDTHHmmSSZ
+    // Deadline is in the format 2021-09-06T15:17:00.000Z, we want: 20131206T050000Z
+    let deadline = scholarship.deadline.replace("-", "").replace(":", "").replace("-", "").substring(0,16);
+
+    const calendarUrlBase = `https://www.google.com/calendar/render`
+    const calendarUrl = `${calendarUrlBase}?action=TEMPLATE&text=${scholarship.name}&dates=${deadline}/${deadline}&location=${scholarship.url}&details=${eventDetails}`
+
+    return calendarUrl;
 }
