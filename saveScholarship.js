@@ -7,14 +7,13 @@ chrome.runtime.onMessage.addListener(
             "from the extension");
 
         if (request.messageType === "saveScholarship") {
-
             const scholarship = request.scholarship;
             saveScholarship(scholarship, sendResponse);
         }
 
         return true;
 
-    });
+});
 
 
 function saveScholarship(scholarship, sendResponse) {

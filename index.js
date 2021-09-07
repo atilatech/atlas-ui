@@ -1,54 +1,71 @@
-createSavedScholarshipsList();
+createScholarshipsTableContainer();
 
+function createScholarshipsTableContainer() {
+
+
+    const container = document.getElementById('savedScholarshipsListContainer');
+    container.innerHTML = "";
+
+    const tableTitle = document.createElement("h1");
+    tableTitle.innerText = "Saved Scholarships";
+    tableTitle.classList.add("text-center");
+
+    container.appendChild(tableTitle);
+
+    const table = document.createElement('table');
+    table.id = "savedScholarshipsTable";
+    table.classList.add("table")
+
+    const thead = document.createElement('thead');   
+    let tr = document.createElement('tr');   
+
+    const tableHeadingName = document.createElement('th');
+    tableHeadingName.style.width = "300px";
+    tableHeadingName.innerText = "Name";
+    tr.appendChild(tableHeadingName);
+
+    const tableHeadingDescription = document.createElement('th');
+    const descriptionTextNode = document.createTextNode('Description');
+    tableHeadingDescription.style.width = "300px";
+    tableHeadingDescription.appendChild(descriptionTextNode);
+    tr.appendChild(tableHeadingDescription);
+
+    const tableHeadingNotes = document.createElement('th');
+    const notesTextNode = document.createTextNode('Notes');
+    tableHeadingNotes.style.width = "300px";
+    tableHeadingNotes.appendChild(notesTextNode);
+    tr.appendChild(tableHeadingNotes);
+
+    const tableHeadingDeadline = document.createElement('th');
+    const deadlineTextNode = document.createTextNode('Deadline');
+    tableHeadingDeadline.appendChild(deadlineTextNode);
+    tr.appendChild(tableHeadingDeadline);
+
+    const tableHeadingActions = document.createElement('th');
+    tableHeadingActions.innerText = "Actions";
+    tr.appendChild(tableHeadingActions);
+
+
+    thead.appendChild(tr);
+    table.appendChild(thead);
+    const copyToClipBoardButton = document.getElementById('copyToClipBoardButton');
+
+    copyToClipBoardButton.addEventListener('click', function(event){
+        copyTableToClipBoard(table.outerHTML);
+    });
+
+    const tbody = document.createElement('tbody');
+    tbody.id = "savedScholarshipsTbody";
+    table.appendChild(tbody);
+    container.appendChild(table);
+
+    createSavedScholarshipsList();
+}
 function createSavedScholarshipsList() {
+    const tbody = document.getElementById('savedScholarshipsTbody');
+    tbody.innerHTML = "";
+
     chrome.storage.sync.get("savedScholarships", function(syncData) {
-
-        const container = document.getElementById('savedScholarshipsListContainer');
-
-        const tableTitle = document.createElement("h1");
-        tableTitle.innerText = "Saved Scholarships";
-        tableTitle.classList.add("text-center");
-
-        container.appendChild(tableTitle);
-
-        const table = document.createElement('table');
-        table.classList.add("table")
-
-        const thead = document.createElement('thead');   
-        let tr = document.createElement('tr');   
-
-        const tableHeadingName = document.createElement('th');
-        tableHeadingName.style.width = "300px";
-        tableHeadingName.innerText = "Name";
-        tr.appendChild(tableHeadingName);
-
-        const tableHeadingDescription = document.createElement('th');
-        const descriptionTextNode = document.createTextNode('Description');
-        tableHeadingDescription.style.width = "300px";
-        tableHeadingDescription.appendChild(descriptionTextNode);
-        tr.appendChild(tableHeadingDescription);
-
-        const tableHeadingNotes = document.createElement('th');
-        const notesTextNode = document.createTextNode('Notes');
-        tableHeadingNotes.style.width = "300px";
-        tableHeadingNotes.appendChild(notesTextNode);
-        tr.appendChild(tableHeadingNotes);
-
-        const tableHeadingDeadline = document.createElement('th');
-        const deadlineTextNode = document.createTextNode('Deadline');
-        tableHeadingDeadline.appendChild(deadlineTextNode);
-        tr.appendChild(tableHeadingDeadline);
-
-        const tableHeadingActions = document.createElement('th');
-        tableHeadingActions.innerText = "Actions";
-        tr.appendChild(tableHeadingActions);
-
-
-        thead.appendChild(tr);
-        table.appendChild(thead);
-
-
-        const tbody = document.createElement('tbody');
 
         let {savedScholarships} = syncData;
         if (!savedScholarships) {
@@ -102,8 +119,22 @@ function createSavedScholarshipsList() {
             saveToCalendarLink.addEventListener('click', function(event){
                 onSaveToCalendar(savedScholarship);
             });
-
+            let actionSeperator = document.createElement('hr');
             tdActions.appendChild(saveToCalendarLink);
+            tdActions.appendChild(actionSeperator);
+
+            let removeScholarshipLink = document.createElement('a'); // create a new list savedScholarship
+            removeScholarshipLink.classList.add("btn");
+            removeScholarshipLink.classList.add("btn-link");
+            removeScholarshipLink.classList.add("text-danger");
+            removeScholarshipLink.rel = "noopener noreferrer";
+            removeScholarshipLink.innerHTML = "Remove Scholarship";
+
+            removeScholarshipLink.addEventListener('click', function(event){
+                removeScholarship(savedScholarship);
+            });
+            tdActions.appendChild(removeScholarshipLink);
+
             tr.appendChild(tdActions);
 
 
@@ -112,16 +143,8 @@ function createSavedScholarshipsList() {
 
         });
 
-        table.appendChild(tbody);
-        container.appendChild(table);
-
 
         
-        const copyToClipBoardButton = document.getElementById('copyToClipBoardButton');
-
-        copyToClipBoardButton.addEventListener('click', function(event){
-            copyTableToClipBoard(table.outerHTML);
-        });
     });
 
 }
@@ -206,4 +229,18 @@ function setAttributes(el, attrs) {
     for(var key in attrs) {
       el.setAttribute(key, attrs[key]);
     }
-  }
+}
+
+function removeScholarship(scholarshipToRemove) {
+    chrome.storage.sync.get("savedScholarships", function(items) {
+
+        let savedScholarships = items.savedScholarships;
+        savedScholarships = savedScholarships.filter(obj => obj.id !== scholarshipToRemove.id)
+
+        console.log({items, savedScholarships});
+        chrome.storage.sync.set({ "savedScholarships" : savedScholarships }, function() {
+            createSavedScholarshipsList();
+        });
+
+    });
+}
