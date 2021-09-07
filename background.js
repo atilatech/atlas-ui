@@ -28,14 +28,6 @@ function getword(info,tab) {
 
 chrome.contextMenus.onClicked.addListener(getword);
 
-chrome.runtime.onMessage.addListener(request => {
-
-    const { scholarship } = request;
-    if (request.type === 'notification') {
-      chrome.notifications.create(`upcoming-deadline__${scholarship.id}`, request.options);
-    }
-});
-
 chrome.notifications.onButtonClicked.addListener((notificationId, buttonIndex) => {
     console.log("chrome.notifications.onButtonClicked");
     console.log({notificationId, buttonIndex})

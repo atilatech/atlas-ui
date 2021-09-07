@@ -104,17 +104,6 @@ function createSavedScholarshipsList() {
             });
 
             tdActions.appendChild(saveToCalendarLink);
-
-            let sendNotificationButton = document.createElement('a');
-            sendNotificationButton.classList.add("btn")
-            sendNotificationButton.classList.add("btn-link")
-            sendNotificationButton.innerHTML = "Remind Me";
-
-            sendNotificationButton.addEventListener('click', function(event){
-                onCreateScholarshipNotification(savedScholarship);
-            });
-
-            tdActions.appendChild(sendNotificationButton);
             tr.appendChild(tdActions);
 
 
@@ -143,28 +132,6 @@ function onSaveToCalendar(scholarship){
     // e.g. https://calendar.google.com/calendar/u/0/r/day/2021/9/15
     console.log("onSaveToCalendar");
     console.log({scholarship});
-}
-
-function onCreateScholarshipNotification(scholarship){
-    console.log("onCreateScholarshipNotification");
-    chrome.runtime.sendMessage('', {
-        type: 'notification',
-        options: {
-            title: scholarship.name,
-            message: scholarship.description,
-            iconUrl: "images/atila-logo-blue_128.png",
-            type: 'basic',
-            buttons: [
-                {
-                    title: 'View Scholarship'
-                },
-                {
-                    title: 'Visit Atila'
-                }
-            ]
-        },
-        scholarship
-      });
 }
 
 /**
