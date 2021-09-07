@@ -17,12 +17,13 @@ chrome.runtime.onMessage.addListener((message: RequestMessage, sender, sendRespo
 });
 
 const loadParentPageData = () => {
-  const deadline = Utils.currentDateMidnight()
 
-  const scholarship: Scholarship = {
+  let scholarship =  new Scholarship();
+  scholarship = {
+    ...scholarship,
     name: document.title,
+    scholarship_url: document.URL,
     description: getContentDescription(),
-    deadline,
 }
 
   return scholarship;

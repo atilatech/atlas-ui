@@ -49,6 +49,24 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
     };
 
     onSaveScholarship = () => {
+
+      const {scholarship: newScholarship} = this.state;
+
+      chrome.storage.sync.get("savedScholarships", function(items) {
+        let savedScholarships: Scholarship[] = [];
+        newScholarship.date_created = new Date().toISOString();
+
+        console.log({items});
+
+        if (items.savedScholarships) {
+            savedScholarships = items.savedScholarships
+        }
+        savedScholarships.push(newScholarship);
+
+        chrome.storage.sync.set({ "savedScholarships" : savedScholarships });
+
+      });
+
     };
 
     render(){
