@@ -61,7 +61,8 @@ window.onload = function() {
     
         // https://stackoverflow.com/a/61082536
         const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        // set default time to 11:59PM of current date
+        now.setUTCHours(23,59,59,999);
         scholarshipDeadlineInput.value = now.toISOString().slice(0,16);
         scholarshipNameInput.value = scholarship.name;
         scholarshipDescriptionInput.value = scholarship.description;
