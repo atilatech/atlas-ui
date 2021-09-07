@@ -3,7 +3,6 @@ createSavedScholarshipsList();
 function createSavedScholarshipsList() {
     chrome.storage.sync.get("savedScholarships", function(syncData) {
 
-
         const container = document.getElementById('savedScholarshipsListContainer');
 
         const tableTitle = document.createElement("h1");
@@ -126,6 +125,14 @@ function createSavedScholarshipsList() {
 
         table.appendChild(tbody);
         container.appendChild(table);
+
+
+        
+        const copyToClipBoardButton = document.getElementById('copyToClipBoardButton');
+
+        copyToClipBoardButton.addEventListener('click', function(event){
+            copyTableToClipBoard(table.outerHTML);
+        });
     });
 
 }
@@ -179,3 +186,57 @@ function generateCalendarLink(scholarship) {
     return calendarUrl;
 }
 
+/**
+ * @see: https://stackoverflow.com/a/50067769/14874841
+ * @see: https://stackoverflow.com/a/2044793 
+ * The second link is an alternative method that we were originally going to use, 
+ * that method preserves bootstrap styling (good or bad?) but the code was also very long and seemed overcomplicated.
+ * @param {*} el 
+ */
+function copyTableToClipBoard(elementHTML) {
+	function listener(e) {
+        e.clipboardData.setData("text/html", elementHTML);
+        e.clipboardData.setData("text/plain", elementHTML);
+        e.preventDefault();
+    }
+    document.addEventListener("copy", listener);
+    document.execCommand("copy");
+    document.removeEventListener("copy", listener);
+
+    const toastElement = document.createElement("div");
+    
+    const toastElementAttributes = { 
+        "class": "toast mt-3",
+        "role": "alert",
+        "aria-live": "assertive",
+        "aria-atomic": "true",
+        "id": "copyToClipBoardToast",
+        "data-bs-delay": "3000",
+    };
+
+    setAttributes(toastElement, toastElementAttributes);
+    toastElement.innerHTML = `
+    <div class="toast-header">
+            <strong class="me-auto">Copied Table to Clipboard!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hint: open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
+      sheets.new</a> and paste the table into a Google Spreadsheet
+    </div>
+    `
+
+    const container = document.getElementById("parentContainer");
+    container.append(toastElement);
+
+    const myToast = bootstrap.Toast.getOrCreateInstance(toastElement);
+
+    myToast.show();
+    
+}
+
+function setAttributes(el, attrs) {
+    for(var key in attrs) {
+      el.setAttribute(key, attrs[key]);
+    }
+  }

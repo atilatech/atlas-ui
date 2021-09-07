@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        button {
-            height: 30px;
-            width: 30px;
-            outline: none;
-            margin: 10px;
-        }
-    </style><!-- Bootstrap -->
     <link href="index.css" rel="stylesheet">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <title>Atila Scholarship Helper</title>
 </head>
 <body>
-    <div class="container">
-        <div id="savedScholarshipsListContainer" class="card shadow mt-5 p-5">
-        </div>
-        
+    <div class="container card shadow mt-5 p-5" id="parentContainer">
+        <div id="savedScholarshipsListContainer"></div>
+        <button id="copyToClipBoardButton" class="btn btn-outline-primary" style="width: 200px;">
+            Copy to Clipboard
+        </button>
     </div>
 </body>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
