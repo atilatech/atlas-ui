@@ -1,5 +1,6 @@
-import { Component, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Scholarship } from '../../models/Scholarship';
+import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 
 function ScholarshipsTable() {
     const [scholarships, setScholarships] = useState<Scholarship[]>([]);
@@ -47,7 +48,7 @@ function ScholarshipsTable() {
         </tbody>
       </table>
     );
-  }
+}
 
 interface ScholarshipTableRowProps {
     scholarship: Scholarship
@@ -64,7 +65,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
             <td>{scholarship.notes}</td>
             <td>{scholarship.deadline}</td>
             <td>
-              <a className="btn btn-link">
+              <a className="btn btn-link" href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
                 Save to Calendar
               </a>
               <a className="btn btn-link">
