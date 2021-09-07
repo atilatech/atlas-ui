@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Scholarship } from '../../models/Scholarship';
 import { ScholarshipUtils } from '../../services/ScholarshipUtils';
+import './ScholarshipsTable.css';
 
 function ScholarshipsTable() {
     const [scholarships, setScholarships] = useState<Scholarship[]>([]);
@@ -33,20 +34,28 @@ function ScholarshipsTable() {
     }, []);
 
     return (
-        <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Notes</th>
-            <th scope="col">Deadline</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-            {scholarships.map(scholarship => <ScholarshipTableRow scholarship={scholarship} key={scholarship.id} />)}
-        </tbody>
-      </table>
+      <div>
+          <h3 className="text-center">Saved Scholarships</h3>
+
+          <table className="table">
+          <thead>
+            <tr>
+              <th scope="col" className="wide-column">Name</th>
+              <th scope="col" className="wide-column">Description</th>
+              <th scope="col" className="wide-column">Notes</th>
+              <th scope="col">Deadline</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+              {
+                scholarships.sort((a,b)=> (a?.date_created ?? "") < (b?.date_created ?? "") ? 1 : -1)
+                .map(scholarship => <ScholarshipTableRow scholarship={scholarship} key={scholarship.id} />)
+              }
+          </tbody>
+        </table>
+
+      </div>
     );
 }
 
@@ -60,17 +69,23 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
     return (
         <tr>
-            <td>{scholarship.name}</td>
+            <td>
+              <a className="btn btn-link text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
+                {scholarship.name}
+              </a>
+            </td>
             <td>{scholarship.description}</td>
             <td>{scholarship.notes}</td>
             <td>{scholarship.deadline}</td>
-            <td>
+            <td className="text-center">
               <a className="btn btn-link" href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
                 Save to Calendar
               </a>
+              <hr/>
               <a className="btn btn-link">
                 Copy
               </a>
+              <hr/>
               <a className="btn btn-link text-danger">
                 Remove
               </a>
