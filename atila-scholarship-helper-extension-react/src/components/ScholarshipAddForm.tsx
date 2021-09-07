@@ -77,7 +77,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
       
 
       return (
-        <div className="ScholarshipAddForm container">
+        <div className="ScholarshipAddForm m-3">
          <label htmlFor="scholarshipNameInput">Name</label>
          <textarea value={scholarship.name} name="name"  onChange={this.onUpdateScholarship} className="form-control mb-3" id="scholarshipNameInput" placeholder="Name">
          </textarea> 
