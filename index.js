@@ -188,13 +188,13 @@ function copyTableToClipBoard(elementHTML) {
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-      Hint: open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
-      sheets.new</a> and paste the table into a Google Spreadsheet
+      Tip: Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
+      sheets.new</a> and paste the copied table into a Google Spreadsheet.
     </div>
     `
 
-    const container = document.getElementById("parentContainer");
-    container.append(toastElement);
+    const copyToClipBoardButton = document.getElementById("copyToClipBoardButton");
+    copyToClipBoardButton.parentNode.insertBefore(toastElement, copyToClipBoardButton.nextSibling);
 
     const myToast = bootstrap.Toast.getOrCreateInstance(toastElement);
 
