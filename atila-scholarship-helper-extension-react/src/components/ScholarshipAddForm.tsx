@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
 
-export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship  }>  {
+export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship, isSavedScholarship: boolean  }>  {
 
   constructor(props: any) {
     super(props)
@@ -11,6 +11,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
        titleIndex: 0,
        title: "",
        scholarship: new Scholarship(),
+       isSavedScholarship: false,
     }
     
   }
@@ -52,7 +53,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
       const {scholarship: newScholarship} = this.state;
 
-      chrome.storage.sync.get("savedScholarships", function(items) {
+      chrome.storage.sync.get("savedScholarships", (items) => {
         let savedScholarships: Scholarship[] = [];
         newScholarship.date_created = new Date().toISOString();
 
@@ -64,6 +65,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         savedScholarships.push(newScholarship);
 
         chrome.storage.sync.set({ "savedScholarships" : savedScholarships });
+        this.setState({isSavedScholarship: true});
 
       });
 
@@ -71,7 +73,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
     render(){
 
-      const { scholarship } = this.state;
+      const { scholarship, isSavedScholarship } = this.state;
 
       console.log({scholarship});
       
@@ -92,9 +94,20 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         <label htmlFor="scholarshipDeadlineInput">Deadline</label>
         <input value={scholarship.deadline} name="deadline" onChange={this.onUpdateScholarship} id="scholarshipDeadlineInput" className="form-control" type="datetime-local" />
        
-        <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
+       {isSavedScholarship ?
+       <p className="text-success">
+         Saved Scholarship!
+       </p> 
+       :
+       <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
             Save
         </button>
+       
+       }
+        <hr/>
+        <a href={`chrome-extension://${chrome?.runtime?.id}/index.html`} target="_blank" rel="noopener noreferrer">
+          See all Saved Scholarships
+        </a>
       </div>
       )
     }
