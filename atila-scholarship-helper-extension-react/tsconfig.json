@@ -21,6 +21,10 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "public/bootstrap"  ]
+    "src",
+    "public/bootstrap"
+  ],
+  "types": [
+    "chrome"
+  ]
 }
