@@ -7,30 +7,25 @@ chrome.runtime.onMessage.addListener(
             "from the extension");
 
         if (request.messageType === "saveScholarship") {
-
             const scholarship = request.scholarship;
             saveScholarship(scholarship, sendResponse);
         }
 
         return true;
 
-    });
+});
 
 
 function saveScholarship(scholarship, sendResponse) {
     chrome.storage.sync.get("savedScholarships", function(items) {
         let savedScholarships = [];
         const url = document.URL;
-        // using name instead of title here,
-        // the Atila API uses refers to scholarships with 'name'
-        const name = document.title;
-        const deadline = scholarship.deadline;
-        const dateAdded = new Date();
+        const dateAdded = new Date().toISOString();
 
         const scholarshipData = {
+            ...scholarship,
+            id: getRandomString(),
             url,
-            name,
-            deadline,
             dateAdded,
         };
 
@@ -51,4 +46,18 @@ function saveScholarship(scholarship, sendResponse) {
         });
 
     });
+}
+
+function getRandomString(maxLength=16) {
+    // https://gist.github.com/gordonbrander/2230317
+    let randomString = '';
+
+    for (let i =0; i< 4; i++) {
+        randomString += Math.random().toString(36).substr(2, 8);
+    }
+    if (maxLength) {
+        randomString = randomString.substring(0, maxLength);
+    }
+
+    return randomString;
 }

@@ -27,3 +27,8 @@ function getword(info,tab) {
 }
 
 chrome.contextMenus.onClicked.addListener(getword);
+
+chrome.notifications.onButtonClicked.addListener((notificationId, buttonIndex) => {
+    console.log("chrome.notifications.onButtonClicked");
+    console.log({notificationId, buttonIndex})
+})

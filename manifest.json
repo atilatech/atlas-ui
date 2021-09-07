@@ -6,12 +6,13 @@
     "scripts": ["background.js"],
     "persistent": false
   },
-  "options_page": "options.html",
+  "options_page": "index.html",
   "permissions": [
     "activeTab",
     "declarativeContent",
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "notifications"
   ],
   "page_action": {
     "default_popup": "popup.html",
@@ -25,7 +26,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["saveScholarship.js"]
+      "js": ["saveScholarship.js", "loadPageContent.js"]
     }],
   "manifest_version": 2
 }
