@@ -1,6 +1,7 @@
 import { Scholarship } from '../../models/Scholarship';
 import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 import { Utils } from '../../services/Utils';
+import ScholarshipActions, { ActionTypes } from '../../state/Scholarship.actions';
 
 interface ScholarshipTableRowProps {
   scholarship: Scholarship;
@@ -25,6 +26,10 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   };
 
+  const removeScholarship = () => {
+    ScholarshipActions.performAction(ActionTypes.DELETE, scholarship);
+  };
+
   return (
     <tr id={scholarshipRowId}>
       <td>
@@ -44,7 +49,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
           Copy
         </a>
         <hr />
-        <a className="btn btn-link text-danger remove-in-clipboard">
+        <a className="btn btn-link text-danger remove-in-clipboard" onClick={removeScholarship}>
           Remove
         </a>
       </td>
