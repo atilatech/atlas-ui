@@ -1,0 +1,15 @@
+table tbody tr:hover {
+    background-color: #e5f2ff;
+}
+
+a.btn-link {
+    text-decoration: none;
+}
+
+a.btn-link:hover {
+    text-decoration: underline;
+}
+
+.wide-column {
+    width: 300px;
+}
