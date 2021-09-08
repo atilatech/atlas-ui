@@ -1,8 +1,11 @@
 import { RequestMessage, ResponseMessage } from "./models/ExtensionMessage";
 import { Scholarship } from "./models/Scholarship";
-import { Utils } from "./services/Utils";
 
 export {}
+
+// Mainly needed for websites with really long meta descriptions in the <head/> usually because of SEO stuffing
+// e.g. https://www.codegrepper.com/code-examples/typescript/global+variable+typescript+react
+const MAX_DECRIPTION_LENGTH = 750;
 
 chrome.runtime.onMessage.addListener((message: RequestMessage, sender, sendResponse) => {
   switch (message.type) {
@@ -23,7 +26,7 @@ const loadParentPageData = () => {
     ...scholarship,
     name: document.title,
     scholarship_url: document.URL,
-    description: getContentDescription(),
+    description: getContentDescription().substring(0, MAX_DECRIPTION_LENGTH),
 }
 
   return scholarship;
