@@ -80,7 +80,7 @@ export class Utils {
         const toastElement = document.createElement("div");
     
     const toastElementAttributes = { 
-        "class": "toast mt-3",
+        "class": "toast mt-3 remove-in-clipboard",
         "role": "alert",
         "aria-live": "assertive",
         "aria-atomic": "true",

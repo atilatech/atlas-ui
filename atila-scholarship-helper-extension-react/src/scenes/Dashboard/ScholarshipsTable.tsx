@@ -46,7 +46,7 @@ function ScholarshipsTable() {
 
     return (
       <div>
-          <h3 className="text-center">Saved Scholarships</h3>
+          <h3 className="text-center mb-5">Saved Scholarships</h3>
 
           <table className="table" id={scholarshipsTableId}>
           <thead>
