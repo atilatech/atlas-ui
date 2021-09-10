@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export class Utils {
     /**
      * @see: https://stackoverflow.com/a/61082536

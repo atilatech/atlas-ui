@@ -4,6 +4,7 @@ import { Utils } from '../../services/Utils';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
 
+// When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
 let chrome = window.chrome || {};
 
 const scholarshipsTableId = "ScholarshipsTable";
@@ -19,17 +20,17 @@ function ScholarshipsTable() {
         if(!chrome.storage) {
           return;
         }
-        chrome.storage.sync.get("savedScholarships", (storageData: any) => {
+        chrome.storage.sync.get("savedScholarships", (storageData: {[key: string]: any}) => {
               console.log({storageData});
               
               let savedScholarships = storageData.savedScholarships || [];
               setScholarships(savedScholarships);
         });
         // TODO types from @types/chrome: (storageChange: { [key: string]: StorageChange }, areaName: AreaName)
-        const storageChangedListener = (storageChange: { [key: string]: any }, areaName: any) => {
+        const storageChangedListener = (storageChange: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {
           console.log({storageChange, areaName});
           const { savedScholarships } = storageChange;
-          if (savedScholarships && savedScholarships.oldValue != savedScholarships.newValue) {
+          if (savedScholarships && savedScholarships.oldValue !== savedScholarships.newValue) {
             setScholarships(savedScholarships.newValue);
           }
         };

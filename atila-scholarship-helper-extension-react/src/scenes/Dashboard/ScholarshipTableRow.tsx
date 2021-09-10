@@ -45,13 +45,13 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
           Save to Calendar
         </a>
         <hr />
-        <a className="btn btn-link remove-in-clipboard" id={copyToClipBoardRowId} onClick={copyToClipBoard}>
+        <button className="btn btn-link remove-in-clipboard" id={copyToClipBoardRowId} onClick={copyToClipBoard}>
           Copy
-        </a>
+        </button>
         <hr />
-        <a className="btn btn-link text-danger remove-in-clipboard" onClick={removeScholarship}>
+        <button className="btn btn-link text-danger remove-in-clipboard" onClick={removeScholarship}>
           Remove
-        </a>
+        </button>
       </td>
     </tr>
   );
