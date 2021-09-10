@@ -7,7 +7,7 @@ export {}
 // e.g. https://www.codegrepper.com/code-examples/typescript/global+variable+typescript+react
 const MAX_DECRIPTION_LENGTH = 750;
 
-chrome.runtime.onMessage.addListener((message: RequestMessage, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: RequestMessage, sender : any, sendResponse : any) => {
   switch (message.type) {
     case "LOAD_PARENT_PAGE":
       const scholarship = loadParentPageData();

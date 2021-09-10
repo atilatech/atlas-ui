@@ -29,7 +29,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         }
       }
       if (chrome.tabs) {//for use in non chrom extension environments
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
             const tabId = tabs[0].id ?? 0;
               chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
                   console.log({response});
@@ -53,7 +53,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
       const {scholarship: newScholarship} = this.state;
 
-      chrome.storage.sync.get("savedScholarships", (items) => {
+      chrome.storage.sync.get("savedScholarships", (items : any) => {
         let savedScholarships: Scholarship[] = [];
         newScholarship.date_created = new Date().toISOString();
 

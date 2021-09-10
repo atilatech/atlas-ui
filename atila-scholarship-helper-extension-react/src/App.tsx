@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { ScholarshipAddForm } from './components/ScholarshipAddForm';
-import ScholarshipsTable from './scenes/DashBoard/ScholarshipsTable';
+import ScholarshipsTable from './scenes/Dashboard/ScholarshipsTable';
  
 function App() {
  return (

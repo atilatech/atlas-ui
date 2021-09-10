@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import ScholarshipAddForm from './components/ScholarshipAddForm';
-import DashBoard from './scenes/DashBoard/DashBoard';
+import DashBoard from './scenes/Dashboard/DashBoard';
 
 
 const popupRoot = document.getElementById("popup-root");

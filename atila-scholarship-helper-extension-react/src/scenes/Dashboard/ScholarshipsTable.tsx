@@ -4,6 +4,8 @@ import { Utils } from '../../services/Utils';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
 
+let chrome = window.chrome || {};
+
 const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
     const [scholarships, setScholarships] = useState<Scholarship[]>([]);
@@ -17,7 +19,7 @@ function ScholarshipsTable() {
         if(!chrome.storage) {
           return;
         }
-        chrome.storage.sync.get("savedScholarships", (storageData) => {
+        chrome.storage.sync.get("savedScholarships", (storageData: any) => {
               console.log({storageData});
               
               let savedScholarships = storageData.savedScholarships || [];
