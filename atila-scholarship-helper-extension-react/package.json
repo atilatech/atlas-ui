@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.2.0",
-    "@types/chrome": "0.0.157"
+    "@types/chrome": "0.0.157",
+    "jest-chrome": "^0.7.2"
   }
 }

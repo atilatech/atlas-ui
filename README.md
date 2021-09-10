@@ -20,10 +20,13 @@ Visit [chrome://extensions](chrome://extensions) in Chrome browser and click loa
 - To see updated changes you have to rebuild your app
 - If you change something like manifest.json you will have to select the update button in the chrome extension panel as well
 
+## To use Mock Data
+
+1. Set `ATILA_MOCK_EXTENSION_DATA` to true in your local storage
+
+1. Right click in your browser > Inspect > Application.
+
 ## Working with the Chrome Storage
-
-
-To delete the database, for example in debugging.
 
 1. Right click inspect to open Devtools
 

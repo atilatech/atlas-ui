@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Scholarship } from '../../models/Scholarship';
+import { ChromeMock } from '../../services/ChromeMock';
 import { Utils } from '../../services/Utils';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
@@ -18,6 +19,10 @@ function ScholarshipsTable() {
      */
     useEffect(() => {
         if(!chrome.storage) {
+          // TODO find a way to globally use mock data for all chrome API calls if ATILA_MOCK_API_DATA === "true"
+          if(localStorage.getItem("ATILA_MOCK_EXTENSION_DATA") === "true") {
+            setScholarships(ChromeMock.storageData.savedScholarships ?? []);
+          }
           return;
         }
         chrome.storage.sync.get("savedScholarships", (storageData: {[key: string]: any}) => {
