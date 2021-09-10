@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import ScholarshipAddForm from './components/ScholarshipAddForm';
-import DashBoard from './scenes/Dashboard/DashBoard';
+import App from './App';
 
 
 const popupRoot = document.getElementById("popup-root");
@@ -12,7 +12,7 @@ const popupRoot = document.getElementById("popup-root");
 !popupRoot &&
   ReactDOM.render(
     <React.StrictMode>
-      <DashBoard />
+      <App />
     </React.StrictMode>,
     document.getElementById("root")
   );
