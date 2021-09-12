@@ -45,10 +45,11 @@ function ScholarshipsTable() {
 
     const copyToClipBoard = () => {
       
+      const toastTitle = "Copied scholarship table to clipboard";
       const toastBody = `Tip: Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
       sheets.new</a> and paste the copied table into a Google Spreadsheet`;
 
-      Utils.copyToClipboard(document.getElementById(scholarshipsTableId)?.outerHTML?? "", "copyAllScholarshipsToClipBoard", toastBody);
+      Utils.copyToClipboard(document.getElementById(scholarshipsTableId)?.outerHTML?? "", toastTitle, toastBody);
 
     }
 

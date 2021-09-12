@@ -17,12 +17,14 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   const copyToClipBoard = () => {
 
+    const toastTitle = `Copied <strong style="display: contents">${Utils.truncateText(scholarship.name, 50)}</strong> to clipboard`;
+
     const toastBody = `Tip: Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
       sheets.new</a> and paste the copied table into a Google Spreadsheet`;
 
     // Wrap the table row in a table element to preserve columns when pasting to a spreadsheet.
     const tableHtml = `<table>${document.getElementById(scholarshipRowId)?.outerHTML ?? ""}</table>`;
-    Utils.copyToClipboard(tableHtml, copyToClipBoardRowId, toastBody);
+    Utils.copyToClipboard(tableHtml, toastTitle, toastBody);
 
   };
 

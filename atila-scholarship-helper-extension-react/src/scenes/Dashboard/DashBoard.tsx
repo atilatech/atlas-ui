@@ -6,17 +6,17 @@ function DashBoard() {
 
     const copyToClipBoard = () => {
 
-        const toastBody = `The link to the Atila Scholarship Helper Chrome Extension has been copied to your clipboard!`;
+        const toastTitle = "Link to Chrome Extension has been copied to your clipboard";
+        const toastBody = "Paste the link in your message to a friend and they can install this extension in the Chrome store.";
 
+        // Don't indent ${Constants.EXTENSION_CHROME_WEBSTORE_LINK} in the code because the pasted value will also have a weird hanging indent.
         const contentToCopy = `Hey, check out this chrome extension that allows you to save scholarships you find online:
 
 ${Constants.EXTENSION_CHROME_WEBSTORE_LINK}`;
                 
-        Utils.copyToClipboard(contentToCopy, copyToClipBoardRowId, toastBody);
+        Utils.copyToClipboard(contentToCopy, toastTitle, toastBody);
     
      }; 
-
-     const copyToClipBoardRowId = "copyChromeWebstoreLinkToClipBoard";
 
     return (
         
