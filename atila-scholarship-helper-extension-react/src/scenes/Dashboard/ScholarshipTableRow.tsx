@@ -35,7 +35,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   return (
     <tr id={scholarshipRowId}>
       <td>
-        <a className="btn btn-link text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
+        <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
           {scholarship.name}
         </a>
       </td>
@@ -43,7 +43,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
       <td>{scholarship.notes}</td>
       <td>{scholarship.deadline}</td>
       <td className="text-center">
-        <a className="btn btn-link" href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
+        <a href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
           Save to Calendar
         </a>
         <hr />

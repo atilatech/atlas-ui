@@ -2,11 +2,11 @@ table tbody tr:hover {
     background-color: #e5f2ff;
 }
 
-a.btn-link {
+.btn-link, a {
     text-decoration: none;
 }
 
-a.btn-link:hover {
+.btn-link:hover, a:hover {
     text-decoration: underline;
 }
 
