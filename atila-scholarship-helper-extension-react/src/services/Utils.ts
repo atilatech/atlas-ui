@@ -77,7 +77,6 @@ export class Utils {
     /**
      * Display a toast notification with information about the content that was copied to the clipboard.
      * If multiple toast notifications exist, stack them in the container.
-     * Note: If multiple clipboard items are clicked then all the toast notifications will remain in the DOM even after they're no longer displayed.
      * @see https://getbootstrap.com/docs/5.0/components/toasts/
      * @param buttonId 
      * @param toastBody 
@@ -102,13 +101,14 @@ export class Utils {
     const toastElementId = `copyToClipBoardToast-${Utils.getRandomString()}`;
     const toastElement = document.createElement("div");
 
+    const toastDelay = 3000
     const toastElementAttributes = { 
         "class": "toast mt-3 remove-in-clipboard",
         "role": "alert",
         "aria-live": "polite",
         "aria-atomic": "true",
         "id": toastElementId,
-        "data-bs-delay": "3000",
+        "data-bs-delay": `${toastDelay}`,
     };
 
     Utils.setAttributes(toastElement, toastElementAttributes);
@@ -131,6 +131,16 @@ export class Utils {
     const myToast = bootstrap.Toast.getOrCreateInstance(toastElement);
 
     myToast.show();
+
+    /**
+     *  Note: If multiple clipboard items are clicked then all the toast notifications will remain in the DOM even after they're no longer displayed.
+     * This fixes that by removing the element from DOM 1 second after it's no longer in view
+     */
+    setTimeout(() => {
+        if (toastElement) {
+            toastElement.remove()
+        }
+    }, (toastDelay + 1000))
     }
 
     static  setAttributes = (el: HTMLElement , attrs: any) => {
