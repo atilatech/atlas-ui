@@ -1,6 +1,6 @@
 import ScholarshipsTable from "./ScholarshipsTable";
 import { Utils } from '../../services/Utils';
-import { EXTENSION_CHROME_WEBSTORE_LINK } from "../../models/Constants";
+import { Constants } from "../../models/Constants";
 
 function DashBoard() {
 
@@ -8,10 +8,9 @@ function DashBoard() {
 
         const toastBody = `The link to the Atila Scholarship Helper Chrome Extension has been copied to your clipboard!`;
 
-        const contentToCopy = `Hey, check out this Chrome Extension that allows you to save scholarships that you find online
+        const contentToCopy = `Hey, check out this chrome extension that allows you to save scholarships you find online:
         
-${EXTENSION_CHROME_WEBSTORE_LINK}
-        `
+${Constants.EXTENSION_CHROME_WEBSTORE_LINK}`;
                 
         Utils.copyToClipboard(contentToCopy, copyToClipBoardRowId, toastBody);
     
