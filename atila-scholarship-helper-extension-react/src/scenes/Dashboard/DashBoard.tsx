@@ -9,7 +9,7 @@ function DashBoard() {
         const toastBody = `The link to the Atila Scholarship Helper Chrome Extension has been copied to your clipboard!`;
 
         const contentToCopy = `Hey, check out this chrome extension that allows you to save scholarships you find online:
-        
+
 ${Constants.EXTENSION_CHROME_WEBSTORE_LINK}`;
                 
         Utils.copyToClipboard(contentToCopy, copyToClipBoardRowId, toastBody);

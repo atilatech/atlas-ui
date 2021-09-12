@@ -74,15 +74,40 @@ export class Utils {
         return root.innerHTML;
     }
 
+    /**
+     * Display a toast notification with information about the content that was copied to the clipboard.
+     * If multiple toast notifications exist, stack them in the container.
+     * Note: If multiple clipboard items are clicked then all the toast notifications will remain in the DOM even after they're no longer displayed.
+     * @see https://getbootstrap.com/docs/5.0/components/toasts/
+     * @param buttonId 
+     * @param toastBody 
+     */
     static createCopyToastNotification = (buttonId: string, toastBody: string) => {
-        const toastElement = document.createElement("div");
     
+    const toastContainerId = "toast-container";
+
+    let toastContainer = document.getElementById(toastContainerId);
+
+    if (!toastContainer) {
+        toastContainer = document.createElement("div");
+    }
+    const toastContainerAttributes = { 
+        "class":`${toastContainerId} position-fixed top-0 end-0 p-3`,
+        "id": `${toastContainerId}`,
+        "styl": "z-index: 11",
+    };
+
+    Utils.setAttributes(toastContainer, toastContainerAttributes);
+
+    const toastElementId = `copyToClipBoardToast-${Utils.getRandomString()}`;
+    const toastElement = document.createElement("div");
+
     const toastElementAttributes = { 
         "class": "toast mt-3 remove-in-clipboard",
         "role": "alert",
-        "aria-live": "assertive",
+        "aria-live": "polite",
         "aria-atomic": "true",
-        "id": "copyToClipBoardToast",
+        "id": toastElementId,
         "data-bs-delay": "3000",
     };
 
@@ -97,15 +122,18 @@ export class Utils {
         </div>
     `;
 
-    const copyToClipBoardButton = document.getElementById(buttonId);
-    copyToClipBoardButton?.parentNode?.insertBefore(toastElement, copyToClipBoardButton.nextSibling);
+    toastContainer.appendChild(toastElement);
+
+    document.body.appendChild(toastContainer);
+    // const copyToClipBoardButton = document.getElementById(buttonId);
+    // copyToClipBoardButton?.parentNode?.insertBefore(toastElement, copyToClipBoardButton.nextSibling);
 
     const myToast = bootstrap.Toast.getOrCreateInstance(toastElement);
 
     myToast.show();
     }
 
-    static  setAttributes = (el: HTMLDivElement, attrs: any) => {
+    static  setAttributes = (el: HTMLElement , attrs: any) => {
         for(var key in attrs) {
           el.setAttribute(key, attrs[key]);
         }
