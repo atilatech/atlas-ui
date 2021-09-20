@@ -3,30 +3,54 @@
  * Ceeate a helper action file that will handle all the logic for adding, editing and removing items from storage.
  */
 
-import { AtilaStorageArea } from "../models/AtilaStorageArea";
+import { AtilaStorageArea, SavedScholarships } from "../models/AtilaStorageArea";
 import { Scholarship } from "../models/Scholarship";
 
-export type SavedScholarshipCallback = (savedScholarships: Scholarship[] | undefined) => any;
+export type SavedScholarshipCallback = (savedScholarships: SavedScholarships) => any;
 export enum ActionTypes {
     ADD = "ADD",
+    GET = "GET",
     UPDATE = "UPDATE",
     DELETE = "DELETE",
 }
 class ScholarshipActions {
 
-    static performAction = (type: ActionTypes, scholarshipToRemove: Scholarship, callback?: SavedScholarshipCallback) => {
+    static performAction = (type: ActionTypes, targetScholarship: Scholarship | null, callback?: SavedScholarshipCallback) => {
         chrome.storage.sync.get("savedScholarships", (items: AtilaStorageArea) => {
 
-            let savedScholarships = items.savedScholarships;
+            let { savedScholarships } = items;
+
+            if (type === ActionTypes.GET) {
+                if(callback) {
+                    callback(savedScholarships!)
+                }
+                return
+            } else if (targetScholarship === null) {
+                throw new Error(`targetScholarship argument can only be null for the 'GET' action type. Action type '${type}'' was received`);
+            }
             
-            if (type === "DELETE") {
-                savedScholarships = savedScholarships?.filter(scholarship => scholarship.id !== scholarshipToRemove.id)
+            if (type === ActionTypes.ADD || type == ActionTypes.UPDATE) {
+                if(type === ActionTypes.ADD) {
+                    targetScholarship.date_created = new Date().toISOString();
+                }
+                targetScholarship.date_modified = new Date().toISOString();
+
+                if (!savedScholarships) {
+                    savedScholarships = {
+                        [targetScholarship.id]: targetScholarship,
+                    };
+                } else {
+                    savedScholarships[targetScholarship.id] = targetScholarship
+                }
+
+            }  else if (type === ActionTypes.DELETE) {
+                delete savedScholarships![targetScholarship.id]
             }
     
             console.log({items, savedScholarships});
             chrome.storage.sync.set({ "savedScholarships" : savedScholarships }, function() {
                 if(callback) {
-                    callback(savedScholarships);
+                    callback(savedScholarships!);
                 }
             });
     

@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
+import ScholarshipActions, { ActionTypes } from '../state/Scholarship.actions';
 
 export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship, isSavedScholarship: boolean  }>  {
 
@@ -53,20 +54,8 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
       const {scholarship: newScholarship} = this.state;
 
-      chrome.storage.sync.get("savedScholarships", (items : any) => {
-        let savedScholarships: Scholarship[] = [];
-        newScholarship.date_created = new Date().toISOString();
-
-        console.log({items});
-
-        if (items.savedScholarships) {
-            savedScholarships = items.savedScholarships
-        }
-        savedScholarships.push(newScholarship);
-
-        chrome.storage.sync.set({ "savedScholarships" : savedScholarships });
+      ScholarshipActions.performAction(ActionTypes.ADD, newScholarship, savedScholarships => {
         this.setState({isSavedScholarship: true});
-
       });
 
     };

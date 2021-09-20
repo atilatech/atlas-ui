@@ -4,7 +4,11 @@
 
 import { Scholarship } from "./Scholarship";
 
+export interface SavedScholarships {
+    [scholarshipId: string]: Scholarship
+}
+
 export interface AtilaStorageArea {
-    savedScholarships?: Scholarship[],
+    savedScholarships?: SavedScholarships,
     generalNotes?: string
 }

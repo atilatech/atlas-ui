@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Scholarship } from '../../models/Scholarship';
+import { SavedScholarships } from '../../models/AtilaStorageArea';
 import { ChromeMock } from '../../services/ChromeMock';
 import { Utils } from '../../services/Utils';
+import ScholarshipActions, { ActionTypes } from '../../state/Scholarship.actions';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
 
@@ -10,7 +11,7 @@ let chrome = window.chrome || {};
 
 const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
-    const [scholarships, setScholarships] = useState<Scholarship[]>([]);
+    const [scholarships, setScholarships] = useState<SavedScholarships>({});
 
     /**
      * We use an empty dependency array [] to indicate we will only call this effect once
@@ -21,17 +22,15 @@ function ScholarshipsTable() {
         if(!chrome.storage) {
           // TODO find a way to globally use mock data for all chrome API calls if ATILA_MOCK_API_DATA === "true"
           if(localStorage.getItem("ATILA_MOCK_EXTENSION_DATA") === "true") {
-            setScholarships(ChromeMock.storageData.savedScholarships ?? []);
+            setScholarships(ChromeMock.storageData.savedScholarships ?? {});
           }
           return;
         }
-        chrome.storage.sync.get("savedScholarships", (storageData: {[key: string]: any}) => {
-              console.log({storageData});
-              
-              let savedScholarships = storageData.savedScholarships || [];
-              setScholarships(savedScholarships);
-        });
-        // TODO types from @types/chrome: (storageChange: { [key: string]: StorageChange }, areaName: AreaName)
+
+        ScholarshipActions.performAction(ActionTypes.GET, null, savedScholarships => {
+          setScholarships(savedScholarships);
+        })
+
         const storageChangedListener = (storageChange: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {
           console.log({storageChange, areaName});
           const { savedScholarships } = storageChange;
@@ -69,7 +68,7 @@ function ScholarshipsTable() {
           </thead>
           <tbody>
               {
-                (scholarships ?? []).sort((a,b)=> (a?.date_created ?? "") < (b?.date_created ?? "") ? 1 : -1)
+                (Object.values(scholarships ?? {})).sort((a,b)=> (a?.date_created ?? "") < (b?.date_created ?? "") ? 1 : -1)
                 .map(scholarship => <ScholarshipTableRow scholarship={scholarship} key={scholarship.id} />)
               }
           </tbody>
