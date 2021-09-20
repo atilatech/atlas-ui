@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export class Utils {
     /**
      * @see: https://stackoverflow.com/a/61082536
@@ -37,7 +35,7 @@ export class Utils {
      * Copies formatted html to clipboard
      * @param str
      */
-    static  copyToClipboard = (contentToCopy: string, buttonId: string, toastBody: string) => {
+    static  copyToClipboard = (contentToCopy: string, toastTitle: string, toastBody: string) => {
         const listener = (e: ClipboardEvent) =>  {
             let cleanedContent = Utils.cleanCopiedContent(contentToCopy);
 
@@ -46,7 +44,7 @@ export class Utils {
             console.log({contentToCopy, cleanedContent});
             
             e.preventDefault();
-            Utils.createCopyToastNotification(buttonId, toastBody);
+            Utils.createCopyToastNotification(toastTitle, toastBody);
 
         }
         document.addEventListener("copy", listener);
@@ -76,38 +74,95 @@ export class Utils {
         return root.innerHTML;
     }
 
-    static createCopyToastNotification = (buttonId: string, toastBody: string) => {
-        const toastElement = document.createElement("div");
+    static truncateText = (inputString: string, maxLength=100, addElipsis = true) => {
+        let truncatedText = inputString.substring(0, maxLength);
+        let textIsTruncated = inputString.length > truncatedText.length;
+        console.log({inputString, truncatedText, textIsTruncated});
+
+        if (textIsTruncated && addElipsis) {
+            truncatedText += '...'
+        }
+        return truncatedText;
+    }
+
+    /**
+     * Display a toast notification with information about the content that was copied to the clipboard.
+     * If multiple toast notifications exist, stack them in the container.
+     * @see https://getbootstrap.com/docs/5.0/components/toasts/
+     * @param toastTitle 
+     * @param toastBody 
+     */
+    static createCopyToastNotification = (toastTitle: string, toastBody: string) => {
     
-    const toastElementAttributes = { 
+    const toastContainerId = "toast-container";
+
+    let toastContainer = document.getElementById(toastContainerId);
+
+    if (!toastContainer) {
+        toastContainer = document.createElement("div");
+    }
+    const toastContainerAttributes = { 
+        "class":`${toastContainerId} position-fixed top-0 end-0 p-3`,
+        "id": `${toastContainerId}`,
+        "styl": "z-index: 11",
+    };
+
+    Utils.setAttributes(toastContainer, toastContainerAttributes);
+
+    const toastElementId = `copyToClipBoardToast-${Utils.getRandomString()}`;
+    const toastElement = document.createElement("div");
+
+    const toastDelay = 5000; // set to -1 if you want toast notification stay on screen until dismissed
+    const toastElementAttributes: any = { 
         "class": "toast mt-3 remove-in-clipboard",
         "role": "alert",
-        "aria-live": "assertive",
+        "aria-live": "polite",
         "aria-atomic": "true",
-        "id": "copyToClipBoardToast",
-        "data-bs-delay": "3000",
+        "id": toastElementId,
+        "data-bs-autohide": toastDelay > 0,
     };
+
+    if (toastElementAttributes["data-bs-autohide"]) {
+        toastElementAttributes["data-bs-delay"] = toastDelay;
+    } 
 
     Utils.setAttributes(toastElement, toastElementAttributes);
     toastElement.innerHTML = `
-        <div class="toast-header">
-                <strong class="me-auto">Copied Table to Clipboard!</strong>
+        <div class="toast-header">${toastTitle}
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
+    `;
+    if (toastBody) {
+        toastElement.innerHTML += `
         <div class="toast-body">
         ${toastBody}
-        </div>
-    `;
+        </div>`
+    }
 
-    const copyToClipBoardButton = document.getElementById(buttonId);
-    copyToClipBoardButton?.parentNode?.insertBefore(toastElement, copyToClipBoardButton.nextSibling);
+    toastContainer.appendChild(toastElement);
+
+    document.body.appendChild(toastContainer);
+    // const copyToClipBoardButton = document.getElementById(buttonId);
+    // copyToClipBoardButton?.parentNode?.insertBefore(toastElement, copyToClipBoardButton.nextSibling);
 
     const myToast = bootstrap.Toast.getOrCreateInstance(toastElement);
 
     myToast.show();
+
+    /**
+     *  Note: If multiple clipboard items are clicked then all the toast notifications will remain in the DOM even after they're no longer displayed.
+     * This fixes that by removing the element from DOM 1 second after it's no longer in view
+     */
+    if (toastElementAttributes["data-bs-autohide"]) {
+        setTimeout(() => {
+            if (toastElement) {
+                toastElement.remove()
+            }
+        }, (toastDelay + 1000));
+        }
     }
 
-    static  setAttributes = (el: HTMLDivElement, attrs: any) => {
+    static  setAttributes = (el: HTMLElement , attrs: any) => {
         for(var key in attrs) {
           el.setAttribute(key, attrs[key]);
         }

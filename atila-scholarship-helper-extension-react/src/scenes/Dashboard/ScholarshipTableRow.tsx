@@ -17,12 +17,14 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   const copyToClipBoard = () => {
 
+    const toastTitle = `Copied <strong style="display: contents">${Utils.truncateText(scholarship.name, 50)}</strong> to clipboard`;
+
     const toastBody = `Tip: Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
       sheets.new</a> and paste the copied table into a Google Spreadsheet`;
 
     // Wrap the table row in a table element to preserve columns when pasting to a spreadsheet.
     const tableHtml = `<table>${document.getElementById(scholarshipRowId)?.outerHTML ?? ""}</table>`;
-    Utils.copyToClipboard(tableHtml, copyToClipBoardRowId, toastBody);
+    Utils.copyToClipboard(tableHtml, toastTitle, toastBody);
 
   };
 
@@ -33,7 +35,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   return (
     <tr id={scholarshipRowId}>
       <td>
-        <a className="btn btn-link text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
+        <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
           {scholarship.name}
         </a>
       </td>
@@ -41,17 +43,17 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
       <td>{scholarship.notes}</td>
       <td>{scholarship.deadline}</td>
       <td className="text-center">
-        <a className="btn btn-link" href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
+        <a href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
           Save to Calendar
         </a>
         <hr />
-        <a className="btn btn-link remove-in-clipboard" id={copyToClipBoardRowId} onClick={copyToClipBoard}>
+        <button className="btn btn-link remove-in-clipboard" id={copyToClipBoardRowId} onClick={copyToClipBoard}>
           Copy
-        </a>
+        </button>
         <hr />
-        <a className="btn btn-link text-danger remove-in-clipboard" onClick={removeScholarship}>
+        <button className="btn btn-link text-danger remove-in-clipboard" onClick={removeScholarship}>
           Remove
-        </a>
+        </button>
       </td>
     </tr>
   );

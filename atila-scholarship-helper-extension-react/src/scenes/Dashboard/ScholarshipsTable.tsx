@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Scholarship } from '../../models/Scholarship';
+import { ChromeMock } from '../../services/ChromeMock';
 import { Utils } from '../../services/Utils';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
+
+// When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+let chrome = window.chrome || {};
 
 const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
@@ -15,19 +19,23 @@ function ScholarshipsTable() {
      */
     useEffect(() => {
         if(!chrome.storage) {
+          // TODO find a way to globally use mock data for all chrome API calls if ATILA_MOCK_API_DATA === "true"
+          if(localStorage.getItem("ATILA_MOCK_EXTENSION_DATA") === "true") {
+            setScholarships(ChromeMock.storageData.savedScholarships ?? []);
+          }
           return;
         }
-        chrome.storage.sync.get("savedScholarships", (storageData) => {
+        chrome.storage.sync.get("savedScholarships", (storageData: {[key: string]: any}) => {
               console.log({storageData});
               
               let savedScholarships = storageData.savedScholarships || [];
               setScholarships(savedScholarships);
         });
         // TODO types from @types/chrome: (storageChange: { [key: string]: StorageChange }, areaName: AreaName)
-        const storageChangedListener = (storageChange: { [key: string]: any }, areaName: any) => {
+        const storageChangedListener = (storageChange: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {
           console.log({storageChange, areaName});
           const { savedScholarships } = storageChange;
-          if (savedScholarships && savedScholarships.oldValue != savedScholarships.newValue) {
+          if (savedScholarships && savedScholarships.oldValue !== savedScholarships.newValue) {
             setScholarships(savedScholarships.newValue);
           }
         };
@@ -37,10 +45,11 @@ function ScholarshipsTable() {
 
     const copyToClipBoard = () => {
       
+      const toastTitle = "Copied scholarship table to clipboard";
       const toastBody = `Tip: Open <a href="https://sheets.new" target="_blank" rel="noopener noreferrer">
       sheets.new</a> and paste the copied table into a Google Spreadsheet`;
 
-      Utils.copyToClipboard(document.getElementById(scholarshipsTableId)?.outerHTML?? "", "copyAllScholarshipsToClipBoard", toastBody);
+      Utils.copyToClipboard(document.getElementById(scholarshipsTableId)?.outerHTML?? "", toastTitle, toastBody);
 
     }
 

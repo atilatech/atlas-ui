@@ -1,11 +1,11 @@
 {
-  "name": "Atila Scholarship Helper React",
-  "description": "Keep track of scholarships you're interested in, add notes, save to your calendar, get reminded when a scholarship is due soon.",
-  "version": "1.0",
+  "name": "Atila Scholarship Helper",
+  "description": "Save scholarship you're interested in, get reminded when a scholarship is due, add notes and more",
+  "version": "1.0.0",
   "manifest_version": 3,
   "action": {
       "default_popup": "popup.html",
-      "default_title": "Open the popup"
+      "default_title": "Save this Scholarship"
   },
   "options_page": "index.html",
   "content_scripts": [
