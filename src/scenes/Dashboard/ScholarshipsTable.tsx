@@ -32,7 +32,6 @@ function ScholarshipsTable() {
         })
 
         const storageChangedListener = (storageChange: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {
-          console.log({storageChange, areaName});
           const { savedScholarships } = storageChange;
           if (savedScholarships && savedScholarships.oldValue !== savedScholarships.newValue) {
             setScholarships(savedScholarships.newValue);

@@ -41,7 +41,6 @@ export class Utils {
 
             e?.clipboardData?.setData("text/html", cleanedContent);
             e?.clipboardData?.setData("text/plain", cleanedContent);
-            console.log({contentToCopy, cleanedContent});
             
             e.preventDefault();
             Utils.createCopyToastNotification(toastTitle, toastBody);
@@ -59,7 +58,6 @@ export class Utils {
      * @returns 
      */
     static cleanCopiedContent = (contentToCopy: string) => {
-        console.log({contentToCopy});
         const root = document.createElement('span');
 
         // We are setting as type Any isntead of HTMlCollectionOf<Element> to allow iterating over each element
@@ -77,7 +75,6 @@ export class Utils {
     static truncateText = (inputString: string, maxLength=100, addElipsis = true) => {
         let truncatedText = inputString.substring(0, maxLength);
         let textIsTruncated = inputString.length > truncatedText.length;
-        console.log({inputString, truncatedText, textIsTruncated});
 
         if (textIsTruncated && addElipsis) {
             truncatedText += '...'

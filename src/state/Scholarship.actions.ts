@@ -46,8 +46,6 @@ class ScholarshipActions {
             }  else if (type === ActionTypes.DELETE) {
                 delete savedScholarships![targetScholarship.id]
             }
-    
-            console.log({items, savedScholarships});
             chrome.storage.sync.set({ "savedScholarships" : savedScholarships }, function() {
                 if(callback) {
                     callback(savedScholarships!);

@@ -33,7 +33,6 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
             const tabId = tabs[0].id ?? 0;
               chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
-                  console.log({response});
                   this.setState({scholarship: response.data.scholarship})
               });
         });
@@ -63,9 +62,6 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
     render(){
 
       const { scholarship, isSavedScholarship } = this.state;
-
-      console.log({scholarship});
-      
 
       return (
         <div className="ScholarshipAddForm m-3">
