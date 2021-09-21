@@ -11,6 +11,7 @@ let chrome = window.chrome || {};
 
 const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
+   // TODO instead of using hacky unions of 'any' everyhwere, find a way to ensure that performSavedScholarshipsAction only gets called with the Scholarship object type
     const [scholarships, setScholarships] = useState<SavedScholarships>({});
 
     /**
@@ -27,8 +28,8 @@ function ScholarshipsTable() {
           return;
         }
 
-        StorageHelper.performAction(ActionTypes.GET, "savedScholarships", null, savedScholarships => {
-          setScholarships(savedScholarships);
+        StorageHelper.performAction(ActionTypes.GET, "savedScholarships", null, (savedScholarships) => {
+          setScholarships(savedScholarships as SavedScholarships);
         })
 
         const storageChangedListener = (storageChange: { [key: string]: chrome.storage.StorageChange }, areaName: chrome.storage.AreaName) => {

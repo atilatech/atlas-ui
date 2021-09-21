@@ -2,6 +2,7 @@
  * A helper class to keep track of what items are stored in the Storage Area for this extension.
  */
 
+import { GeneralNotes } from "./GeneralNotes";
 import { Scholarship } from "./Scholarship";
 
 export interface SavedScholarships {
@@ -10,5 +11,5 @@ export interface SavedScholarships {
 
 export interface AtilaStorageArea {
     savedScholarships?: SavedScholarships,
-    generalNotes?: string
+    generalNotes?: GeneralNotes,
 }
