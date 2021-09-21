@@ -1,7 +1,7 @@
 import { Scholarship } from '../../models/Scholarship';
 import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 import { Utils } from '../../services/Utils';
-import ScholarshipActions, { ActionTypes } from '../../state/Scholarship.actions';
+import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
 
 interface ScholarshipTableRowProps {
   scholarship: Scholarship;
@@ -29,7 +29,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   };
 
   const removeScholarship = () => {
-    ScholarshipActions.performAction(ActionTypes.DELETE, scholarship);
+    StorageHelper.performAction(ActionTypes.DELETE, "savedScholarships", scholarship);
   };
 
   return (

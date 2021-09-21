@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
+import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 
 export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship, isSavedScholarship: boolean  }>  {
 
@@ -32,7 +33,6 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
             const tabId = tabs[0].id ?? 0;
               chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
-                  console.log({response});
                   this.setState({scholarship: response.data.scholarship})
               });
         });
@@ -53,20 +53,8 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
       const {scholarship: newScholarship} = this.state;
 
-      chrome.storage.sync.get("savedScholarships", (items : any) => {
-        let savedScholarships: Scholarship[] = [];
-        newScholarship.date_created = new Date().toISOString();
-
-        console.log({items});
-
-        if (items.savedScholarships) {
-            savedScholarships = items.savedScholarships
-        }
-        savedScholarships.push(newScholarship);
-
-        chrome.storage.sync.set({ "savedScholarships" : savedScholarships });
+      StorageHelper.performAction(ActionTypes.ADD, "savedScholarships", newScholarship, savedScholarships => {
         this.setState({isSavedScholarship: true});
-
       });
 
     };
@@ -74,9 +62,6 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
     render(){
 
       const { scholarship, isSavedScholarship } = this.state;
-
-      console.log({scholarship});
-      
 
       return (
         <div className="ScholarshipAddForm m-3">
