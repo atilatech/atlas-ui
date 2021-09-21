@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
-import ScholarshipActions, { ActionTypes } from '../state/Scholarship.actions';
+import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 
 export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship, isSavedScholarship: boolean  }>  {
 
@@ -53,7 +53,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
       const {scholarship: newScholarship} = this.state;
 
-      ScholarshipActions.performAction(ActionTypes.ADD, newScholarship, savedScholarships => {
+      StorageHelper.performAction(ActionTypes.ADD, "savedScholarships", newScholarship, savedScholarships => {
         this.setState({isSavedScholarship: true});
       });
 

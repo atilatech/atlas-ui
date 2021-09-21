@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { SavedScholarships } from '../../models/AtilaStorageArea';
 import { ChromeMock } from '../../services/ChromeMock';
 import { Utils } from '../../services/Utils';
-import ScholarshipActions, { ActionTypes } from '../../state/Scholarship.actions';
+import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
 
@@ -27,7 +27,7 @@ function ScholarshipsTable() {
           return;
         }
 
-        ScholarshipActions.performAction(ActionTypes.GET, null, savedScholarships => {
+        StorageHelper.performAction(ActionTypes.GET, "savedScholarships", null, savedScholarships => {
           setScholarships(savedScholarships);
         })
 
