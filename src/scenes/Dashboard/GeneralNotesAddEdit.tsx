@@ -6,6 +6,7 @@ export function GeneralNotesAddEdit() {
 
     const [generalNotes, setGeneralNotes] = useState<GeneralNotes>(new GeneralNotes());
     const [isEditingNotes, setIsEditingNotes] = useState<boolean>(false);
+    const [isEditingDescription, setIsEditingDescription] = useState<boolean>(false);
 
     useEffect(() => {
         if(!chrome.storage) {

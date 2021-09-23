@@ -2,6 +2,9 @@ import { Scholarship } from '../../models/Scholarship';
 import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 import { Utils } from '../../services/Utils';
 import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
+import { useState } from 'react';
+import { SavedScholarships } from '../../models/AtilaStorageArea';
+import { useEffect} from 'react';
 
 interface ScholarshipTableRowProps {
   scholarship: Scholarship;
@@ -10,7 +13,9 @@ interface ScholarshipTableRowProps {
 
 export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
-  const { scholarship } = props;
+  const [scholarship, setScholarship] = useState<Scholarship>(props.scholarship);
+  const [isEditingNotes, setIsEditingNotes] = useState<boolean>(false);
+  const [isEditingDescription, setIsEditingDescription] = useState<boolean>(false);
 
   const scholarshipRowId = `scholarship-row-${scholarship.id}`;
   const copyToClipBoardRowId = `copyToClipBoard-${scholarshipRowId}`;
@@ -28,6 +33,30 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   };
 
+  const onUpdateScholarship = (event: any) => {
+
+    console.log({event});
+    console.log("typeof event", typeof event)
+
+    const value: string =  event!.target!.value;
+    const updatedScholarship = {
+        ...scholarship,
+        [event.target.name]: value,
+    }
+
+    setScholarship(updatedScholarship);
+    StorageHelper.performAction(ActionTypes.UPDATE, "savedScholarships", updatedScholarship)
+
+};
+
+    const toggleEditingNotes = () => {
+      setIsEditingNotes(!isEditingNotes);
+}
+
+const toggleEditingDescription = () => {
+  setIsEditingDescription(!isEditingDescription);
+}
+
   const removeScholarship = () => {
     StorageHelper.performAction(ActionTypes.DELETE, "savedScholarships", scholarship);
   };
@@ -39,8 +68,40 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
           {scholarship.name}
         </a>
       </td>
-      <td>{scholarship.description}</td>
-      <td>{scholarship.notes}</td>
+      <td>
+      <div style={{height: "100px", overflow: "auto"}}>
+            { isEditingDescription ?
+            <textarea value={scholarship.description} name="description" onChange={onUpdateScholarship} 
+            id="scholarshipDescriptionInput" className="form-control mb-3" placeholder="Description" rows={3}></textarea>
+            :
+
+            <div style={{ whiteSpace: "pre-line"}}>
+                {scholarship.description}
+            </div>
+            }
+
+        </div>
+        <button onClick={toggleEditingDescription} className="btn btn-link">
+        { isEditingDescription ? "View Description" : "Edit Description"}
+        </button>
+        </td>
+      <td>
+      <div style={{height: "100px", overflow: "auto"}}>
+            { isEditingNotes ?
+            <textarea value={scholarship.notes} name="notes" onChange={onUpdateScholarship} 
+            id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={3}></textarea>
+            :
+
+            <div style={{ whiteSpace: "pre-line"}}>
+                {scholarship.notes}
+            </div>
+            }
+
+        </div>
+        <button onClick={toggleEditingNotes} className="btn btn-link">
+        { isEditingNotes ? "View Notes" : "Edit Notes"}
+        </button>
+      </td>
       <td>{scholarship.deadline}</td>
       <td className="text-center">
         <a href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
