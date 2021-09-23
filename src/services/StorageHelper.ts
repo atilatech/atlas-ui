@@ -5,8 +5,9 @@
 
  import { AtilaStorageArea, SavedScholarships } from "../models/AtilaStorageArea";
  import { GeneralNotes } from "../models/GeneralNotes";
- import { Scholarship } from "../models/Scholarship";
+ import { Scholarship, SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION } from "../models/Scholarship";
  import AtilaAPI from "./AtilaAPI";
+import { Utils } from "./Utils";
  
  export type SavedScholarshipCallback = (savedScholarships: SavedScholarships | GeneralNotes) => any;
  export enum ActionTypes {
@@ -21,9 +22,16 @@
      static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes",
       targetObject: Scholarship | GeneralNotes | null, callback?: SavedScholarshipCallback) => {
           
-         chrome.storage.sync.get(objectType, (items: AtilaStorageArea) => {
+         chrome.storage.sync.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
              let storageData = items[objectType];
+             let guestUserId = items.guestUserId;
+
+             if (!guestUserId) {
+                guestUserId = Utils.getRandomString();
+                chrome.storage.sync.set({ guestUserId });
+             }
+
  
              if (actionType === ActionTypes.GET) {
                  if(callback) {
@@ -35,7 +43,7 @@
              }
  
              if (objectType === "savedScholarships") {
-                 storageData = StorageHelper.performSavedScholarshipsAction(actionType, targetObject! as Scholarship, storageData as SavedScholarships)
+                 storageData = StorageHelper.performSavedScholarshipsAction(actionType, targetObject! as Scholarship, storageData as SavedScholarships, guestUserId)
              }
  
              if (objectType === "generalNotes") {
@@ -51,11 +59,12 @@
      }
  
      // TODO instead of using hacky unions of 'any' everyhwere, find a way to ensure that performSavedScholarshipsAction only gets called with the Scholarship object type
-     static performSavedScholarshipsAction = (type: ActionTypes, targetObject: Scholarship, savedScholarships: SavedScholarships) => {
+     static performSavedScholarshipsAction = (type: ActionTypes, targetObject: Scholarship, savedScholarships: SavedScholarships, guestUserId: string) => {
          
          if (type === ActionTypes.ADD || type === ActionTypes.UPDATE) {
              if(type === ActionTypes.ADD) {
                  targetObject.date_created = new Date().toISOString();
+                 targetObject.creation_source = SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION;
              }
              targetObject.date_modified = new Date().toISOString();
  
@@ -68,7 +77,7 @@
              }
  
              if (type === ActionTypes.ADD) {
-                 AtilaAPI.saveScholarship(targetObject)
+                 AtilaAPI.saveScholarship(targetObject, guestUserId)
                      .then(res =>console.log({res}))
                      .catch(err =>console.log({err}))
              }
