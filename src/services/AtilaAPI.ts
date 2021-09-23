@@ -4,13 +4,12 @@ import Environment from "./Environment";
 class AtilaAPI {
     static scholarshipsApiUrl = `${Environment.apiUrl}/scholarships/`;
 
-    static saveScholarship = (scholarship: Scholarship, guestUserId: string) => {
+    static saveScholarship = (scholarship: Scholarship) => {
             const postData: Scholarship | any = {
                 ...scholarship,
             }
     
             postData.local_id = scholarship.id;
-            postData.owner_guest_user_id = guestUserId;
             delete postData.id;
             delete postData.notes;
             delete postData.date_created;

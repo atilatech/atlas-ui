@@ -65,6 +65,7 @@ import { Utils } from "./Utils";
              if(type === ActionTypes.ADD) {
                  targetObject.date_created = new Date().toISOString();
                  targetObject.creation_source = SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION;
+                 targetObject.owner_guest_user_id = guestUserId;
              }
              targetObject.date_modified = new Date().toISOString();
  
@@ -77,7 +78,7 @@ import { Utils } from "./Utils";
              }
  
              if (type === ActionTypes.ADD) {
-                 AtilaAPI.saveScholarship(targetObject, guestUserId)
+                 AtilaAPI.saveScholarship(targetObject)
                      .then(res =>console.log({res}))
                      .catch(err =>console.log({err}))
              }
