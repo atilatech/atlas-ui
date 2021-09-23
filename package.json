@@ -21,6 +21,8 @@
     "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
     "build:extension": "INLINE_RUNTIME_CHUNK=false craco build && node createPopupBuild.js",
     "build:extension:windows": "set INLINE_RUNTIME_CHUNK=false ; craco build ; node createPopupBuild.js",
+    "build:extension:prod": "export REACT_APP_ATILA_STAGE=prod && npm run build:extension",
+    "build:extension:prod:windows": "set REACT_APP_ATILA_STAGE=prod && npm run build:extension:windows",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
