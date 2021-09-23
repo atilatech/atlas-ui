@@ -20,9 +20,6 @@ export function GeneralNotesAddEdit() {
 
     const onUpdateGeneralNotes = (event: any) => {
 
-        console.log({event});
-        console.log("typeof event", typeof event)
-
         const notes: string =  event!.target!.value;
         const updatedGeneralNotes = {
             ...generalNotes,
