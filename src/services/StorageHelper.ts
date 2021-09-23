@@ -66,6 +66,8 @@ import { Utils } from "./Utils";
                  targetObject.date_created = new Date().toISOString();
                  targetObject.creation_source = SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION;
                  targetObject.owner_guest_user_id = guestUserId;
+                 // prevent the description from being blank by setting it as the name as a fallback
+                 targetObject.description = targetObject.description || targetObject.name;
              }
              targetObject.date_modified = new Date().toISOString();
  
