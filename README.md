@@ -32,13 +32,17 @@ Visit [chrome://extensions](chrome://extensions) in Chrome browser and click loa
 
 1. Paste any commands below into your console, don't forget to remove `REMOVE_IF_YOU_ARE_SURE.`
 
+To view all the items in your storage:
+
 ```javascript
 chrome.storage.sync.get(null,function(items){
  console.log(items);
 })
 ```
 
-**Warning** This is a highly destrutive action. Make sure you intend to do this.
+To delete all the items in your storage:
+
+**Warning** This is a highly destrutive action. Make sure you are sure you want to do this.
 ```javascript
 chrome.storage.REMOVE_IF_YOU_ARE_SURE.sync.clear(function() {
     var error = chrome.runtime.lastError;
@@ -48,7 +52,8 @@ chrome.storage.REMOVE_IF_YOU_ARE_SURE.sync.clear(function() {
 });
 ```
 
-Or to delete specific key
+To delete specific key:
+
 ```javascript
 chrome.storage.REMOVE_IF_YOU_ARE_SURE.sync.remove(["savedScholarships"],function(){
  var error = chrome.runtime.lastError;

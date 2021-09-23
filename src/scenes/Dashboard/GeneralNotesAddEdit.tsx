@@ -13,8 +13,10 @@ export function GeneralNotesAddEdit() {
           return;
         }
 
-        StorageHelper.performAction(ActionTypes.GET, "generalNotes", null, (generalNotes) => {
-            setGeneralNotes(generalNotes as GeneralNotes);
+        StorageHelper.performAction(ActionTypes.GET, "generalNotes", null, (generalNotesFromStorage) => {
+            if (generalNotesFromStorage) {
+                setGeneralNotes(generalNotesFromStorage as GeneralNotes);
+            }
           })
     }, []);
 

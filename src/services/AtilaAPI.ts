@@ -1,4 +1,3 @@
-import { AtilaStorageArea } from "../models/AtilaStorageArea";
 import { Scholarship } from "../models/Scholarship";
 import Environment from "./Environment";
 
