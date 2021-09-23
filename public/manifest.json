@@ -19,8 +19,8 @@
     "storage"
   ],
   "icons": {
-      "16": "atila-logo-blue_128.png",
-      "48": "atila-logo-blue_128.png",
-      "128": "atila-logo-blue_128.png"
+      "16": "atila_logo_dark_blue.png",
+      "48": "atila_logo_dark_blue.png",
+      "128": "atila_logo_dark_blue.png"
   }
 }
