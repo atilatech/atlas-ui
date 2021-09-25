@@ -13,15 +13,14 @@ export function GeneralNotesAddEdit() {
           return;
         }
 
-        StorageHelper.performAction(ActionTypes.GET, "generalNotes", null, (generalNotes) => {
-            setGeneralNotes(generalNotes as GeneralNotes);
+        StorageHelper.performAction(ActionTypes.GET, "generalNotes", null, (generalNotesFromStorage) => {
+            if (generalNotesFromStorage) {
+                setGeneralNotes(generalNotesFromStorage as GeneralNotes);
+            }
           })
     }, []);
 
     const onUpdateGeneralNotes = (event: any) => {
-
-        console.log({event});
-        console.log("typeof event", typeof event)
 
         const notes: string =  event!.target!.value;
         const updatedGeneralNotes = {

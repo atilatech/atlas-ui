@@ -12,4 +12,5 @@ export interface SavedScholarships {
 export interface AtilaStorageArea {
     savedScholarships?: SavedScholarships,
     generalNotes?: GeneralNotes,
+    guestUserId?: string,
 }
