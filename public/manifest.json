@@ -18,6 +18,10 @@
     "activeTab",
     "storage"
   ],
+  "host_permissions": [
+    "https://atila-7.herokuapp.com/api/*",
+    "https://atila-7-staging.herokuapp.com/api/*"
+  ],
   "icons": {
       "16": "atila-logo-blue_128.png",
       "48": "atila-logo-blue_128.png",
