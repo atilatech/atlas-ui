@@ -3,7 +3,7 @@ export const EnvironmentDev = {
 };
 
 export const EnvironmentProd = {
-    apiUrl: 'https://atila-7-staging.herokuapp.com/api',
+    apiUrl: 'https://atila-7.herokuapp.com/api',
 };
 
 // set to EnvironmentDev as the default so we can use type hinting and the autocomplete feature

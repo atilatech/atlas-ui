@@ -16,7 +16,7 @@ class AtilaAPI {
             delete postData.date_modified;
     
             // TODO add a test to ensure that that post scholarship is called with the correct format that the Atila API expects
-            const apiResponsePromise = fetch(`${AtilaAPI.scholarshipsApiUrl}/create-scholarship-no-csrf-check/`, {
+            const apiResponsePromise = fetch(`${AtilaAPI.scholarshipsApiUrl}/create-scholarship-public/`, {
                 method: 'POST',
                 headers: {
                 'Accept': 'application/json',
