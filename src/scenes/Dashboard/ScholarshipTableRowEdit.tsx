@@ -39,20 +39,19 @@ export function ScholarshipTableRowEdit(props: ScholarshipTableRowEditProps) {
       ...scholarship,
       [event.target.name]: event.target.value,
     }
-
     setScholarship(editedScholarship)
   }
 
   return (
     <tr id={scholarshipRowId}>
       <td>
-        <textarea rows={4} value={scholarship.name} onChange={updateScholarship} className="form-control" placeholder="Name" />
+        <textarea rows={4} name="name" value={scholarship.name} onChange={updateScholarship} className="form-control" placeholder="Name" />
       </td>
       <td>
-        <textarea rows={4} value={scholarship.description} onChange={updateScholarship} className="form-control" placeholder="Description" />      
+        <textarea rows={4} name="description" value={scholarship.description} onChange={updateScholarship} className="form-control" placeholder="Description" />      
       </td>
       <td>
-        <textarea rows={4} value={scholarship.notes} onChange={updateScholarship} className="form-control" placeholder="Notes" />      
+        <textarea rows={4} name="notes" value={scholarship.notes} onChange={updateScholarship} className="form-control" placeholder="Notes" />      
       </td>
       <td>{scholarship.deadline}</td>
       <td className="text-center">

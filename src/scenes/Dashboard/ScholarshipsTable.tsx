@@ -61,9 +61,8 @@ function ScholarshipsTable() {
     return (
       <div>
           <h3 className="text-center mb-5">Saved Scholarships</h3>
-          <br />
           <button className="btn btn-primary" onClick={toggleEdit}>
-            {isEdit? 'Save Changes' : 'Edit'}
+            {isEdit? 'Save' : 'Edit'}
           </button>
 
           <table className="table" id={scholarshipsTableId}>
