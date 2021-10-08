@@ -2,15 +2,20 @@ import { Scholarship } from '../../models/Scholarship';
 import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 import { Utils } from '../../services/Utils';
 import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
+import { useState } from 'react';
 
 interface ScholarshipTableRowProps {
   scholarship: Scholarship;
-}
-;
+};
 
 export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
-  const { scholarship } = props;
+  const [scholarship, setScholarship] = useState<Scholarship>(props.scholarship);
+
+  const [editingFields, setEditingFields] = useState<any>({
+    description: false,
+    notes: false,
+  });
 
   const scholarshipRowId = `scholarship-row-${scholarship.id}`;
   const copyToClipBoardRowId = `copyToClipBoard-${scholarshipRowId}`;
@@ -32,6 +37,46 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
     StorageHelper.performAction(ActionTypes.DELETE, "savedScholarships", scholarship);
   };
 
+  const updateScholarship = (event: any) => {      
+    const editedScholarship = {
+      ...scholarship,
+      [event.target.name]: event.target.value,
+    }
+
+    setScholarship(editedScholarship)
+  } 
+
+  const toggleEditingField = (field: string) => {
+    if (editingFields[field]) {
+      saveScholarship()
+    }
+
+    const newEditingFields = {
+      ...editingFields,
+      [field]: !(editingFields[field])
+    }
+
+    setEditingFields(newEditingFields)
+  }
+
+  const saveScholarship = () => {
+    StorageHelper.performAction(ActionTypes.UPDATE, "savedScholarships", scholarship)
+  }
+
+  const renderEditableFields = Object.keys(editingFields).map(field => (
+    <td>
+        {editingFields[field] ? 
+        <textarea rows={4} value={(scholarship as any)[field]} name={field} onChange={updateScholarship} className="form-control" placeholder={field} />
+        :
+        (scholarship as any)[field]
+        }
+
+        <button className="btn btn-link" onClick={()=>{toggleEditingField(field)}}>
+          {editingFields[field] ? 'Save' : 'Edit'}
+        </button>
+    </td>
+  ))
+
   return (
     <tr id={scholarshipRowId}>
       <td>
@@ -39,9 +84,12 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
           {scholarship.name}
         </a>
       </td>
-      <td>{scholarship.description}</td>
-      <td>{scholarship.notes}</td>
+
+      {renderEditableFields}
+
       <td>{scholarship.deadline}</td>
+
+
       <td className="text-center">
         <a href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
           Save to Calendar

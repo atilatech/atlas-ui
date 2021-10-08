@@ -5,7 +5,6 @@ import { Utils } from '../../services/Utils';
 import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
-import { ScholarshipTableRowEdit } from './ScholarshipTableRowEdit';
 
 // When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
 let chrome = window.chrome || {};
@@ -14,7 +13,6 @@ const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
    // TODO instead of using hacky unions of 'any' everyhwere, find a way to ensure that performSavedScholarshipsAction only gets called with the Scholarship object type
     const [scholarships, setScholarships] = useState<SavedScholarships>({});
-    const [isEdit, setEdit] = useState<boolean>(false);
 
     /**
      * We use an empty dependency array [] to indicate we will only call this effect once
@@ -54,17 +52,9 @@ function ScholarshipsTable() {
 
     }
 
-    const toggleEdit = () => {
-      setEdit(!isEdit)
-    }
-
     return (
       <div>
           <h3 className="text-center mb-5">Saved Scholarships</h3>
-          <button className="btn btn-primary" onClick={toggleEdit}>
-            {isEdit? 'Save' : 'Edit'}
-          </button>
-
           <table className="table" id={scholarshipsTableId}>
           <thead>
             <tr>
@@ -78,12 +68,7 @@ function ScholarshipsTable() {
           <tbody>
               {
                 (Object.values(scholarships ?? {})).sort((a,b)=> (a?.date_created ?? "") < (b?.date_created ?? "") ? 1 : -1)
-                .map(scholarship => {
-                  if (isEdit) {
-                    return <ScholarshipTableRowEdit scholarship={scholarship} key={scholarship.id}/>
-                  }
-                  return <ScholarshipTableRow scholarship={scholarship} key={scholarship.id} />
-                })
+                .map(scholarship => <ScholarshipTableRow scholarship={scholarship} key={scholarship.id} />)
               }
           </tbody>
         </table>
