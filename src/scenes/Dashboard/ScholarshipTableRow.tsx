@@ -11,11 +11,9 @@ interface ScholarshipTableRowProps {
 export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   const [scholarship, setScholarship] = useState<Scholarship>(props.scholarship);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const [editingFields, setEditingFields] = useState<any>({
-    description: false,
-    notes: false,
-  });
+  const editableFields = ['name', 'description', 'notes', 'deadline']
 
   const scholarshipRowId = `scholarship-row-${scholarship.id}`;
   const copyToClipBoardRowId = `copyToClipBoard-${scholarshipRowId}`;
@@ -46,51 +44,59 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
     setScholarship(editedScholarship)
   } 
 
-  const toggleEditingField = (field: string) => {
-    if (editingFields[field]) {
-      saveScholarship()
-    }
-
-    const newEditingFields = {
-      ...editingFields,
-      [field]: !(editingFields[field])
-    }
-
-    setEditingFields(newEditingFields)
-  }
-
   const saveScholarship = () => {
     StorageHelper.performAction(ActionTypes.UPDATE, "savedScholarships", scholarship)
   }
 
-  const renderEditableFields = Object.keys(editingFields).map(field => (
-    <td>
-        {editingFields[field] ? 
-        <textarea rows={4} value={(scholarship as any)[field]} name={field} onChange={updateScholarship} className="form-control" placeholder={field} />
-        :
-        (scholarship as any)[field]
+  const toggleIsEditing = () => {
+    if (isEditing) {
+      saveScholarship()
+    }
+    setIsEditing(!isEditing)
+  }
+
+  const renderEditableFields = editableFields.map(field => {
+    if (!isEditing) {
+        if (field === 'name') {
+          return (
+            <td>
+              <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
+                {scholarship.name}
+              </a>
+            </td>
+          )
         }
 
-        <button className="btn btn-link" onClick={()=>{toggleEditingField(field)}}>
-          {editingFields[field] ? 'Save' : 'Edit'}
-        </button>
-    </td>
-  ))
+      return (
+        <td>{(scholarship as any)[field]}</td>
+      )
+    }
+
+    if (field === 'deadline') {
+      return (
+        <td>
+          <input value={scholarship.deadline} name="deadline" onChange={updateScholarship} className="form-control" type="datetime-local" />
+        </td>
+      )
+    }
+
+    return (
+      <td>
+        <textarea rows={4} value={(scholarship as any)[field]} name={field} onChange={updateScholarship} className="form-control" placeholder={field} />
+      </td>
+    )
+})
 
   return (
     <tr id={scholarshipRowId}>
-      <td>
-        <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
-          {scholarship.name}
-        </a>
-      </td>
 
       {renderEditableFields}
 
-      <td>{scholarship.deadline}</td>
-
-
       <td className="text-center">
+        <button className="btn btn-link" onClick={toggleIsEditing}>
+          {isEditing ? 'Save' : 'Edit'}
+        </button>
+        <hr />
         <a href={`${ScholarshipUtils.generateCalendarLink(scholarship)}`} target="_blank" rel="noopener noreferrer">
           Save to Calendar
         </a>
