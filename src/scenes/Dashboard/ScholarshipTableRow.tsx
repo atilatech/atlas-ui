@@ -59,7 +59,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
     if (!isEditing) {
         if (field === 'name') {
           return (
-            <td>
+            <td key={field}>
               <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
                 {scholarship.name}
               </a>
@@ -68,7 +68,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
         }
 
       return (
-        <td>{(scholarship as any)[field]}</td>
+        <td key={field}>{(scholarship as any)[field]}</td>
       )
     }
 
@@ -88,7 +88,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 })
 
   return (
-    <tr id={scholarshipRowId}>
+    <tr id={scholarshipRowId} className="ScholarshipTableRow">
 
       {renderEditableFields}
 
