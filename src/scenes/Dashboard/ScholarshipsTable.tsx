@@ -55,7 +55,6 @@ function ScholarshipsTable() {
     return (
       <div>
           <h3 className="text-center mb-5">Saved Scholarships</h3>
-
           <table className="table" id={scholarshipsTableId}>
           <thead>
             <tr>
