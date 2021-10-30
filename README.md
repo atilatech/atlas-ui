@@ -7,6 +7,7 @@ Chrome extension to save scholarships on any website and remind you when it's du
 `npm install`
 
 To build the extension package: `npm run build:extension`
+To build the deployment package: `npm run build:extension:prod`
 To build the package on Windows: `npm run build:extension:windows`
 
 To view as a regular react web app: `npm start`
