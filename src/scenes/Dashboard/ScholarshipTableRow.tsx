@@ -13,7 +13,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   const [scholarship, setScholarship] = useState<Scholarship>(props.scholarship);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const editableFields = ['name', 'description', 'notes', 'deadline']
+  const editableFields = ['name', 'description', 'funding amount', 'notes', 'deadline']
 
   const scholarshipRowId = `scholarship-row-${scholarship.id}`;
   const copyToClipBoardRowId = `copyToClipBoard-${scholarshipRowId}`;
@@ -76,6 +76,14 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
       return (
         <td>
           <input value={scholarship.deadline} name="deadline" onChange={updateScholarship} className="form-control" type="datetime-local" />
+        </td>
+      )
+    }
+
+    if (field === 'funding amount') {
+      return (
+        <td>
+          <input value={scholarship.funding_amount} name="funding amount" onChange={updateScholarship} className="form-control" type="number" />
         </td>
       )
     }

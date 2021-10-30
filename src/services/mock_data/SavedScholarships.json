@@ -8,7 +8,8 @@
         "creation_source": "chrome_extension",
         "name": "Guidelines research – The ESTEN Foundation",
         "notes": "",
-        "scholarship_url": "https://estenfoundation.org/en/guidelines-research/"
+        "scholarship_url": "https://estenfoundation.org/en/guidelines-research/",
+        "funding_amount": "5000"
     },
     "3oywbwo6iyvd4eml": {
         "date_created": "2021-09-09T00:33:30.101Z",
@@ -19,7 +20,8 @@
         "creation_source": "chrome_extension",
         "name": "Creating the next generation of technology innovators | Schulich Leader Scholarships",
         "notes": "",
-        "scholarship_url": "https://www.schulichleaders.com/"
+        "scholarship_url": "https://www.schulichleaders.com/",
+        "funding_amount": "1000"
     },
     "2y9gu5qpnj6c1bk9": {
         "date_created": "2021-09-09T12:14:49.123Z",
@@ -30,7 +32,8 @@
         "creation_source": "chrome_extension",
         "name": "Terry Fox Humanitarian Award Program",
         "notes": "- get reference letter from principal\n- get transcript from guidance\n- update resume",
-        "scholarship_url": "https://terryfoxawards.ca/"
+        "scholarship_url": "https://terryfoxawards.ca/",
+        "funding_amount": "3000"
     },
     "gflafcb0rstmchcu": {
         "date_created": "2021-09-09T12:33:25.661Z",
@@ -41,7 +44,8 @@
         "creation_source": "chrome_extension",
         "name": "Atila Science and Engineering STEM Scholarship - Atila",
         "notes": "- upload coding project to Github",
-        "scholarship_url": "https://atila.ca/scholarship/atila-science-and-engineering-stem-scholarship-sj1i30zi"
+        "scholarship_url": "https://atila.ca/scholarship/atila-science-and-engineering-stem-scholarship-sj1i30zi",
+        "funding_amount": "2000"
     },
     "17lhid8urczx426s": {
         "date_created": "2021-09-10T12:13:07.996Z",
@@ -52,6 +56,7 @@
         "creation_source": "chrome_extension",
         "name": "reactjs - Why does create-react-app creates both App.js and index.js? - Stack Overflow",
         "notes": "",
-        "scholarship_url": "https://stackoverflow.com/questions/50493069/why-does-create-react-app-creates-both-app-js-and-index-js"
+        "scholarship_url": "https://stackoverflow.com/questions/50493069/why-does-create-react-app-creates-both-app-js-and-index-js",
+        "funding_amount": "6000"
     }
 }
