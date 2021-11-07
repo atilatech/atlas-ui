@@ -57,7 +57,8 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   const renderEditableFields = editableFields.map(field => {
     if (!isEditing) {
-        if (field === 'name') {
+      switch (field) {
+        case "name":
           return (
             <td key={field}>
               <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
@@ -65,16 +66,25 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
               </a>
             </td>
           )
-        }
-        if (field === "funding_amount") {
+        case "funding_amount":
           return (
             <td key={field}>{scholarship.funding_amount && Utils.formatCurrency(scholarship.funding_amount)}</td>
           )
-        }
-
-      return (
-        <td key={field}>{(scholarship as any)[field]}</td>
-      )
+        case "deadline":
+          return (
+            <td key={field}>{scholarship.deadline && Utils.formatDate(scholarship.deadline)}</td>
+          )
+        case "scholarship_url":
+            return (
+              <td key={field}>
+                <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
+                  {scholarship.name}
+                </a>
+              </td>
+            )
+        default:
+          return (<td key={field}>{(scholarship as any)[field]}</td>)
+      }
     }
 
     if (field === 'deadline') {
