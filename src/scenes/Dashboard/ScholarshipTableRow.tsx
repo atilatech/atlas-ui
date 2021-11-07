@@ -13,7 +13,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   const [scholarship, setScholarship] = useState<Scholarship>(props.scholarship);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const editableFields = ['name', 'description', 'funding amount', 'notes', 'deadline']
+  const editableFields = ['name', 'description', 'funding_amount', 'notes', 'deadline']
 
   const scholarshipRowId = `scholarship-row-${scholarship.id}`;
   const copyToClipBoardRowId = `copyToClipBoard-${scholarshipRowId}`;
@@ -66,6 +66,11 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
             </td>
           )
         }
+        if (field === "funding_amount") {
+          return (
+            <td key={field}>{scholarship.funding_amount && Utils.formatCurrency(scholarship.funding_amount)}</td>
+          )
+        }
 
       return (
         <td key={field}>{(scholarship as any)[field]}</td>
@@ -80,10 +85,10 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
       )
     }
 
-    if (field === 'funding amount') {
+    if (field === 'funding_amount') {
       return (
         <td>
-          <input value={scholarship.funding_amount} name="funding amount" onChange={updateScholarship} className="form-control" type="number" />
+          <input value={scholarship.funding_amount} name="funding_amount" onChange={updateScholarship} className="form-control" type="number" />
         </td>
       )
     }
