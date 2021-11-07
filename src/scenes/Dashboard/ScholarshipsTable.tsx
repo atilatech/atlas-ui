@@ -60,6 +60,7 @@ function ScholarshipsTable() {
             <tr>
               <th scope="col" className="wide-column">Name</th>
               <th scope="col" className="wide-column">Description</th>
+              <th scope="col" className="wide-column">Funding Amount</th>
               <th scope="col" className="wide-column">Notes</th>
               <th scope="col">Deadline</th>
               <th scope="col">Actions</th>

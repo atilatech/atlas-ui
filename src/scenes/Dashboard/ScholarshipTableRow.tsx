@@ -13,7 +13,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   const [scholarship, setScholarship] = useState<Scholarship>(props.scholarship);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const editableFields = ['name', 'description', 'notes', 'deadline']
+  const editableFields = ['name', 'description', 'funding_amount', 'notes', 'deadline']
 
   const scholarshipRowId = `scholarship-row-${scholarship.id}`;
   const copyToClipBoardRowId = `copyToClipBoard-${scholarshipRowId}`;
@@ -57,7 +57,8 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
 
   const renderEditableFields = editableFields.map(field => {
     if (!isEditing) {
-        if (field === 'name') {
+      switch (field) {
+        case "name":
           return (
             <td key={field}>
               <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
@@ -65,17 +66,39 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
               </a>
             </td>
           )
-        }
-
-      return (
-        <td key={field}>{(scholarship as any)[field]}</td>
-      )
+        case "funding_amount":
+          return (
+            <td key={field}>{scholarship.funding_amount && Utils.formatCurrency(scholarship.funding_amount)}</td>
+          )
+        case "deadline":
+          return (
+            <td key={field}>{scholarship.deadline && Utils.formatDate(scholarship.deadline)}</td>
+          )
+        case "scholarship_url":
+            return (
+              <td key={field}>
+                <a className="text-align-left" href={scholarship.scholarship_url} target="_blank" rel="noopener noreferrer">
+                  {scholarship.name}
+                </a>
+              </td>
+            )
+        default:
+          return (<td key={field}>{(scholarship as any)[field]}</td>)
+      }
     }
 
     if (field === 'deadline') {
       return (
         <td>
           <input value={scholarship.deadline} name="deadline" onChange={updateScholarship} className="form-control" type="datetime-local" />
+        </td>
+      )
+    }
+
+    if (field === 'funding_amount') {
+      return (
+        <td>
+          <input value={scholarship.funding_amount} name="funding_amount" onChange={updateScholarship} className="form-control" type="number" />
         </td>
       )
     }

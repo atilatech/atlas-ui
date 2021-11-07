@@ -164,4 +164,24 @@ export class Utils {
           el.setAttribute(key, attrs[key]);
         }
     }
+
+    static formatCurrency = (input: string, convertToInteger=false) => {
+        let parsedInput;
+        if (convertToInteger) {
+            parsedInput = Number.parseInt(input);
+        } else {
+            parsedInput = Number.parseFloat(input)
+        }
+        return Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 } ).format(parsedInput);
+    }
+
+    static formatDate = (dateInput: string, dateStyle = 'full', timeStyle?: string | undefined) => {
+        let date = new Date(dateInput);
+        let options: any = {dateStyle};
+        if (timeStyle) {
+            options['timeStyle'] = timeStyle
+        }
+        
+        return new Intl.DateTimeFormat('en-CA', options).format(date)
+    }
 }

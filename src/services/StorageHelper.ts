@@ -22,14 +22,14 @@ import { Utils } from "./Utils";
      static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes",
       targetObject: Scholarship | GeneralNotes | null, callback?: SavedScholarshipCallback) => {
           
-         chrome.storage.sync.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
+         chrome.storage.local.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
              let storageData = items[objectType];
              let guestUserId = items.guestUserId;
 
              if (!guestUserId) {
                 guestUserId = Utils.getRandomString();
-                chrome.storage.sync.set({ guestUserId });
+                chrome.storage.local.set({ guestUserId });
              }
 
  
@@ -49,7 +49,7 @@ import { Utils } from "./Utils";
              if (objectType === "generalNotes") {
                  storageData = StorageHelper.performGeneralNotesAction(actionType, targetObject! as GeneralNotes, storageData as GeneralNotes)
              }
-             chrome.storage.sync.set({ [objectType] : storageData }, function() {
+             chrome.storage.local.set({ [objectType] : storageData }, function() {
                  if(callback) {
                      callback(storageData!);
                  }

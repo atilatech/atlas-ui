@@ -12,7 +12,9 @@ export class Scholarship {
     public description?: string = "";
     public scholarship_url?: string = "";
     public deadline: string = Utils.currentDateMidnight();
+    public funding_amount: string = "";
     public notes?: string = "";
     public date_created?: string = "";
     public date_modified?: string = "";
+
 }

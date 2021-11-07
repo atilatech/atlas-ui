@@ -72,6 +72,9 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         <label htmlFor="scholarshipDescriptionInput">Description</label>
         <textarea value={scholarship.description} name="description" onChange={this.onUpdateScholarship} id="scholarshipDescriptionInput" className="form-control mb-3" placeholder="Description" rows={3}></textarea>
         
+        <label htmlFor="scholarshipFundingAmountInput">Funding Amount</label>
+        <input value={scholarship.funding_amount} name="funding_amount" onChange={this.onUpdateScholarship} id="scholarshipFundingAmountInput" className="form-control mb-3" placeholder="Funding Amount" type="number"></input>
+
         <label htmlFor="scholarshipNotesInput">Notes</label>
         <textarea value={scholarship.notes} name="notes" onChange={this.onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={3}></textarea>
         

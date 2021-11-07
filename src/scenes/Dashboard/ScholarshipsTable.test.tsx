@@ -7,7 +7,7 @@ import ScholarshipsTable from './ScholarshipsTable';
 xdescribe('<ScholarshipsTable />', () => {
 
     beforeEach(() => {
-        chrome.storage.sync.get.mockImplementation((keyName, callback) => {
+        chrome.storage.local.get.mockImplementation((keyName, callback) => {
             callback(ChromeMock.storageData)
         })
     });
