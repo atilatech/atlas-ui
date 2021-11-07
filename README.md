@@ -36,7 +36,7 @@ Visit [chrome://extensions](chrome://extensions) in Chrome browser and click loa
 To view all the items in your storage:
 
 ```javascript
-chrome.storage.sync.get(null,function(items){
+chrome.storage.local.get(null,function(items){
  console.log(items);
 })
 ```
@@ -45,7 +45,7 @@ To delete all the items in your storage:
 
 **Warning** This is a highly destrutive action. Make sure you are sure you want to do this.
 ```javascript
-chrome.storage.REMOVE_IF_YOU_ARE_SURE.sync.clear(function() {
+chrome.storage.REMOVE_IF_YOU_ARE_SURE.local.clear(function() {
     var error = chrome.runtime.lastError;
     if (error) {
         console.error(error);
@@ -56,7 +56,7 @@ chrome.storage.REMOVE_IF_YOU_ARE_SURE.sync.clear(function() {
 To delete specific key:
 
 ```javascript
-chrome.storage.REMOVE_IF_YOU_ARE_SURE.sync.remove(["savedScholarships"],function(){
+chrome.storage.REMOVE_IF_YOU_ARE_SURE.local.remove(["savedScholarships"],function(){
  var error = chrome.runtime.lastError;
     if (error) {
         console.error(error);
