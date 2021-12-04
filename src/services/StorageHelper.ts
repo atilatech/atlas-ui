@@ -69,6 +69,9 @@ import { Utils } from "./Utils";
                  // prevent the description from being blank by setting it as the name as a fallback
                  targetObject.description = targetObject.description || targetObject.name;
              }
+             if (!targetObject.funding_amount) {
+                targetObject.funding_amount = "0.00"
+            }
              targetObject.date_modified = new Date().toISOString();
  
              if (!savedScholarships) {
