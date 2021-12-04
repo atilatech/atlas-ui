@@ -18,6 +18,14 @@ TODO: mock chrome.*
 
 Visit [chrome://extensions](chrome://extensions) in Chrome browser and click load unpacked and select the `build/` folder
 
+## Publishing new Packages to Chrome Extension Store
+
+- Update the version number in `package.json`
+- Build deployment package: `npm run build:extension:prod`
+- Zip `zip -r build.zip build`
+- [Upload package in Chrome web store developer dashboard](https://chrome.google.com/webstore/devconsole/7a52ab63-ca3c-4d48-bfe5-f84d1eb30423/ippmodhmgofpojbjjcgpjelghailjomm/edit/package)
+- Follow instructions on page to submit for review
+
 ### Seeing Updated Changes
 - To see updated changes you have to rebuild your app
 - If you change something like manifest.json you will have to select the update button in the chrome extension panel as well
