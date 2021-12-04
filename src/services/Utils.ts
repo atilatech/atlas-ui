@@ -6,8 +6,8 @@ export class Utils {
      */
     static currentDateMidnight = () => {
         const now = new Date();
-        now.setUTCHours(23,59, 0o0, 0o0);
-        const midnight = now.toISOString().slice(0,19);
+        now.setHours(23,59, 0o0, 0o0);
+        const midnight = now.toISOString();
 
         return midnight;
     }
