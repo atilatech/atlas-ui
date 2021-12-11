@@ -2,6 +2,8 @@ import { Component } from 'react'
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
 import StorageHelper, { ActionTypes } from '../services/StorageHelper';
+import ReactDatePicker from "react-datepicker";
+import "./ScholarshipAddForm.css"
 
 export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship, isSavedScholarship: boolean  }>  {
 
@@ -33,6 +35,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
             const tabId = tabs[0].id ?? 0;
               chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
+                // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
                   this.setState({scholarship: response.data.scholarship})
               });
         });
@@ -41,19 +44,24 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
     onUpdateScholarship = (event: any) => {
       
+      let value = event.target.value;
+      const name = event.target.name;
+
+      if (name === "deadline" && value instanceof Date) {
+        value = value.toISOString();
+      }
       const scholarship = {
         ...this.state.scholarship,
-        [event.target.name]: event.target.value,
+        [name]: value,
       }
-
       this.setState({scholarship});
     };
 
     onSaveScholarship = () => {
 
-      const {scholarship: newScholarship} = this.state;
+      const { scholarship } = this.state;
 
-      StorageHelper.performAction(ActionTypes.ADD, "savedScholarships", newScholarship, savedScholarships => {
+      StorageHelper.performAction(ActionTypes.ADD, "savedScholarships", Object.assign({}, scholarship), savedScholarships => {
         this.setState({isSavedScholarship: true});
       });
 
@@ -63,6 +71,8 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
       const { scholarship, isSavedScholarship } = this.state;
 
+      const deadlineDate = new Date(scholarship.deadline)
+
       return (
         <div className="ScholarshipAddForm m-3">
          <label htmlFor="scholarshipNameInput">Name</label>
@@ -70,17 +80,29 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
          </textarea> 
         
         <label htmlFor="scholarshipDescriptionInput">Description</label>
-        <textarea value={scholarship.description} name="description" onChange={this.onUpdateScholarship} id="scholarshipDescriptionInput" className="form-control mb-3" placeholder="Description" rows={3}></textarea>
+        <textarea value={scholarship.description} name="description" onChange={this.onUpdateScholarship} id="scholarshipDescriptionInput" className="form-control mb-3" placeholder="Description" rows={2}></textarea>
         
         <label htmlFor="scholarshipFundingAmountInput">Funding Amount</label>
         <input value={scholarship.funding_amount} name="funding_amount" onChange={this.onUpdateScholarship} id="scholarshipFundingAmountInput" className="form-control mb-3" placeholder="Funding Amount" type="number"></input>
 
         <label htmlFor="scholarshipNotesInput">Notes</label>
-        <textarea value={scholarship.notes} name="notes" onChange={this.onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={3}></textarea>
+        <textarea value={scholarship.notes} name="notes" onChange={this.onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={2}></textarea>
         
 
         <label htmlFor="scholarshipDeadlineInput">Deadline</label>
-        <input value={scholarship.deadline} name="deadline" onChange={this.onUpdateScholarship} id="scholarshipDeadlineInput" className="form-control" type="datetime-local" />
+        {/* TODO use a shared component for ReactDatePicker in ScholarshipAddForm and ScholarshipTableRow */}
+        <ReactDatePicker
+          selected={deadlineDate}
+          onChange={(date) => this.onUpdateScholarship({target: {value: date, name: 'deadline'}})}
+          showTimeSelect
+          showMonthDropdown
+          showYearDropdown
+          timeFormat="h:mm aa"
+          timeIntervals={60}
+          timeCaption="Time"
+          dateFormat="MMMM d, yyyy h:mm aa"
+          className="col-12"
+        />
        
        {isSavedScholarship ?
        <p className="text-success">

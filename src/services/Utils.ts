@@ -175,7 +175,7 @@ export class Utils {
         return Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 } ).format(parsedInput);
     }
 
-    static formatDate = (dateInput: string, dateStyle = 'full', timeStyle?: string | undefined) => {
+    static formatDate = (dateInput: string, dateStyle = 'full', timeStyle = "short") => {
         let date = new Date(dateInput);
         let options: any = {dateStyle};
         if (timeStyle) {

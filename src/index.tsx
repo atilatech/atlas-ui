@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import "react-datepicker/dist/react-datepicker.css";
 import reportWebVitals from './reportWebVitals';
 import ScholarshipAddForm from './components/ScholarshipAddForm';
 import App from './App';
