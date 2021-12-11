@@ -1,7 +1,7 @@
 {
   "name": "Atila Scholarship Helper",
   "description": "Save scholarship you're interested in, get reminded when a scholarship is due, add notes and more",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "manifest_version": 3,
   "action": {
       "default_popup": "popup.html",
