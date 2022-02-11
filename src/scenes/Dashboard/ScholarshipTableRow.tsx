@@ -3,6 +3,7 @@ import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 import { Utils } from '../../services/Utils';
 import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
 import { useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
 
 interface ScholarshipTableRowProps {
   scholarship: Scholarship;
@@ -36,10 +37,16 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
   };
 
   const updateScholarship = (event: any) => {      
-    const editedScholarship = {
-      ...scholarship,
-      [event.target.name]: event.target.value,
-    }
+    let value = event.target.value;
+      const name = event.target.name;
+
+      if (name === "deadline" && value instanceof Date) {
+        value = value.toISOString();
+      }
+      const editedScholarship = {
+        ...scholarship,
+        [name]: value,
+      }
 
     setScholarship(editedScholarship)
   } 
@@ -54,6 +61,9 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
     }
     setIsEditing(!isEditing)
   }
+
+
+  const deadlineDate = new Date(scholarship.deadline)
 
   const renderEditableFields = editableFields.map(field => {
     if (!isEditing) {
@@ -90,7 +100,17 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
     if (field === 'deadline') {
       return (
         <td>
-          <input value={scholarship.deadline} name="deadline" onChange={updateScholarship} className="form-control" type="datetime-local" />
+          <ReactDatePicker
+          selected={deadlineDate}
+          onChange={(date) => updateScholarship({target: {value: date, name: 'deadline'}})}
+          showTimeSelect
+          showMonthDropdown
+          showYearDropdown
+          timeFormat="h:mm aa"
+          timeIntervals={60}
+          timeCaption="Time"
+          dateFormat="MMMM d, yyyy h:mm aa"
+        />
         </td>
       )
     }
@@ -109,6 +129,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
       </td>
     )
 })
+
 
   return (
     <tr id={scholarshipRowId} className="ScholarshipTableRow">

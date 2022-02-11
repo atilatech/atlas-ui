@@ -18,6 +18,14 @@ TODO: mock chrome.*
 
 Visit [chrome://extensions](chrome://extensions) in Chrome browser and click load unpacked and select the `build/` folder
 
+
+## Network Requests
+
+To test out network requests like saving a scholarship make sure you have [atila-scholarship-bot](https://github.com/ademidun/atila-scholarship-bot/) running locally: 
+
+- `cd <path_to>/atila-scholarship-bot`  
+- `python api/api.py`
+
 ## Publishing new Packages to Chrome Extension Store
 
 - Update the version number in `package.json`
@@ -59,6 +67,7 @@ chrome.storage.REMOVE_IF_YOU_ARE_SURE.local.clear(function() {
     if (error) {
         console.error(error);
     }
+    alert('all items deleted!');
 });
 ```
 
@@ -69,7 +78,20 @@ chrome.storage.REMOVE_IF_YOU_ARE_SURE.local.remove(["savedScholarships"],functio
  var error = chrome.runtime.lastError;
     if (error) {
         console.error(error);
+        alert('all items deleted!');
     }
-})`
+})
+```
+
+To delete a specific item at that key:
+
+```javascript
+chrome.storage.local.get({savedScholarships: {}}, function(items) {
+    delete items.savedScholarships['scholarship_id_to_delete']
+    console.log("items.savedScholarships", items.savedScholarships) // confirm that this looks like what you expect
+    chrome.storage.REMOVE_IF_YOU_ARE_SURE.set(items, function() {
+        alert('Item deleted!');
+    });
+});
 
 ```

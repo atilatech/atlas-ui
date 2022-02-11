@@ -19,3 +19,7 @@ code {
 .ScholarshipTableRow td {
   white-space: pre-line;
 }
+
+.react-datepicker__month-dropdown-container, .react-datepicker__year-dropdown-container {
+  margin: 0 10px;
+}
