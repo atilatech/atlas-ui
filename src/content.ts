@@ -8,16 +8,32 @@ export {}
 const MAX_DECRIPTION_LENGTH = 750;
 
 chrome.runtime.onMessage.addListener((message: RequestMessage, sender : chrome.runtime.MessageSender, sendResponse : any) => {
+  console.log("in listener");
+  let responseMessage: ResponseMessage;
   switch (message.type) {
     case "LOAD_PARENT_PAGE":
       const scholarship = loadParentPageData();
-      const responseMessage: ResponseMessage = {data: { scholarship }};
+      responseMessage = {data: { scholarship }};
       sendResponse(responseMessage);
+      break;
+    case "IMPORT_PAGE_CONTENT":
+      console.log("importing page content")
+      loadPageContent().then(content => {
+        console.log({content});
+        responseMessage = {data: { content }};
+        sendResponse(responseMessage);
+      })
       break;
     default:
       break;
   }
 });
+
+const loadPageContent = async () => {
+  const body = await navigator.clipboard.readText();
+  console.log({body});
+  return {title: document.title, body};
+}
 
 const loadParentPageData = () => {
 

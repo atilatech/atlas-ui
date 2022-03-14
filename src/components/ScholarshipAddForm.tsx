@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
+import { ImportPageContentRequest, LoadPageDataResponse, LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
 import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 import ReactDatePicker from "react-datepicker";
@@ -34,7 +34,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
       if (chrome.tabs) {//for use in non chrom extension environments
         chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
             const tabId = tabs[0].id ?? 0;
-              chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
+              chrome.tabs.sendMessage(tabId, getTitleRequest, (response: LoadPageDataResponse) => {
                 // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
                   this.setState({scholarship: response.data.scholarship})
               });
@@ -66,6 +66,27 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
       });
 
     };
+
+    onImportContent = () => {
+      const { titleIndex } = this.state;
+      
+      const getTitleRequest: ImportPageContentRequest = {
+        type: "IMPORT_PAGE_CONTENT",
+        data: {
+          titleIndex: titleIndex
+        }
+      }
+
+      if (chrome.tabs) {//for use in non chrom extension environments
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
+            const tabId = tabs[0].id ?? 0;
+              chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
+                // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
+                  console.log(response);
+              });
+        });
+      }
+    }
 
     render(){
 
@@ -109,11 +130,14 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
          Saved Scholarship!
        </p> 
        :
-       <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
+        <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
             Save
         </button>
        
        }
+        <button id="importContentButton" className="btn btn-primary mt-3" onClick={this.onImportContent}>
+            Import
+        </button>
         <hr/>
         <a href={`chrome-extension://${chrome?.runtime?.id}/index.html`} target="_blank" rel="noopener noreferrer">
           See all Saved Scholarships

@@ -11,5 +11,19 @@ export interface LoadPageDataResponse {
     }
 }
 
-export type RequestMessage = LoadParentPageRequest
-export type ResponseMessage = LoadPageDataResponse
+export interface ImportPageContentResponse {
+    data: {
+        content: {
+            title: string,
+            body: string,
+        },
+    }
+}
+
+export interface ImportPageContentRequest {
+    type: "IMPORT_PAGE_CONTENT";
+    data?: {}
+}
+
+export type RequestMessage = LoadParentPageRequest | ImportPageContentRequest
+export type ResponseMessage = LoadPageDataResponse | ImportPageContentResponse

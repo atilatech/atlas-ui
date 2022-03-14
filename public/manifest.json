@@ -16,7 +16,9 @@
  ],
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "clipboardWrite",
+    "clipboardRead"
   ],
   "host_permissions": [
     "https://atila-7.herokuapp.com/api/*",
