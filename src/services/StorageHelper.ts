@@ -6,10 +6,11 @@
  import { AtilaStorageArea, SavedScholarships } from "../models/AtilaStorageArea";
  import { GeneralNotes } from "../models/GeneralNotes";
  import { Scholarship, SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION } from "../models/Scholarship";
+ import { BlogContent } from "../models/BlogContent"
  import AtilaAPI from "./AtilaAPI";
-import { Utils } from "./Utils";
+ import { Utils } from "./Utils";
  
- export type SavedScholarshipCallback = (savedScholarships: SavedScholarships | GeneralNotes) => any;
+ export type SavedObjectCallback = (savedScholarships: SavedScholarships | GeneralNotes | BlogContent) => any;
  export enum ActionTypes {
      ADD = "ADD",
      GET = "GET",
@@ -19,8 +20,8 @@ import { Utils } from "./Utils";
  
  class StorageHelper {
  
-     static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes",
-      targetObject: Scholarship | GeneralNotes | null, callback?: SavedScholarshipCallback) => {
+     static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes" | "importBlogContent",
+      targetObject: Scholarship | GeneralNotes | BlogContent | null, callback?: SavedObjectCallback) => {
           
          chrome.storage.local.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
@@ -31,7 +32,6 @@ import { Utils } from "./Utils";
                 guestUserId = Utils.getRandomString();
                 chrome.storage.local.set({ guestUserId });
              }
-
  
              if (actionType === ActionTypes.GET) {
                  if(callback) {
@@ -49,6 +49,11 @@ import { Utils } from "./Utils";
              if (objectType === "generalNotes") {
                  storageData = StorageHelper.performGeneralNotesAction(actionType, targetObject! as GeneralNotes, storageData as GeneralNotes)
              }
+
+             if (objectType === "importBlogContent") {
+                StorageHelper.performImportBlogContentAction(actionType, targetObject! as BlogContent, guestUserId);
+             }
+
              chrome.storage.local.set({ [objectType] : storageData }, function() {
                  if(callback) {
                      callback(storageData!);
@@ -60,7 +65,6 @@ import { Utils } from "./Utils";
  
      // TODO instead of using hacky unions of 'any' everyhwere, find a way to ensure that performSavedScholarshipsAction only gets called with the Scholarship object type
      static performSavedScholarshipsAction = (type: ActionTypes, targetObject: Scholarship, savedScholarships: SavedScholarships, guestUserId: string) => {
-         
          if (type === ActionTypes.ADD || type === ActionTypes.UPDATE) {
              if(type === ActionTypes.ADD) {
                  targetObject.date_created = new Date().toISOString();
@@ -115,6 +119,16 @@ import { Utils } from "./Utils";
          }
  
          return existingData;
+     }
+
+     static performImportBlogContentAction = (type: ActionTypes, targetObject: BlogContent, guestUserID: string) => {
+         if (type === ActionTypes.ADD) {
+            targetObject.slug = targetObject.title.replaceAll(' ', '-');
+
+            AtilaAPI.saveBlogContent(targetObject)
+                .then(res => console.log({res}))
+                .catch(err => console.log(err))
+         }
      }
  }
  

@@ -1,5 +1,6 @@
 import { Scholarship } from "../models/Scholarship";
 import Environment from "./Environment";
+import {BlogContent} from "../models/BlogContent";
 
 class AtilaAPI {
 
@@ -7,7 +8,7 @@ class AtilaAPI {
             const postData: Scholarship | any = {
                 ...scholarship,
             }
-    
+
             postData.local_id = scholarship.id;
             delete postData.id;
             delete postData.notes;
@@ -34,6 +35,26 @@ class AtilaAPI {
 
             return apiResponsePromise
     };
+
+    static saveBlogContent = (blogContent: BlogContent) => {
+        const apiResponsePromise = fetch(`${Environment.apiUrl}/blog-posts/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Referrer': document.location.origin
+            },
+            body: JSON.stringify({blogContent})
+        }).then(response => {
+            try {
+                return response.json()
+            } catch (e) {
+                return response
+            }
+        })
+
+        return apiResponsePromise;
+    }
 }
 
 export default AtilaAPI;

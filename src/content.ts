@@ -1,5 +1,6 @@
 import { RequestMessage, ResponseMessage } from "./models/ExtensionMessage";
 import { Scholarship } from "./models/Scholarship";
+import { BlogContent } from "./models/BlogContent";
 
 export {}
 
@@ -8,7 +9,6 @@ export {}
 const MAX_DECRIPTION_LENGTH = 750;
 
 chrome.runtime.onMessage.addListener((message: RequestMessage, sender : chrome.runtime.MessageSender, sendResponse : any) => {
-  console.log("in listener");
   let responseMessage: ResponseMessage;
   switch (message.type) {
     case "LOAD_PARENT_PAGE":
@@ -17,10 +17,8 @@ chrome.runtime.onMessage.addListener((message: RequestMessage, sender : chrome.r
       sendResponse(responseMessage);
       break;
     case "IMPORT_PAGE_CONTENT":
-      console.log("importing page content")
-      loadPageContent().then(content => {
-        console.log({content});
-        responseMessage = {data: { content }};
+      loadPageContent(sender).then(blogContent => {
+        responseMessage = {data: { blogContent }};
         sendResponse(responseMessage);
       })
       break;
@@ -29,10 +27,16 @@ chrome.runtime.onMessage.addListener((message: RequestMessage, sender : chrome.r
   }
 });
 
-const loadPageContent = async () => {
-  const body = await navigator.clipboard.readText();
-  console.log({body});
-  return {title: document.title, body};
+const loadPageContent = async (sender : chrome.runtime.MessageSender) => {
+  let blogContent = new BlogContent();
+  blogContent = {
+      ...blogContent,
+      title: document.title,
+      body: document.body.innerHTML,
+  }
+
+  console.log(blogContent.body)
+  return blogContent;
 }
 
 const loadParentPageData = () => {

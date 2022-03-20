@@ -1,4 +1,5 @@
 import { Scholarship } from "./Scholarship"
+import { BlogContent } from "./BlogContent";
 
 export interface LoadParentPageRequest {
     type: "LOAD_PARENT_PAGE";
@@ -11,18 +12,15 @@ export interface LoadPageDataResponse {
     }
 }
 
-export interface ImportPageContentResponse {
-    data: {
-        content: {
-            title: string,
-            body: string,
-        },
-    }
-}
-
 export interface ImportPageContentRequest {
     type: "IMPORT_PAGE_CONTENT";
     data?: {}
+}
+
+export interface ImportPageContentResponse {
+    data: {
+        blogContent: BlogContent,
+    }
 }
 
 export type RequestMessage = LoadParentPageRequest | ImportPageContentRequest
