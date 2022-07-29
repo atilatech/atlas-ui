@@ -1,27 +1,31 @@
 import React, {Component} from "react";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
+import AtilaAPI from "../services/AtilaAPI";
 
-export class Login extends Component<{}, LoginProps> {
+export class Login extends Component<{}, LoginState> {
 
     constructor(props: any) {
         super(props)
 
         this.state = {
-            loading: ""
+            loading: "",
+            username: "",
+            password: "",
         }
     }
 
     login = () => {
-
+        const { username, password } = this.state;
+        this.setState({loading: "Logging in..."})
+        AtilaAPI
+            .login(username, password)
+            .then()
     }
 
     render() {
-        // @ts-ignore (temp)
         const { loading } = this.state;
 
         return (
-            <button onClick={()=>this.login()} className="btn btn-link" disabled={loading}>
+            <button onClick={()=>this.login()} className="btn btn-link" disabled={!!loading}>
                 Login
             </button>
         )
@@ -29,6 +33,8 @@ export class Login extends Component<{}, LoginProps> {
 }
 
 
-interface LoginProps {
-
+type LoginState = {
+    loading?: string;
+    username: string;
+    password: string;
 }
