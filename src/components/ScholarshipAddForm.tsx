@@ -74,7 +74,7 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
       const deadlineDate = new Date(scholarship.deadline)
 
       return (
-        <div className="ScholarshipAddForm m-3">
+        <div className="ScholarshipAddForm m-1">
          <label htmlFor="scholarshipNameInput">Name</label>
          <textarea value={scholarship.name} name="name"  onChange={this.onUpdateScholarship} className="form-control mb-3" id="scholarshipNameInput" placeholder="Name">
          </textarea> 
@@ -87,7 +87,9 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
         <label htmlFor="scholarshipNotesInput">Notes</label>
         <textarea value={scholarship.notes} name="notes" onChange={this.onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={2}></textarea>
-        
+
+        <label htmlFor="scholarshipCollectionInput">Collections</label>
+        <input value={scholarship.collection} name="collection" onChange={this.onUpdateScholarship} id="scholarshipCollectionInput" className="form-control mb-3" placeholder="Collection"></input>
 
         <label htmlFor="scholarshipDeadlineInput">Deadline</label>
         {/* TODO use a shared component for ReactDatePicker in ScholarshipAddForm and ScholarshipTableRow */}
