@@ -5,11 +5,12 @@
 
  import { AtilaStorageArea, SavedScholarships } from "../models/AtilaStorageArea";
  import { GeneralNotes } from "../models/GeneralNotes";
+ import { Collection } from "../models/Collection";
  import { Scholarship, SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION } from "../models/Scholarship";
  import AtilaAPI from "./AtilaAPI";
 import { Utils } from "./Utils";
  
- export type SavedScholarshipCallback = (savedScholarships: SavedScholarships | GeneralNotes) => any;
+ export type SavedScholarshipCallback = (savedScholarships: SavedScholarships | GeneralNotes | Collection) => any;
  export enum ActionTypes {
      ADD = "ADD",
      GET = "GET",
@@ -19,8 +20,8 @@ import { Utils } from "./Utils";
  
  class StorageHelper {
  
-     static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes",
-      targetObject: Scholarship | GeneralNotes | null, callback?: SavedScholarshipCallback) => {
+     static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes" | "addCollection",
+      targetObject: Scholarship | GeneralNotes | Collection | null, callback?: SavedScholarshipCallback) => {
           
          chrome.storage.local.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
@@ -40,6 +41,10 @@ import { Utils } from "./Utils";
                  return
              } else if (targetObject === null) {
                  throw new Error(`targetScholarship argument can only be null for the 'GET' action type. Action type '${actionType}' was received`);
+             }
+
+             if (objectType === "addCollection") {
+                 StorageHelper.performAddCollectionAction(actionType, targetObject! as Collection, storageData as Collection)
              }
  
              if (objectType === "savedScholarships") {
@@ -115,6 +120,14 @@ import { Utils } from "./Utils";
          }
  
          return existingData;
+     }
+
+     static performAddCollectionAction = (type: ActionTypes, targetObject: Collection, existingData: Collection | null) => {
+         if (type === ActionTypes.ADD) {
+            AtilaAPI.createCollection(targetObject)
+                .then(res => console.log({res}))
+                .catch(err => console.log({err}));
+         }
      }
  }
  

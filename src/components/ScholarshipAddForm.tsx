@@ -1,11 +1,22 @@
 import { Component } from 'react'
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
+import { Content } from '../models/Content';
+import { Collection } from '../models/Collection';
 import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
 
-export class ScholarshipAddForm extends Component<{}, { titleIndex: number, title: string, scholarship: Scholarship, isSavedScholarship: boolean  }>  {
+export interface ScholarshipAddFormProps {
+  titleIndex: number,
+  title: string,
+  scholarship: Scholarship,
+  isSavedScholarship: boolean,
+  collections: Content[],
+  collection: Collection
+}
+
+export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  {
 
   constructor(props: any) {
     super(props)
@@ -15,6 +26,8 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
        title: "",
        scholarship: new Scholarship(),
        isSavedScholarship: false,
+       collections: [],
+       collection: new Collection(),
     }
     
   }
@@ -67,9 +80,35 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
 
     };
 
+    onUpdateCollection = (event: any) => {
+      let value = event.target.value;
+      const name = event.target.name;
+      const collection = {
+        ...this.state.collection,
+        [name]: value,
+      }
+
+      this.setState({collection});
+    };
+
+    onSaveToCollection = () => {
+      const { collection } = this.state;
+      if (chrome.tabs) {//for use in non chrom extension environments
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
+            let newContent = new Content();
+            newContent.url = tabs[0].url ?? "";
+            collection.contents.push(newContent);
+        });
+      }
+
+      StorageHelper.performAction(ActionTypes.ADD, "addCollection", Object.assign({}, collection), savedScholarships => {
+        console.log("[grace] collection saved");
+      });
+    };
+
     render(){
 
-      const { scholarship, isSavedScholarship } = this.state;
+      const { scholarship, isSavedScholarship, collection } = this.state;
 
       const deadlineDate = new Date(scholarship.deadline)
 
@@ -88,9 +127,6 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         <label htmlFor="scholarshipNotesInput">Notes</label>
         <textarea value={scholarship.notes} name="notes" onChange={this.onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={2}></textarea>
 
-        <label htmlFor="scholarshipCollectionInput">Collections</label>
-        <input value={scholarship.collection} name="collection" onChange={this.onUpdateScholarship} id="scholarshipCollectionInput" className="form-control mb-3" placeholder="Collection"></input>
-
         <label htmlFor="scholarshipDeadlineInput">Deadline</label>
         {/* TODO use a shared component for ReactDatePicker in ScholarshipAddForm and ScholarshipTableRow */}
         <ReactDatePicker
@@ -107,14 +143,20 @@ export class ScholarshipAddForm extends Component<{}, { titleIndex: number, titl
         />
        
        {isSavedScholarship ?
-       <p className="text-success">
-         Saved Scholarship!
-       </p> 
-       :
-       <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
+        <>
+          <p className="text-success">
+            Saved Scholarship!
+          </p>
+          <label htmlFor="scholarshipCollectionInput">Collections</label>
+          <input value={collection.title} name="title" onChange={this.onUpdateCollection} id="scholarshipCollectionInput" className="form-control" placeholder="Collection name"></input>
+          <button id="saveCollectionButton" className="btn btn-primary mt-3" onClick={this.onSaveToCollection}>
             Save
+          </button>
+        </>
+       :
+        <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
+          Save
         </button>
-       
        }
         <hr/>
         <a href={`chrome-extension://${chrome?.runtime?.id}/index.html`} target="_blank" rel="noopener noreferrer">
