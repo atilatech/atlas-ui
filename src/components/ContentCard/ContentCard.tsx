@@ -12,10 +12,10 @@ export function ContentCard(props: ContentCardProps) {
     return (
         <div className="ContentCard card shadow my-3 p-3">
             <a className="text-align-left" href={content.url} target="_blank" rel="noopener noreferrer">
-                {content.title} <br />
-                {content.header_image_url &&
-                    <img src={content.header_image_url} width="150"
-                        alt={content.title} />}
+                {content.name} <br />
+                {content.img_url &&
+                    <img src={content.img_url} width="150"
+                        alt={content.name} />}
             </a>
             <p>{Utils.truncateText(content.description!, 140)} </p>
         </div>

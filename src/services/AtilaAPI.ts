@@ -79,13 +79,12 @@ class AtilaAPI {
     }
 
     static search = (query: string) => {
-        const apiResponsePromise = fetch(`${Environment.djangoAPIUrl}/atlas/search/?q=${query}`, {
+        const apiResponsePromise = fetch(`${Environment.djangoAPIUrl}/scholarships/scholarship-search/?q=${query}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Referrer': document.location.origin,
-                [AtilaAPI.ATILA_API_CREDITS_PUBLIC_KEY_HEADER_NAME]: localStorage.getItem(AtilaAPI.ATILA_API_CREDITS_PUBLIC_KEY_LOCAL_STORAGE_KEY_NAME) ?? ''
             },
         }).then(response => {
             try {

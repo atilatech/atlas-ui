@@ -6,7 +6,6 @@ import { ContentCard } from '../ContentCard/ContentCard'
 
 function Search() {
     const [searchQuery, setSearchQuery] = useState("");
-    const [initializingAPIKey, setInitializingAPIKey] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState("");
     const [searchResults, setSearchResults] = useState<Content[]>([]);
@@ -15,36 +14,6 @@ function Search() {
         event.preventDefault();
         setSearchQuery(event.target.value);
     };
-
-    useEffect(() => {
-        chrome.storage?.sync.get(['hasAtlasAPIKeyCredit'], function(result) {
-
-        const { hasAtlasAPIKeyCredit } = result;
-        if (!hasAtlasAPIKeyCredit) {
-            initializeSearchAPIKeyCredit();
-        }
-    });
-
-    const initializeSearchAPIKeyCredit = () => {
-        const atlasAPIKeyCredit = localStorage.getItem('atlasAPIKeyCredit');
-        if (!atlasAPIKeyCredit) {
-            setInitializingAPIKey("Initializing API Key...");
-            AtilaAPI.getNewAPIKeyCredit()
-                .then((res: any)=> {
-                    console.log({res});
-                    const { api_key_credit } = res;
-                    localStorage.setItem('atlasAPIKeyCredit', api_key_credit.public_key);
-                })
-                .catch((err: any) => {
-                    console.log({err});
-                })
-                .then(()=> {
-                    setInitializingAPIKey("");
-                })
-        }
-    }
-
-    }, []);
 
     const keyDownHandler: KeyboardEventHandler<HTMLInputElement> = (event) => {
         if(event.currentTarget.name === "searchQuery" && event.key === "Enter" && event.shiftKey === false) {
@@ -72,15 +41,6 @@ function Search() {
         <div className="Search">
             <input className="form-control mb-3" placeholder='Enter seach query' onChange={updateSearch} onKeyDown={keyDownHandler}
                 name="searchQuery"/>
-
-            {initializingAPIKey &&
-                <div>
-                    {initializingAPIKey}
-                    <div className="spinner-grow text-primary m-3" role="status">
-                    <span className="sr-only"/>
-                    </div>
-                </div>
-            }
 
             {loading &&
                 <div>
