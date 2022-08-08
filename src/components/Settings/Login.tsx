@@ -12,7 +12,9 @@ function Login() {
         DjangoAPI
             .login(username, password)
             .then(res => {
-                localStorage.setItem("jwt_token", res.token)
+                if (res.token) {
+                    localStorage.setItem("jwt_token", res.token)
+                }
             })
             .finally(()=> {
                 setLoading("")
