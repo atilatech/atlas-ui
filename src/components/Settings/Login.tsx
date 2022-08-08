@@ -14,6 +14,9 @@ function Login() {
             .then(res => {
                 localStorage.setItem("jwt_token", res.token)
             })
+            .finally(()=> {
+                setLoading("")
+            })
     }
 
     return (
