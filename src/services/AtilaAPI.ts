@@ -34,30 +34,6 @@ class AtilaAPI {
 
             return apiResponsePromise
     };
-
-    static login = (username: string, password: string) => {
-        const postData = {
-            username, password
-        }
-        const apiResponsePromise = fetch(`${Environment.apiUrl}/login/`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Referrer': document.location.origin
-            },
-            body: JSON.stringify(postData)
-        })
-            .then(response => {
-                try {
-                    return response.json()
-                } catch(e) {
-                    return response
-                }
-            });
-
-        return apiResponsePromise
-    }
 }
 
 export default AtilaAPI;

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import AtilaAPI from "../../services/AtilaAPI";
+import DjangoAPI from "../../services/DjangoAPI";
 
 function Login() {
 
@@ -9,7 +9,7 @@ function Login() {
 
     const login = () => {
         setLoading("Logging in...")
-        AtilaAPI
+        DjangoAPI
             .login(username, password)
             .then(res => {
                 localStorage.setItem("jwt_token", res.token)
