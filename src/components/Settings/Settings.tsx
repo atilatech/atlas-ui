@@ -15,6 +15,7 @@ function Settings() {
 
     const logOut = () => {
         localStorage.removeItem("jwt_token")
+        window.location.reload()
     }
 
     return (
