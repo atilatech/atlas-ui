@@ -39,7 +39,7 @@ class AtilaAPI {
 
     static createCollection = (collection: Collection) => {
         const collections = collection;
-        const apiResponsePromise = fetch(`${Environment.djangoAPIUrl}/atlas/collection/`, {
+        const apiResponsePromise = fetch(`${Environment.atilaApiUrl}/atlas/collection/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -59,7 +59,7 @@ class AtilaAPI {
     };
 
     static getNewAPIKeyCredit = () => {
-        const apiResponsePromise = fetch(`${Environment.djangoAPIUrl}/payment/api-key-credits/get-new-api-key-credit/`, {
+        const apiResponsePromise = fetch(`${Environment.atilaApiUrl}/payment/api-key-credits/get-new-api-key-credit/`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -79,7 +79,7 @@ class AtilaAPI {
     }
 
     static search = (query: string) => {
-        const apiResponsePromise = fetch(`${Environment.djangoAPIUrl}/scholarships/scholarship-search/?q=${query}`, {
+        const apiResponsePromise = fetch(`${Environment.atilaApiUrl}/scholarships/scholarship-search/?q=${query}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

@@ -1,109 +1,84 @@
-import { Component } from 'react'
+import { useEffect, useState } from 'react';
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
-import { Content } from '../models/Content';
-import { Collection } from '../models/Collection';
 import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
 
-export interface ScholarshipAddFormProps {
-  titleIndex: number,
-  title: string,
-  scholarship: Scholarship,
-  isSavedScholarship: boolean,
-  collection: Collection
-}
 
-export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  {
+const titleIndex = 0;
+export const ScholarshipAddForm = () => {
 
-  constructor(props: any) {
-    super(props)
-  
-    this.state = {
-       titleIndex: 0,
-       title: "",
-       scholarship: new Scholarship(),
-       isSavedScholarship: false,
-       collection: new Collection(),
+  const [scholarship, setScholarship] = useState(new Scholarship());
+  const [isSavedScholarship, setIsSavedScholarship] = useState(false);
+
+  useEffect(() => {
+    loadParentPageData();
+  }, []);
+
+  const loadParentPageData = () => {
+    const getTitleRequest: LoadParentPageRequest = {
+      type: "LOAD_PARENT_PAGE",
+      data: {
+        titleIndex
+      }
     }
-    
+    if (chrome.tabs) {//for use in non chrom extension environments
+      chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
+          const tabId = tabs[0].id ?? 0;
+            chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
+              // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
+                setScholarship(response.data.scholarship);
+            });
+      });
+    }
   }
 
-    componentDidMount(){
-      this.loadParentPageData();
+  const onUpdateScholarship = (event: any) => {
+    let value = event.target.value;
+    const name = event.target.name;
+
+    console.log({name, value});
+
+    if (name === "deadline" && value instanceof Date) {
+      value = value.toISOString();
+
+      console.log("deadline: ", {name, value});
     }
-  
-    loadParentPageData = () => {
-      const { titleIndex } = this.state;
-      const getTitleRequest: LoadParentPageRequest = {
-        type: "LOAD_PARENT_PAGE",
-        data: {
-          titleIndex: titleIndex
-        }
-      }
-      if (chrome.tabs) {//for use in non chrom extension environments
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
-            const tabId = tabs[0].id ?? 0;
-              chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
-                // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
-                  this.setState({scholarship: response.data.scholarship})
-              });
-        });
-      }
+    const updatedScholarship = {
+      ...scholarship,
+      [name]: value,
     }
+    setScholarship(updatedScholarship);
+  };
 
-    onUpdateScholarship = (event: any) => {
-      
-      let value = event.target.value;
-      const name = event.target.name;
+  const onSaveScholarship = () => {
+    StorageHelper.performAction(ActionTypes.ADD, "savedScholarships", Object.assign({}, scholarship), savedScholarships => {
+      setIsSavedScholarship(true);
+    });
+  };
 
-      if (name === "deadline" && value instanceof Date) {
-        value = value.toISOString();
-      }
-      const scholarship = {
-        ...this.state.scholarship,
-        [name]: value,
-      }
-      this.setState({scholarship});
-    };
+  const deadlineDate = new Date(scholarship.deadline)
 
-    onSaveScholarship = () => {
+  return (
+    <div className="ScholarshipAddForm m-1">
+    <label htmlFor="scholarshipNameInput">Name</label>
+    <textarea value={scholarship.name} name="name"  onChange={onUpdateScholarship} className="form-control mb-3" id="scholarshipNameInput" placeholder="Name">
+    </textarea> 
+   
+   <label htmlFor="scholarshipDescriptionInput">Description</label>
+   <textarea value={scholarship.description} name="description" onChange={onUpdateScholarship} id="scholarshipDescriptionInput" className="form-control mb-3" placeholder="Description" rows={2}></textarea>
+   
+   <label htmlFor="scholarshipFundingAmountInput">Funding Amount</label>
+   <input value={scholarship.funding_amount} name="funding_amount" onChange={onUpdateScholarship} id="scholarshipFundingAmountInput" className="form-control mb-3" placeholder="Funding Amount" type="number"></input>
 
-      const { scholarship } = this.state;
-
-      StorageHelper.performAction(ActionTypes.ADD, "savedScholarships", Object.assign({}, scholarship), savedScholarships => {
-        this.setState({isSavedScholarship: true});
-      });
-
-    };
-
-    render(){
-
-      const { scholarship, isSavedScholarship } = this.state;
-
-      const deadlineDate = new Date(scholarship.deadline)
-
-      return (
-        <div className="ScholarshipAddForm m-1">
-         <label htmlFor="scholarshipNameInput">Name</label>
-         <textarea value={scholarship.name} name="name"  onChange={this.onUpdateScholarship} className="form-control mb-3" id="scholarshipNameInput" placeholder="Name">
-         </textarea> 
-        
-        <label htmlFor="scholarshipDescriptionInput">Description</label>
-        <textarea value={scholarship.description} name="description" onChange={this.onUpdateScholarship} id="scholarshipDescriptionInput" className="form-control mb-3" placeholder="Description" rows={2}></textarea>
-        
-        <label htmlFor="scholarshipFundingAmountInput">Funding Amount</label>
-        <input value={scholarship.funding_amount} name="funding_amount" onChange={this.onUpdateScholarship} id="scholarshipFundingAmountInput" className="form-control mb-3" placeholder="Funding Amount" type="number"></input>
-
-        <label htmlFor="scholarshipNotesInput">Notes</label>
-        <textarea value={scholarship.notes} name="notes" onChange={this.onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={2}></textarea>
-
-        <label htmlFor="scholarshipDeadlineInput">Deadline</label>
-        {/* TODO use a shared component for ReactDatePicker in ScholarshipAddForm and ScholarshipTableRow */}
-        <ReactDatePicker
+   <label htmlFor="scholarshipNotesInput">Notes</label>
+   <textarea value={scholarship.notes} name="notes" onChange={onUpdateScholarship} id="scholarshipNotesInput" className="form-control mb-3" placeholder="Notes" rows={2}></textarea>
+   
+   <label htmlFor="scholarshipDeadlineInput">Deadline</label>
+   <ReactDatePicker
           selected={deadlineDate}
-          onChange={(date) => this.onUpdateScholarship({target: {value: date, name: 'deadline'}})}
+          onChange={(date) => onUpdateScholarship({target: {value: date, name: 'deadline'}})}
           showTimeSelect
           showMonthDropdown
           showYearDropdown
@@ -113,26 +88,20 @@ export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  
           dateFormat="MMMM d, yyyy h:mm aa"
           className="col-12"
         />
-       
-       {isSavedScholarship ?
-        <>
-          <p className="text-success">
-            Saved Scholarship!
-          </p>
-        </>
-       :
-        <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>
-          Save
-        </button>
-       }
-        <hr/>
-        <a href={`chrome-extension://${chrome?.runtime?.id}/index.html`} target="_blank" rel="noopener noreferrer">
-          See all Saved Scholarships
-        </a>
-      </div>
-      )
-    }
-  
+
+   {!isSavedScholarship &&
+     <button onClick={onSaveScholarship} className="btn btn-primary m-1">
+       Save
+     </button>
+   }
+
+   {isSavedScholarship &&
+     <p>
+       Scholarship saved!
+     </p>
+   }
+ </div>
+)
 }
 
 export default ScholarshipAddForm;

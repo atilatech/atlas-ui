@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChangeEventHandler, KeyboardEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, KeyboardEventHandler, useState } from 'react';
 import AtilaAPI from "../../services/AtilaAPI";
 import { Content } from '../../models/Content';
 import { ContentCard } from '../ContentCard/ContentCard'
