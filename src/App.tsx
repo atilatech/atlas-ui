@@ -5,7 +5,6 @@
  * See: https://stackoverflow.com/a/50493780
  */
 import DashBoard from './scenes/Dashboard/DashBoard';
-import 'antd/dist/antd.css';
  
 function App() {
  return (

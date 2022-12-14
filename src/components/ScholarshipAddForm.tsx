@@ -3,7 +3,6 @@ import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessa
 import { Scholarship } from '../models/Scholarship';
 import { Content } from '../models/Content';
 import { Collection } from '../models/Collection';
-import { Select } from 'antd';
 import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
@@ -13,14 +12,8 @@ export interface ScholarshipAddFormProps {
   title: string,
   scholarship: Scholarship,
   isSavedScholarship: boolean,
-  collectionTitles: string[],
   collection: Collection
 }
-
-const dummyCollections = [
-    "Collection 1",
-    "Collection 2",
-]
 
 export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  {
 
@@ -32,21 +25,13 @@ export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  
        title: "",
        scholarship: new Scholarship(),
        isSavedScholarship: false,
-       collectionTitles: [],
        collection: new Collection(),
     }
     
   }
 
     componentDidMount(){
-      this.loadParentPageData()
-
-      // fill in dummy collections for testing
-      dummyCollections.forEach(title => {
-        this.setState(prevState => ({
-          collectionTitles: [...prevState.collectionTitles, title]
-        }))
-      })
+      this.loadParentPageData();
     }
   
     loadParentPageData = () => {
@@ -93,31 +78,9 @@ export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  
 
     };
 
-    onUpdateCollection = (event: any) => {
-      this.saveToCollection(event[event.length-1]);
-    };
-
-    saveToCollection = (title: string) => {
-      var collection = new Collection();
-      collection.title = title;
-      if (chrome.tabs) {//for use in non chrom extension environments
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
-            let newContent = new Content();
-            newContent.url = tabs[0].url ?? "";
-            collection.contents?.push(newContent);
-        });
-      }
-
-      StorageHelper.performAction(ActionTypes.ADD, "addCollection", Object.assign({}, collection), savedScholarships => {
-        this.setState(prevState => ({
-          collectionTitles: [...prevState.collectionTitles, title]
-        }))
-      });
-    };
-
     render(){
 
-      const { scholarship, isSavedScholarship, collectionTitles } = this.state;
+      const { scholarship, isSavedScholarship } = this.state;
 
       const deadlineDate = new Date(scholarship.deadline)
 
@@ -156,13 +119,6 @@ export class ScholarshipAddForm extends Component<{}, ScholarshipAddFormProps>  
           <p className="text-success">
             Saved Scholarship!
           </p>
-          <label htmlFor="scholarshipCollectionInput">Collections</label>
-          <Select mode="tags" style={{ width: '100%' }}
-                  value={collectionTitles}
-                  notFoundContent={<div>Start typing to enter an option</div>}
-                  onChange={(event) =>
-                     this.onUpdateCollection(event)}
-          />
         </>
        :
         <button id="saveScholarshipButton" className="btn btn-primary mt-3" onClick={this.onSaveScholarship}>

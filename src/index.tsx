@@ -13,7 +13,9 @@ const popupRoot = document.getElementById("popup-root");
 !popupRoot &&
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      {
+        window.location.pathname.includes('popup') ?  <PopUp /> : <App />
+      }
     </React.StrictMode>,
     document.getElementById("root")
   );
