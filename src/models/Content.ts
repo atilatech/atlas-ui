@@ -3,6 +3,7 @@ export class Content {
     description?: string = '';
     img_url?: string = '';
     url?: string = '';
+    slug?: string = '';
     readonly id?: string;
     readonly objectID?: string;
 }

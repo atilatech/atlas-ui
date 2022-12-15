@@ -1,4 +1,5 @@
 import { Content } from '../../models/Content';
+import Environment from '../../services/Environment';
 import { Utils } from '../../services/Utils';
 
 export interface ContentCardProps {
@@ -11,7 +12,7 @@ export function ContentCard(props: ContentCardProps) {
 
     return (
         <div className="ContentCard card shadow my-3 p-3">
-            <a className="text-align-left" href={content.url} target="_blank" rel="noopener noreferrer">
+            <a className="text-align-left" href={`${Environment.frontendUrl}/${content.slug}`} target="_blank" rel="noopener noreferrer">
                 {content.name} <br />
                 {content.img_url &&
                     <img src={content.img_url} width="150"

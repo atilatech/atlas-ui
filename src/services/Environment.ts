@@ -1,9 +1,11 @@
 export const EnvironmentDev = {
+    frontendUrl: 'http://localhost:3000',
     apiUrl: 'http://127.0.0.1:8080/api',
     atilaApiUrl: 'http://127.0.0.1:8000/api'
 };
 
 export const EnvironmentProd = {
+    frontendUrl: 'https://atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/prod/api',
     atilaApiUrl: 'https://atila-7-staging.herokuapp.com/api'
 };
