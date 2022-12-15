@@ -89,17 +89,21 @@ export const ScholarshipAddForm = () => {
           className="col-12"
         />
 
-   {!isSavedScholarship &&
+   {isSavedScholarship ?
+    <p className='text-success'>
+       Scholarship saved!
+     </p>
+   :
      <button onClick={onSaveScholarship} className="btn btn-primary m-1">
        Save
      </button>
    }
 
-   {isSavedScholarship &&
-     <p>
-       Scholarship saved!
-     </p>
-   }
+
+    <hr/>
+    <a href={`chrome-extension://${chrome?.runtime?.id}/index.html`} target="_blank" rel="noopener noreferrer">
+      See all Saved Scholarships
+    </a>
  </div>
 )
 }
