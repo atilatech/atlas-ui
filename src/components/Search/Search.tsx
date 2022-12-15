@@ -57,11 +57,15 @@ function Search() {
                 </div>
             }
 
-            {searchResults?.length > 0 &&
+            {!loading && searchResults?.length > 0 ?
                 <>
                 <hr/>
                 {searchResults.map(searchResult => <ContentCard content={searchResult} key={searchResult.id || searchResult.objectID} />)}
                 </>
+                :
+                <p>
+                    No Search results found
+                </p>
             }
         </div>
     )

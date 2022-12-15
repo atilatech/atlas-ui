@@ -1,7 +1,6 @@
 import React from 'react';
 import ScholarshipAddForm from '../../components/ScholarshipAddForm';
 import Search from '../../components/Search/Search';
-import Settings from '../../components/Settings/Settings';
 import "./PopUp.css";
 
 function PopUp() {
@@ -19,11 +18,6 @@ function PopUp() {
                 Search
             </button>
           </li>
-          <li className="nav-item" role="presentation">
-            <button className="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">
-                Settings
-            </button>
-          </li>
         </ul>
         <div className="tab-content" id="popupTabContent">
           <div className="tab-pane fade show active" id="save" role="tabpanel" aria-labelledby="save-tab">
@@ -31,9 +25,6 @@ function PopUp() {
           </div>
           <div className="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
             <Search />
-          </div>
-          <div className="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-            <Settings />
           </div>
         </div>
 
