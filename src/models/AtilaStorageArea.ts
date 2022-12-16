@@ -4,6 +4,7 @@
 
 import { GeneralNotes } from "./GeneralNotes";
 import { Scholarship } from "./Scholarship";
+import { Collection } from './Collection';
 
 export interface SavedScholarships {
     [scholarshipId: string]: Scholarship
@@ -12,5 +13,6 @@ export interface SavedScholarships {
 export interface AtilaStorageArea {
     savedScholarships?: SavedScholarships,
     generalNotes?: GeneralNotes,
+    addCollection?: Collection,
     guestUserId?: string,
 }

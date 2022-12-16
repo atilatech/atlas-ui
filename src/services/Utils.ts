@@ -73,6 +73,7 @@ export class Utils {
     }
 
     static truncateText = (inputString: string, maxLength=100, addElipsis = true) => {
+        if (!inputString) return '';
         let truncatedText = inputString.substring(0, maxLength);
         let textIsTruncated = inputString.length > truncatedText.length;
 

@@ -1,7 +1,7 @@
 {
   "name": "Atila Scholarship Helper",
   "description": "Save scholarship you're interested in, get reminded when a scholarship is due, add notes and more",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "manifest_version": 3,
   "action": {
       "default_popup": "popup.html",
@@ -23,8 +23,8 @@
     "https://atila-7-staging.herokuapp.com/api/*"
   ],
   "icons": {
-      "16": "atila-logo-blue_128.png",
-      "48": "atila-logo-blue_128.png",
-      "128": "atila-logo-blue_128.png"
+      "16": "atila-logo-gradient-128.png",
+      "48": "atila-logo-gradient-128.png",
+      "128": "atila-logo-gradient-128.png"
   }
 }

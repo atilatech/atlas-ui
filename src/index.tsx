@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import "react-datepicker/dist/react-datepicker.css";
 import reportWebVitals from './reportWebVitals';
-import ScholarshipAddForm from './components/ScholarshipAddForm';
 import App from './App';
+import PopUp from './scenes/PopUp/PopUp';
 
 
 const popupRoot = document.getElementById("popup-root");
@@ -13,7 +13,9 @@ const popupRoot = document.getElementById("popup-root");
 !popupRoot &&
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      {
+        window.location.pathname.includes('popup') ?  <PopUp /> : <App />
+      }
     </React.StrictMode>,
     document.getElementById("root")
   );
@@ -22,7 +24,7 @@ const popupRoot = document.getElementById("popup-root");
 popupRoot &&
   ReactDOM.render(
     <React.Fragment>
-      <ScholarshipAddForm />
+      <PopUp />
     </React.Fragment>,
     popupRoot
   );

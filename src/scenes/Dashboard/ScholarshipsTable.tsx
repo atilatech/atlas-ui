@@ -55,7 +55,7 @@ function ScholarshipsTable() {
     return (
       <div>
           <h3 className="text-center mb-5">Saved Scholarships</h3>
-          <table className="table" id={scholarshipsTableId}>
+          <table className="table overflow-scroll border" id={scholarshipsTableId}>
           <thead>
             <tr>
               <th scope="col" className="wide-column">Name</th>

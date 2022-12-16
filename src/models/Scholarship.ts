@@ -16,5 +16,4 @@ export class Scholarship {
     public notes?: string = "";
     public date_created?: string = "";
     public date_modified?: string = "";
-
 }
