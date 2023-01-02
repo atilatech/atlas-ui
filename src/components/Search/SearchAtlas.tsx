@@ -39,8 +39,6 @@ function SearchAtlas() {
     }
   };
 
-  console.log({networkResponse});
-
   return (
     <div>
 
