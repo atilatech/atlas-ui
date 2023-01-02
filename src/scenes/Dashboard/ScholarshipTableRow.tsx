@@ -3,6 +3,7 @@ import { ScholarshipUtils } from '../../services/ScholarshipUtils';
 import { Utils } from '../../services/Utils';
 import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
 import { useState } from 'react';
+// @ts-ignore TEMP: netlify deploy builds are failing because of Could not find a declaration file for module 'react-datepicker'. TS7016
 import ReactDatePicker from 'react-datepicker';
 
 interface ScholarshipTableRowProps {

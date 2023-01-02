@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LoadParentPageRequest, ResponseMessage } from '../models/ExtensionMessage';
 import { Scholarship } from '../models/Scholarship';
 import StorageHelper, { ActionTypes } from '../services/StorageHelper';
+// @ts-ignore TEMP: netlify deploy builds are failing because of Could not find a declaration file for module 'react-datepicker'. TS7016
 import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
 
