@@ -7,7 +7,6 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.23",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "axios": "^1.2.2",
@@ -50,6 +49,7 @@
   "devDependencies": {
     "@craco/craco": "^6.2.0",
     "@types/chrome": "0.0.157",
+    "@types/node": "^12.20.55",
     "@types/react-datepicker": "^4.3.2",
     "jest-chrome": "^0.7.2"
   }

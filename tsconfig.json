@@ -27,6 +27,7 @@
     "public/bootstrap"
   ],
   "types": [
+    "node",
     "chrome"
   ]
 }
