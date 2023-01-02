@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { AtlasService } from '../../services/AtlasService';
 import SearchResults from './SearchResults';
@@ -6,19 +7,39 @@ function SearchAtlas() {
   const [searchResults, setSearchResults] = useState([]);
   const [query, setQuery] = useState('');
   const [url, setUrl] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [networkResponse, setNetworkResponse] = useState<{ status: null | 'pending' | 'complete' | 'error', message: string | React.ReactElement }>({
+    status: null,
+    message: '',
+  });
 
   const handleSearch = async () => {
-    setLoading(true);
+    setNetworkResponse({
+      status: 'pending',
+      message: '',
+    });
     try {
         const {data: {results}} = await (await AtlasService.search(query, url));
         console.log({results})
         setSearchResults(results.matches);
-    } catch (error) {
-        console.log({error});
+        setNetworkResponse({
+          status: null,
+          message: '',
+        });
+    } catch (error: unknown) {
+      console.log({error});
+      let errorMessage = JSON.stringify(error)
+      if (error instanceof AxiosError) {
+        errorMessage = JSON.stringify(error?.response?.data)
+     } 
+     setNetworkResponse({
+      status: 'error',
+      message: errorMessage,
+    });
+        
     }
-    setLoading(false);
   };
+
+  console.log({networkResponse});
 
   return (
     <div>
@@ -49,17 +70,23 @@ function SearchAtlas() {
       </button>
     </form>
       <hr/>
-      {loading ? (
-        <>
-        <div className='text-primary'>
-        <div className="spinner-border mx-3" role="status">
-        </div>
-        <span className="sr-only">Loading...</span>
-        </div>
-        </>
-      ) : (
-        <SearchResults data={searchResults} />
-      )}
+       {/* Show the network response status and message TODO move inside a NetworkResponse component*/}
+       {networkResponse.status && (
+            <div className='m-3'>
+            {networkResponse.status === "pending" && (
+              <div className='text-primary'>
+              <div className="spinner-border mx-3" role="status">
+              </div>
+              <span className="sr-only">Loading...</span>
+            </div>
+            )}
+            {networkResponse.status === "error" && (
+            <p className="text-danger">
+                Error: {networkResponse.message}
+            </p>
+            )}
+            </div>)}
+        {searchResults && <SearchResults data={searchResults} />}
     </div>
   );
 }
