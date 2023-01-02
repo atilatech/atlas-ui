@@ -30,4 +30,10 @@ if(process.env.REACT_APP_ATILA_STAGE === "staging"){
     Environment =  EnvironmentStaging;
 }
 
+if (window.location.host === 'staging.atlas.atila.ca') {
+    Environment = EnvironmentStaging;
+} else if (window.location.host === 'atlas.atila.ca') {
+    Environment =  EnvironmentProd;
+}
+
 export default Environment;
