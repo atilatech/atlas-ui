@@ -7,6 +7,7 @@ import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
 
 // When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+// @ts-ignore TEMP: netlify deploy builds are failing because of Could not find a declaration file for module 'react-datepicker'. TS7016
 const chrome: Window["chrome"] = window.chrome || {};
 const titleIndex = 0;
 export const ScholarshipAddForm = () => {

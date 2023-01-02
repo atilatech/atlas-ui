@@ -3,6 +3,7 @@ import { Scholarship } from "./models/Scholarship";
 
 export {}
 // When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+// @ts-ignore TEMP: netlify deploy builds are failing because of Could not find a declaration file for module 'react-datepicker'. TS7016
 const chrome: Window["chrome"] = window.chrome || {};
 
 // Mainly needed for websites with really long meta descriptions in the <head/> usually because of SEO stuffing
