@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Utils } from '../../services/Utils';
+import ResponsiveEmbed from '../ResponsiveEmbed';
 
 interface DocumentSegment {
   end: number;
@@ -13,7 +15,7 @@ interface DocumentSegment {
   views: number;
 }
 
-interface Data {
+interface PineconeData {
   id: string;
   score: number;
   values: any[];
@@ -22,12 +24,12 @@ interface Data {
 }
 
 interface Props {
-  data: Data[];
+  data: PineconeData[];
 }
 
 const SearchResults: React.FC<Props> = ({ data }) => {
   // Group the items by video_id
-  const groups:{ [key: string]: any[] } = {};
+  const groups:{ [key: string]: PineconeData[] } = {};
   data.forEach((item) => {
     const videoId = item.metadata.video_id;
     if (!groups[videoId]) {
@@ -48,12 +50,11 @@ const SearchResults: React.FC<Props> = ({ data }) => {
             <div className="card-body">
               <h5 className="card-title">{firstItem.metadata.title}</h5>
               {group.map((item) => {
-                const timestamp = new Date();
-                timestamp.setSeconds(item.metadata.start);
-                const formattedTimestamp = timestamp.toISOString().substr(14, 5);
+                const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.metadata.start)
 
                 return (
                   <div key={item.id} className="card-text">
+                    <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
                     <p>{item.metadata.text}</p>
                     <a href={item.metadata.url} target='_blank'rel='noreferrer'>
                       Watch at ({formattedTimestamp})
