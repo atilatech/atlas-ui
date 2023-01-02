@@ -26,7 +26,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - run: NODE_ENV="production" npm
+      - run: NODE_ENV="production" npm install
       - run: CI="" npm build
       - name: Deploy to netlify prod environment
         if: ${{ github.ref == 'refs/heads/master' }}
