@@ -37,7 +37,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
 
     const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.metadata.start)
     return (
-      <div key={item.id} className="card-text">
+      <div className="card-text">
         {showEmbed ? (
           <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
         ) : null}
