@@ -84,7 +84,7 @@ export const ScholarshipAddForm = () => {
    <label htmlFor="scholarshipDeadlineInput">Deadline</label>
    <ReactDatePicker
           selected={deadlineDate}
-          onChange={(date) => onUpdateScholarship({target: {value: date, name: 'deadline'}})}
+          onChange={(date: any) => onUpdateScholarship({target: {value: date, name: 'deadline'}})}
           showTimeSelect
           showMonthDropdown
           showYearDropdown
