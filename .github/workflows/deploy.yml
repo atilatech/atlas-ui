@@ -34,6 +34,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          REACT_APP_ATILA_STAGE: prod
         with:
           args: deploy --dir=./build --prod -m "${{github.ref_name}} ${{github.sha}}"
       - name: Deploy to netlify staging site
@@ -42,5 +43,6 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_STAGING }}
+          REACT_APP_ATILA_STAGE: staging
         with:
           args: deploy --dir=./build --prod -m "${{github.ref_name}} ${{github.sha}}"
