@@ -1,9 +1,9 @@
-// @ts-nocheck TEMP fix for TypeScript error in /home/runner/work/atlas-ui/atlas-ui/src/components/ScholarshipAddForm.tsx(29,7): 
-// Cannot find name 'chrome'.  TS2304
 import { RequestMessage, ResponseMessage } from "./models/ExtensionMessage";
 import { Scholarship } from "./models/Scholarship";
 
 export {}
+// When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+const chrome: Window["chrome"] = window.chrome || {};
 
 // Mainly needed for websites with really long meta descriptions in the <head/> usually because of SEO stuffing
 // e.g. https://www.codegrepper.com/code-examples/typescript/global+variable+typescript+react

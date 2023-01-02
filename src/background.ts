@@ -1,7 +1,7 @@
-// @ts-nocheck TEMP fix for TypeScript error in /home/runner/work/atlas-ui/atlas-ui/src/components/ScholarshipAddForm.tsx(29,7): 
-// Cannot find name 'chrome'.  TS2304
 import { RequestMessage } from "./models/ExtensionMessage";
 export {}
+// When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+const chrome: Window["chrome"] = window.chrome || {};
 chrome.runtime.onMessage.addListener((message: RequestMessage) => {
     console.log("Message received in background.js!", message);
 });

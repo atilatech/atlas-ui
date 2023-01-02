@@ -7,7 +7,7 @@ import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
 
 // When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
-let chrome = window.chrome || {};
+const chrome: Window["chrome"] = window.chrome || {};
 
 const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
