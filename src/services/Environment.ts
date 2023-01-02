@@ -17,7 +17,7 @@ export const EnvironmentProd = {
     frontendUrl: 'https://atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/prod/api',
     atilaApiUrl: 'https://atila-7.herokuapp.com/api',
-    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api/atlas'
+    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api'
 };
 
 // set to EnvironmentDev as the default so we can use type hinting and the autocomplete feature
