@@ -6,7 +6,8 @@ import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
 
-
+// When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+const chrome: Window["chrome"] = window.chrome || {};
 const titleIndex = 0;
 export const ScholarshipAddForm = () => {
 
@@ -24,10 +25,12 @@ export const ScholarshipAddForm = () => {
         titleIndex
       }
     }
-    // @ts-ignore: Cannot find name 'chrome'.
+
     if (chrome.tabs) {//for use in non chrom extension environments
+
       chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
           const tabId = tabs[0].id ?? 0;
+
             chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
               // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
                 setScholarship(response.data.scholarship);

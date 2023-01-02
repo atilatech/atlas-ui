@@ -9,7 +9,8 @@
  import { Scholarship, SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION } from "../models/Scholarship";
  import AtilaAPI from "./AtilaAPI";
 import { Utils } from "./Utils";
- 
+ // When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
+ const chrome: Window["chrome"] = window.chrome || {};
  export type SavedScholarshipCallback = (savedScholarships: SavedScholarships | GeneralNotes | Collection) => any;
  export enum ActionTypes {
      ADD = "ADD",
@@ -22,7 +23,6 @@ import { Utils } from "./Utils";
  
      static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes" | "addCollection",
       targetObject: Scholarship | GeneralNotes | Collection | null, callback?: SavedScholarshipCallback) => {
-          // @ts-ignore: Cannot find name 'chrome'.
          chrome.storage.local.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
              let storageData = items[objectType];
