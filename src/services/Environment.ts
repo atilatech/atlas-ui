@@ -2,7 +2,9 @@ export const EnvironmentDev = {
     frontendUrl: 'http://localhost:3000',
     apiUrl: 'http://127.0.0.1:8080/api',
     atilaApiUrl: 'http://127.0.0.1:8000/api',
-    atilaCoreServiceApiUrl: 'http://127.0.0.1:8001/api'
+    // Note if you have atilaApiUrl and atilaCoreServiceApiUrl running at same time
+    // you will have to set atilaCoreServiceApiUrl to run at 8001
+    atilaCoreServiceApiUrl: 'http://127.0.0.1:8000/api'
 };
 
 

@@ -41,12 +41,12 @@ const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
         {showEmbed ? (
           <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
         ) : null}
-        <p>{item.metadata.text}</p>
+        <p className='my-3'>{item.metadata.text}</p>
         <a href={item.metadata.url} target='_blank'rel='noreferrer'>
           Watch at ({formattedTimestamp})
         </a>
-        <button className="btn btn-outline-primary" onClick={() => setShowEmbed(!showEmbed)}>
-          Preview <i className={`fas fa-caret-${showEmbed ? 'up' : 'down'}`}></i>
+        <button className="btn btn-outline-primary mx-3" onClick={() => setShowEmbed(!showEmbed)}>
+          {showEmbed ? 'Hide' : 'Show'} Preview
         </button>
         <hr/>
       </div>
@@ -69,13 +69,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
       {Object.values(groups).map((group) => {
         const firstItem = group[0];
         const thumbnail = firstItem.metadata.thumbnail;
+        const videoUrl = `https://www.youtube.com/watch?v=${firstItem.metadata.video_id}`
 
         return (
           <div key={firstItem.metadata.video_id} className="card m-3">
+            <a href={videoUrl} target='_blank'rel='noreferrer'>
             <img src={thumbnail} alt={firstItem.metadata.title} className="card-img-top m-3" style={{width: '300px'}} />
+            </a>
             <div className="card-body">
-              <h5 className="card-title">{firstItem.metadata.title}</h5>
-              {group.map((item) => <SearchResult item={item} />)}
+              <h5 className="card-title"><a href={videoUrl} target='_blank'rel='noreferrer'>
+                {firstItem.metadata.title}
+                </a></h5>
+              {group.map((item) => <SearchResult item={item} key={item.id} />)}
           </div>
         </div>
       );
