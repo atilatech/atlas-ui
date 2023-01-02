@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 import PopUp from './scenes/PopUp/PopUp';
+import Atlas from './scenes/Atlas/Atlas';
 
 
 const popupRoot = document.getElementById("popup-root");
@@ -14,6 +15,9 @@ const popupRoot = document.getElementById("popup-root");
   ReactDOM.render(
     <React.StrictMode>
       {
+        // if it's being run as a web app then load atlas
+        window.location.protocol.startsWith('http') ?
+        <Atlas />:
         window.location.pathname.includes('popup') ?  <PopUp /> : <App />
       }
     </React.StrictMode>,

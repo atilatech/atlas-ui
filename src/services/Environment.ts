@@ -1,20 +1,25 @@
 export const EnvironmentDev = {
     frontendUrl: 'http://localhost:3000',
     apiUrl: 'http://127.0.0.1:8080/api',
-    atilaApiUrl: 'http://127.0.0.1:8000/api'
+    atilaApiUrl: 'http://127.0.0.1:8000/api',
+    // Note if you have atilaApiUrl and atilaCoreServiceApiUrl running at same time
+    // you will have to set atilaCoreServiceApiUrl to run at 8001
+    atilaCoreServiceApiUrl: 'http://127.0.0.1:8000/api'
 };
 
 
 export const EnvironmentStaging = {
     frontendUrl: 'https://staging.atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/staging/api',
-    atilaApiUrl: 'https://atila-7-staging.herokuapp.com/api'
+    atilaApiUrl: 'https://atila-7-staging.herokuapp.com/api',
+    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api'
 };
 
 export const EnvironmentProd = {
     frontendUrl: 'https://atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/prod/api',
-    atilaApiUrl: 'https://atila-7.herokuapp.com/api'
+    atilaApiUrl: 'https://atila-7.herokuapp.com/api',
+    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api'
 };
 
 // set to EnvironmentDev as the default so we can use type hinting and the autocomplete feature
@@ -25,6 +30,12 @@ if(process.env.REACT_APP_ATILA_STAGE === "prod"){
 }
 if(process.env.REACT_APP_ATILA_STAGE === "staging"){
     Environment =  EnvironmentStaging;
+}
+
+if (window.location.host === 'staging.atlas.atila.ca') {
+    Environment = EnvironmentStaging;
+} else if (window.location.host === 'atlas.atila.ca') {
+    Environment =  EnvironmentProd;
 }
 
 export default Environment;

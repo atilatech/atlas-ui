@@ -6,9 +6,6 @@ import StorageHelper, { ActionTypes } from '../../services/StorageHelper';
 import './ScholarshipsTable.css';
 import { ScholarshipTableRow } from './ScholarshipTableRow';
 
-// When running this project as a web app and not as a Chrome extension, we have to manually set the chrome environment variable
-let chrome = window.chrome || {};
-
 const scholarshipsTableId = "ScholarshipsTable";
 function ScholarshipsTable() {
    // TODO instead of using hacky unions of 'any' everyhwere, find a way to ensure that performSavedScholarshipsAction only gets called with the Scholarship object type

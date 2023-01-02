@@ -9,7 +9,7 @@
  import { Scholarship, SCHOLARSHIP_CREATION_SOURCE_CHROME_EXTENSION } from "../models/Scholarship";
  import AtilaAPI from "./AtilaAPI";
 import { Utils } from "./Utils";
- 
+
  export type SavedScholarshipCallback = (savedScholarships: SavedScholarships | GeneralNotes | Collection) => any;
  export enum ActionTypes {
      ADD = "ADD",
@@ -22,7 +22,6 @@ import { Utils } from "./Utils";
  
      static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes" | "addCollection",
       targetObject: Scholarship | GeneralNotes | Collection | null, callback?: SavedScholarshipCallback) => {
-          
          chrome.storage.local.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
              let storageData = items[objectType];

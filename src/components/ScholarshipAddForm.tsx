@@ -5,7 +5,6 @@ import StorageHelper, { ActionTypes } from '../services/StorageHelper';
 import ReactDatePicker from "react-datepicker";
 import "./ScholarshipAddForm.css"
 
-
 const titleIndex = 0;
 export const ScholarshipAddForm = () => {
 
@@ -23,9 +22,12 @@ export const ScholarshipAddForm = () => {
         titleIndex
       }
     }
+
     if (chrome.tabs) {//for use in non chrom extension environments
+
       chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
           const tabId = tabs[0].id ?? 0;
+
             chrome.tabs.sendMessage(tabId, getTitleRequest, (response: ResponseMessage) => {
               // the content script sendResponse serializes the deadline and converts it from a Date to a JSON so we must conver it back
                 setScholarship(response.data.scholarship);
@@ -78,7 +80,7 @@ export const ScholarshipAddForm = () => {
    <label htmlFor="scholarshipDeadlineInput">Deadline</label>
    <ReactDatePicker
           selected={deadlineDate}
-          onChange={(date) => onUpdateScholarship({target: {value: date, name: 'deadline'}})}
+          onChange={(date: any) => onUpdateScholarship({target: {value: date, name: 'deadline'}})}
           showTimeSelect
           showMonthDropdown
           showYearDropdown

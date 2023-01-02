@@ -102,7 +102,7 @@ export function ScholarshipTableRow(props: ScholarshipTableRowProps) {
         <td>
           <ReactDatePicker
           selected={deadlineDate}
-          onChange={(date) => updateScholarship({target: {value: date, name: 'deadline'}})}
+          onChange={(date: any) => updateScholarship({target: {value: date, name: 'deadline'}})}
           showTimeSelect
           showMonthDropdown
           showYearDropdown
