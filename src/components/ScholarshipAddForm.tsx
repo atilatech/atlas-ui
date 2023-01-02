@@ -24,6 +24,7 @@ export const ScholarshipAddForm = () => {
         titleIndex
       }
     }
+    // @ts-ignore: Cannot find name 'chrome'.
     if (chrome.tabs) {//for use in non chrom extension environments
       chrome.tabs.query({active: true, currentWindow: true}, (tabs : any) => {
           const tabId = tabs[0].id ?? 0;

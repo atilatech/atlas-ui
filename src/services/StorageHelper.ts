@@ -22,7 +22,7 @@ import { Utils } from "./Utils";
  
      static performAction = (actionType: ActionTypes, objectType: "savedScholarships" | "generalNotes" | "addCollection",
       targetObject: Scholarship | GeneralNotes | Collection | null, callback?: SavedScholarshipCallback) => {
-          
+          // @ts-ignore: Cannot find name 'chrome'.
          chrome.storage.local.get([objectType, "guestUserId"], (items: AtilaStorageArea) => {
  
              let storageData = items[objectType];
