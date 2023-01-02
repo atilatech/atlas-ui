@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState }  from 'react';
 import { Utils } from '../../services/Utils';
 import ResponsiveEmbed from '../ResponsiveEmbed';
 
@@ -23,11 +23,37 @@ interface PineconeData {
   metadata: DocumentSegment;
 }
 
-interface Props {
+interface SearchResultsProps {
   data: PineconeData[];
 }
 
-const SearchResults: React.FC<Props> = ({ data }) => {
+
+interface SearchResultProps {
+  item: PineconeData;
+}
+
+const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
+    const [showEmbed, setShowEmbed] = useState(false);
+
+    const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.metadata.start)
+    return (
+      <div key={item.id} className="card-text">
+        {showEmbed ? (
+          <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
+        ) : null}
+        <p>{item.metadata.text}</p>
+        <a href={item.metadata.url} target='_blank'rel='noreferrer'>
+          Watch at ({formattedTimestamp})
+        </a>
+        <button className="btn btn-outline-primary" onClick={() => setShowEmbed(!showEmbed)}>
+          Preview <i className={`fas fa-caret-${showEmbed ? 'up' : 'down'}`}></i>
+        </button>
+        <hr/>
+      </div>
+    );
+};
+
+const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
   // Group the items by video_id
   const groups:{ [key: string]: PineconeData[] } = {};
   data.forEach((item) => {
@@ -49,25 +75,12 @@ const SearchResults: React.FC<Props> = ({ data }) => {
             <img src={thumbnail} alt={firstItem.metadata.title} className="card-img-top m-3" style={{width: '300px'}} />
             <div className="card-body">
               <h5 className="card-title">{firstItem.metadata.title}</h5>
-              {group.map((item) => {
-                const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.metadata.start)
-
-                return (
-                  <div key={item.id} className="card-text">
-                    <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
-                    <p>{item.metadata.text}</p>
-                    <a href={item.metadata.url} target='_blank'rel='noreferrer'>
-                      Watch at ({formattedTimestamp})
-                    </a>
-                    <hr/>
-                  </div>
-                );
-              })}
-            </div>
+              {group.map((item) => <SearchResult item={item} />)}
           </div>
-        );
-      })}
-    </div>
+        </div>
+      );
+    })}
+  </div>
   );
 };
 
