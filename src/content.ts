@@ -6,7 +6,7 @@ export {}
 // Mainly needed for websites with really long meta descriptions in the <head/> usually because of SEO stuffing
 // e.g. https://www.codegrepper.com/code-examples/typescript/global+variable+typescript+react
 const MAX_DECRIPTION_LENGTH = 750;
-
+// @ts-ignore: Cannot find name 'chrome'.
 chrome.runtime.onMessage.addListener((message: RequestMessage, sender : chrome.runtime.MessageSender, sendResponse : any) => {
   switch (message.type) {
     case "LOAD_PARENT_PAGE":
