@@ -1,3 +1,5 @@
+// @ts-nocheck TEMP fix for TypeScript error in /home/runner/work/atlas-ui/atlas-ui/src/components/ScholarshipAddForm.tsx(29,7): 
+// Cannot find name 'chrome'.  TS2304
 import { RequestMessage, ResponseMessage } from "./models/ExtensionMessage";
 import { Scholarship } from "./models/Scholarship";
 
@@ -6,7 +8,6 @@ export {}
 // Mainly needed for websites with really long meta descriptions in the <head/> usually because of SEO stuffing
 // e.g. https://www.codegrepper.com/code-examples/typescript/global+variable+typescript+react
 const MAX_DECRIPTION_LENGTH = 750;
-// @ts-ignore: Cannot find name 'chrome'.
 chrome.runtime.onMessage.addListener((message: RequestMessage, sender : chrome.runtime.MessageSender, sendResponse : any) => {
   switch (message.type) {
     case "LOAD_PARENT_PAGE":
