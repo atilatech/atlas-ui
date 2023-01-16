@@ -6,11 +6,10 @@ interface Props {
 }
 
 const ResponsiveEmbed: React.FC<Props> = ({ url, title }) => {
-    let videoId = url.replace("https://youtu.be/", "").replace("https://www.youtube.com/","")
-    videoId = videoId.replace("?t=", "?start=")
+    let videoId = url.replace("https://youtu.be/", "").replace("https://www.youtube.com/watch?v=","")
+    videoId = videoId.replace("&t=", "?start=").replace("?t=", "?start=")
     // Youtube iFrame embed uses start not t
     // https://sites.edb.utexas.edu/wordpress/blog/embedding-a-youtube-video-with-start-and-stop-time/
-    console.log({videoId})
 
   return (
     <div className="ratio ratio-16x9">
