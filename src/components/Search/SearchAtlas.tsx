@@ -43,16 +43,6 @@ function SearchAtlas() {
     <div>
 
     <form className="d-flex justify-content-center">
-    <div className="form-group mx-sm-3 mb-2">
-        <input
-          type="text"
-          className="form-control"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          placeholder="Query"
-        />
-      </div>
       <div className="form-group mx-sm-3 mb-2">
         <input
           type="text"
@@ -62,6 +52,16 @@ function SearchAtlas() {
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           placeholder="URL"
         />
+      </div>
+      <div className="form-group mx-sm-3 mb-2">
+          <input
+            type="text"
+            className="form-control"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            placeholder="Query"
+          />
       </div>
 
       <button type="button" className="btn btn-primary mb-2" onClick={handleSearch}>
