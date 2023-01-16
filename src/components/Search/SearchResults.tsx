@@ -42,12 +42,12 @@ const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
           <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
         ) : null}
         <p className='my-3'>{item.metadata.text}</p>
-        <a href={item.metadata.url} target='_blank'rel='noreferrer'>
-          Watch at ({formattedTimestamp})
-        </a>
         <button className="btn btn-outline-primary mx-3" onClick={() => setShowEmbed(!showEmbed)}>
-          {showEmbed ? 'Hide' : 'Show'} Preview
+          {showEmbed ? 'Hide' : 'Watch'} Snippet
         </button>
+        <a href={item.metadata.url} target='_blank'rel='noreferrer'>
+          Watch on YouTube at ({formattedTimestamp})
+        </a>
         <hr/>
       </div>
     );
