@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserProfileService } from '../../services/UserProfileService';
 // import UserProfileService from './UserProfileService';
 
 interface Props {}
@@ -10,9 +11,10 @@ const Register: React.FC<Props> = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // UserProfileService.create({username, email, password});
+        const response = await UserProfileService.create(email, username, password);
+        console.log({response});
     }
 
     return (

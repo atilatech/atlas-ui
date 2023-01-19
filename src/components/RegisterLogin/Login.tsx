@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserProfileService } from '../../services/UserProfileService';
 // import UserProfileService from './UserProfileService';
 
 interface Props {}
@@ -9,8 +10,12 @@ const Login: React.FC<Props> = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const { data } = await UserProfileService.login(username, password);
+        localStorage.setItem('token', data.access);
+        localStorage.setItem('refresh', data.refresh);
+        window.location.href = '/';
     }
 
     return (
