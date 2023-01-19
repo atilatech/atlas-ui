@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Header() {
+    const isLoggedIn = !!localStorage.getItem('token');
+    
   return (
     <header className="mt-3 py-1">
       <div className="container">
@@ -11,9 +13,12 @@ function Header() {
           </Link>
         </p>
         <p className="float-end mb-1">
-          <Link to="/register">
+            {isLoggedIn ? <Link to="/profile">
+            Profile
+          </Link> : <Link to="/register">
             Sign Up
-          </Link>
+          </Link>}
+          
         </p>
       </div>
     </header>
