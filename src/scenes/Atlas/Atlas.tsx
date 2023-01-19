@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../../components/Footer/Footer';
 import SearchAtlas from '../../components/Search/SearchAtlas';
 
 function Atlas() {
@@ -15,8 +14,6 @@ function Atlas() {
             </h3>
             <SearchAtlas />
         </div>
-
-        <Footer />
         </div>
     );
 }
