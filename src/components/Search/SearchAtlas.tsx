@@ -1,16 +1,33 @@
 import { AxiosError } from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { AtlasService } from '../../services/AtlasService';
 import SearchResults from './SearchResults';
 
 function SearchAtlas() {
   const [searchResults, setSearchResults] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [url, setUrl] = useState('');
   const [networkResponse, setNetworkResponse] = useState<{ status: null | 'pending' | 'complete' | 'error', message: string | React.ReactElement }>({
     status: null,
     message: '',
   });
+
+  useEffect(() => {
+    const searchParamsUrl = searchParams.get("url");
+    const searchParamsQuery = searchParams.get("q");
+
+    if (searchParamsUrl) {
+      setUrl(searchParamsUrl);
+    }
+
+    if (searchParamsQuery) {
+      setQuery(searchParamsQuery);
+    }
+  
+  }, [searchParams])
+  
 
   const handleSearch = async () => {
     setNetworkResponse({
