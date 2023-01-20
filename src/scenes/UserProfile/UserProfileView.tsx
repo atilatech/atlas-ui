@@ -47,12 +47,12 @@ function UserProfileView() {
                     Account Type: {userProfile.is_premium ? 'Premiun': 'Basic'}
                 </p>
                 {userProfile.is_premium ?
-                <a href={Environment.stripeManageBillingLink} target='_blank'>
+                <a href={Environment.stripeManageBillingLink} target='_blank' rel='noreferrer'>
                     Manage Subscription
                 </a>
                 :<div>
                 Free accounts are limited to 20 searches. Upgrade to premium to get unlimited searches.{' '}
-                <a href={Environment.stripePaymentsLink} target='_blank'>
+                <a href={Environment.stripePaymentsLink} target='_blank' rel='noreferrer'>
                             Upgrade to Premium{' '}($9/month)
                         </a>
                 </div>  
