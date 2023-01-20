@@ -14,16 +14,15 @@ function Footer() {
             @tomiwa1a
           </a>
         </p>
-        <p className="mb-1">
-        See the <a href="https://github.com/atilatech/atlas-ui" target="_blank" rel="noopener noreferrer">
-            code for this website on Github
-          </a>
-        </p>
         <p className="mb-0">
           <a href="https://atila.ca/blog/tomiwa/atlas" target="_blank" rel="noopener noreferrer">
-          Learn  how this site was built
+          What is Atlas? How was it made?
           </a>
-          .
+        </p>
+        <p className="mb-1">
+        See the <a href="https://github.com/atilatech/atlas-ui" target="_blank" rel="noopener noreferrer">
+            code used to make this website
+          </a>
         </p>
       </div>
     </footer>
