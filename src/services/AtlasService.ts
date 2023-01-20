@@ -1,15 +1,23 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import Environment from './Environment';
 
 export class AtlasService {
-  static API_URL = 'https://atila-core-service.herokuapp.com';
 
   static async search(query: string, url: string = '') {
-    const options = {
+
+    const options: AxiosRequestConfig = {
       method: 'POST',
       url: `${Environment.atilaCoreServiceApiUrl}/atlas/search`,
       data: { q: query, url },  // Add request body here
     };
+
+    const token = localStorage.getItem('token')!;
+
+    if (token) {
+      options.headers = {
+        'Authorization': `Bearer ${token}` 
+      }
+    }
 
     const response = await axios.request(options);
     return response;

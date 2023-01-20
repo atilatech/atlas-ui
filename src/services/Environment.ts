@@ -4,7 +4,8 @@ export const EnvironmentDev = {
     atilaApiUrl: 'http://127.0.0.1:8000/api',
     // Note if you have atilaApiUrl and atilaCoreServiceApiUrl running at same time
     // you will have to set atilaCoreServiceApiUrl to run at 8001
-    atilaCoreServiceApiUrl: 'http://127.0.0.1:8000/api'
+    atilaCoreServiceApiUrl: 'http://127.0.0.1:8000/api',
+    stripePaymentsLink: 'https://buy.stripe.com/test_aEUaGs6j49qDaB28ww'
 };
 
 
@@ -12,14 +13,16 @@ export const EnvironmentStaging = {
     frontendUrl: 'https://staging.atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/staging/api',
     atilaApiUrl: 'https://atila-7-staging.herokuapp.com/api',
-    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api'
+    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api',
+    stripePaymentsLink: 'https://buy.stripe.com/test_aEUaGs6j49qDaB28ww'
 };
 
 export const EnvironmentProd = {
     frontendUrl: 'https://atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/prod/api',
     atilaApiUrl: 'https://atila-7.herokuapp.com/api',
-    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api'
+    atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api',
+    stripePaymentsLink: 'https://buy.stripe.com/9AQaI6fEh9SV63KeUU'
 };
 
 // set to EnvironmentDev as the default so we can use type hinting and the autocomplete feature

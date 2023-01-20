@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { UserProfile as UserProfileClass } from '../../models/UserProfile';
+import Environment from '../../services/Environment';
 import { UserProfileService } from '../../services/UserProfileService';
 import { Utils } from '../../services/Utils';
 
@@ -47,8 +48,10 @@ function UserProfileView() {
                 </p>
                 Free accounts are limited to 20 searches. Upgrade to premium to get unlimited searches.
                 {!userProfile.is_premium && 
-                    <button className='btn btn-primary'>
-                        Upgrade to Premium ($9/month)
+                    <button className='btn btn-link'>
+                        <a href={Environment.stripePaymentsLink} target='_blank'>
+                            Upgrade to Premium{' '}($9/month)
+                        </a>
                     </button>
                 }
             </div>

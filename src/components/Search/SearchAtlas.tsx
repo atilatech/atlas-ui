@@ -38,7 +38,6 @@ function SearchAtlas() {
     });
     try {
         const {data: {results}} = await (await AtlasService.search(query, url));
-        console.log({results})
         setSearchResults(results.matches);
         setNetworkResponse({
           status: null,
