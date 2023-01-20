@@ -20,7 +20,7 @@ function Footer() {
           </a>
         </p>
         <p className="mb-0">
-          <a href="https://atila.ca/blog/" target="_blank" rel="noopener noreferrer">
+          <a href="https://atila.ca/blog/tomiwa/atlas" target="_blank" rel="noopener noreferrer">
           Learn  how this site was built
           </a>
           .

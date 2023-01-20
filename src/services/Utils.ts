@@ -191,5 +191,20 @@ export class Utils {
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
       }
+
+      /**
+       * https://stackoverflow.com/a/38552302/5405197
+       * @param token 
+       * @returns 
+       */
+      static parseJwt (token: string) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    
+        return JSON.parse(jsonPayload);
+    }
       
 }
