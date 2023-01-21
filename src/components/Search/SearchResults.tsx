@@ -23,8 +23,9 @@ interface PineconeData {
   metadata: DocumentSegment;
 }
 
-interface SearchResultsProps {
-  data: PineconeData[];
+export interface SearchResultsProps {
+  matches: PineconeData[];
+  answer?: string[]
 }
 
 
@@ -53,10 +54,10 @@ const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
     );
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
   // Group the items by video_id
   const groups:{ [key: string]: PineconeData[] } = {};
-  data.forEach((item) => {
+  matches.forEach((item) => {
     const videoId = item.metadata.video_id;
     if (!groups[videoId]) {
       groups[videoId] = [];
@@ -64,15 +65,33 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
     groups[videoId].push(item);
   });
 
+  console.log({matches, answer});
+
   return (
-    <div className="card-columns">
+    <div className="m-3 card-columns">
+      {answer && 
+        <>
+        <div style={{fontSize: 'large'}}>
+          <h2>
+            Answer
+          </h2>
+          <p>
+            {answer[0]}
+          </p>
+        </div>
+        <h2>
+          Sources
+        </h2>
+        </>
+      
+      }
       {Object.values(groups).map((group) => {
         const firstItem = group[0];
         const thumbnail = firstItem.metadata.thumbnail;
         const videoUrl = `https://www.youtube.com/watch?v=${firstItem.metadata.video_id}`
 
         return (
-          <div key={firstItem.metadata.video_id} className="card m-3">
+          <div key={firstItem.metadata.video_id} className="card">
             <a href={videoUrl} target='_blank'rel='noreferrer'>
             <img src={thumbnail} alt={firstItem.metadata.title} className="card-img-top m-3" style={{width: '300px'}} />
             </a>

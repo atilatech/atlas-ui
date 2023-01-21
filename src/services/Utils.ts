@@ -206,5 +206,14 @@ export class Utils {
     
         return JSON.parse(jsonPayload);
     }
+    /**
+     * 
+     * @param input 
+     * @returns https://stackoverflow.com/a/19089667/5405197
+     */
+    static sentenceCase(input: string) {
+        const regex = /(^\w{1}|\.\s*\w{1})/gi;
+        return input.replace(regex, (toReplace) => toReplace.toUpperCase())
+    }
       
 }
