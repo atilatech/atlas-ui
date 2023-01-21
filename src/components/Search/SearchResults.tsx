@@ -23,8 +23,10 @@ interface PineconeData {
   metadata: DocumentSegment;
 }
 
-interface SearchResultsProps {
-  data: PineconeData[];
+export interface SearchResultsProps {
+  query: string,
+  matches: PineconeData[];
+  answer?: string[]
 }
 
 
@@ -53,10 +55,10 @@ const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
     );
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ query, matches, answer }) => {
   // Group the items by video_id
   const groups:{ [key: string]: PineconeData[] } = {};
-  data.forEach((item) => {
+  matches.forEach((item) => {
     const videoId = item.metadata.video_id;
     if (!groups[videoId]) {
       groups[videoId] = [];
@@ -64,8 +66,32 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
     groups[videoId].push(item);
   });
 
+  console.log({query, matches, answer});
+
   return (
     <div className="card-columns">
+      {answer && 
+
+      <div style={{fontSize: 'large'}}>
+        <p style={{color: '#52595f'}}>
+          {Utils.sentenceCase(query)}
+        </p>
+        <h2>
+          Answer
+        </h2>
+        <p>
+          {answer[0]}
+        </p>
+      </div>
+      
+      }
+
+
+      {answer && 
+        <h2>
+          Sources
+        </h2>
+      }
       {Object.values(groups).map((group) => {
         const firstItem = group[0];
         const thumbnail = firstItem.metadata.thumbnail;

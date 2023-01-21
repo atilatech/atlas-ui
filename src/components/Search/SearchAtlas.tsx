@@ -1,12 +1,12 @@
 import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AtlasService } from '../../services/AtlasService';
-import SearchAtlasExamples from './SearchAtlasExamples';
-import SearchResults from './SearchResults';
+import SearchAtlasExamples, { VideoItem } from './SearchAtlasExamples';
+import SearchResults, { SearchResultsProps } from './SearchResults';
 
 function SearchAtlas() {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<Partial<SearchResultsProps>>({});
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [url, setUrl] = useState('');
@@ -15,18 +15,14 @@ function SearchAtlas() {
     status: null,
     message: '',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const searchParamsUrl = searchParams.get("url");
-    const searchParamsQuery = searchParams.get("q");
-
-    if (searchParamsUrl) {
-      setUrl(searchParamsUrl);
-    }
-
-    if (searchParamsQuery) {
-      setQuery(searchParamsQuery);
-    }
+    const searchParamsUrl = searchParams.get("url") || '';
+    const searchParamsQuery = searchParams.get("q") || '';
+    
+    setUrl(searchParamsUrl);
+    setQuery(searchParamsQuery);
   
   }, [searchParams])
   
@@ -38,7 +34,7 @@ function SearchAtlas() {
     });
     try {
         const {data: {results}} = await (await AtlasService.search(query, url));
-        setSearchResults(results.matches);
+        setSearchResults(results);
         setNetworkResponse({
           status: null,
           message: '',
@@ -56,6 +52,18 @@ function SearchAtlas() {
         
     }
   };
+
+  const handleExampleClicked = (videoItem: VideoItem) => {
+    setShowSearchExamples(!showSearchExamples);
+    const { search, video } = videoItem;
+    const url = video ? `&url=${new URL(video)}` : '';
+    const q = search;
+    navigate({
+      pathname: window.location.pathname,
+      search: `?q=${q}` + url
+    });
+
+  }
 
   return (
     <div>
@@ -90,7 +98,7 @@ function SearchAtlas() {
       <button className='btn btn-link' onClick={()=> setShowSearchExamples(!showSearchExamples) }>
         {showSearchExamples ? 'Hide ': 'Show '} examples
       </button>
-      {showSearchExamples ? <SearchAtlasExamples /> : null}
+      {showSearchExamples ? <SearchAtlasExamples onExampleClicked={handleExampleClicked} /> : null}
       <hr/>
        {/* Show the network response status and message TODO move inside a NetworkResponse component*/}
        {networkResponse.status && (
@@ -108,7 +116,7 @@ function SearchAtlas() {
             </p>
             )}
             </div>)}
-        {searchResults && <SearchResults data={searchResults} />}
+        {searchResults && searchResults.matches && <SearchResults matches={searchResults.matches} answer={searchResults.answer} query={query} />}
     </div>
   );
 }

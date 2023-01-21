@@ -1,23 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-interface VideoItem {
-  video: string;
-  title: string;
+export interface VideoItem {
+  video?: string;
+  title?: string;
   search: string;
   match: string;
 }
 
-const SearchAtlasExamples: React.FC = () => {
-  const navigate = useNavigate();
+function SearchAtlasExamples({onExampleClicked}: {onExampleClicked?: (video: VideoItem) => void}) {
 
-  const handleClick = (video: string, search: string) => {
-    const url = new URL(video);
-    const q = search;
-    navigate({
-      pathname: window.location.pathname,
-      search: `?url=${url}&q=${q}`
-    });
+  const handleClick = (videoItem: VideoItem) => {
+    onExampleClicked?.(videoItem)
   };
 
   const videoItems: VideoItem[] = [
@@ -50,6 +42,14 @@ const SearchAtlasExamples: React.FC = () => {
         title: 'Intro to vectors & scalars | One-dimensional motion | Physics | Khan Academy',
         search: 'what is velocity',
         match: "talking about how fast something is going, and you give direction..., you're talking about velocity"
+    },
+    {
+        search: 'how to fix jitteriness from coffee',
+        match: "If you want to get rid of the jitteriness, drink a cup of green tea. It has about 30-50 milligrams of caffeine"
+    },
+    {
+        search: 'what is EGCG',
+        match: "EGCG is a polyphenol found in green tea and a potent antioxidant ...EGCG has also been shown to have anti-inflammatory and anti-oxidant properties, and has been used in the treatment of cancer."
     }
   ]
 
@@ -72,8 +72,8 @@ const SearchAtlasExamples: React.FC = () => {
             <td>{item.search}</td>
             <td>{item.match}</td>
             <td>
-              <button onClick={() => handleClick(item.video, item.search)} className='btn btn-link'>
-                Search Video
+              <button onClick={() => handleClick(item)} className='btn btn-link'>
+                Search {item.video ? 'Video' : 'All Videos'}
               </button>
             </td>
           </tr>
