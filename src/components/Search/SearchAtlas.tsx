@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AtlasService } from '../../services/AtlasService';
+import { Utils } from '../../services/Utils';
 import SearchAtlasExamples, { VideoItem } from './SearchAtlasExamples';
 import SearchResults, { SearchResultsProps } from './SearchResults';
 
@@ -58,9 +59,11 @@ function SearchAtlas() {
     const { search, video } = videoItem;
     const url = video ? `&url=${new URL(video)}` : '';
     const q = search;
+    const searchPath = `?q=${q}` + url;
+    console.log({url, q, searchPath});
     navigate({
       pathname: window.location.pathname,
-      search: `?q=${q}` + url
+      search: searchPath
     });
 
   }
@@ -100,6 +103,10 @@ function SearchAtlas() {
       </button>
       {showSearchExamples ? <SearchAtlasExamples onExampleClicked={handleExampleClicked} /> : null}
       <hr/>
+
+      <p className='m-3' style={{color: '#52595f', fontSize: 'large'}}>
+          {Utils.sentenceCase(query)}
+        </p>
        {/* Show the network response status and message TODO move inside a NetworkResponse component*/}
        {networkResponse.status && (
             <div className='m-3'>
@@ -116,7 +123,8 @@ function SearchAtlas() {
             </p>
             )}
             </div>)}
-        {searchResults && searchResults.matches && <SearchResults matches={searchResults.matches} answer={searchResults.answer} query={query} />}
+        {searchResults && searchResults.matches && 
+        <SearchResults matches={searchResults.matches} answer={searchResults.answer} />}
     </div>
   );
 }
