@@ -60,7 +60,6 @@ function SearchAtlas() {
     const url = video ? `&url=${new URL(video)}` : '';
     const q = search;
     const searchPath = `?q=${q}` + url;
-    console.log({url, q, searchPath});
     navigate({
       pathname: window.location.pathname,
       search: searchPath

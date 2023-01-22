@@ -65,8 +65,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
     groups[videoId].push(item);
   });
 
-  console.log({matches, answer});
-
   return (
     <div className="m-3 card-columns">
       {answer && 

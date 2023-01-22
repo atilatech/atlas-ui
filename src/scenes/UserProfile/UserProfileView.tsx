@@ -14,11 +14,8 @@ function UserProfileView() {
         // declare the async data fetching function
         const fetchUser = async () => {
             const parsedToken = Utils.parseJwt(localStorage.getItem('token')!);
-            console.log({parsedToken});
-      
       
             const {data} = await UserProfileService.getUserProfile(parsedToken.userprofile_id);
-            console.log({data});
       
             setUserProfile(data);
         }
