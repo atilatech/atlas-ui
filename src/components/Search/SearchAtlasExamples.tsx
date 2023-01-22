@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 export interface VideoItem {
   video?: string;
   title?: string;
@@ -14,16 +15,20 @@ function SearchAtlasExamples({onExampleClicked}: {onExampleClicked?: (video: Vid
 
   const videoItems: VideoItem[] = [
     {
-        video: 'https://www.youtube.com/watch?v=TuPyVPdH814',
-        title: 'the ultimate guide to closet essentials',
-        search: 'how much were your jeans',
-        match: "their jeans do run like a hundred to two hundred dollars but if you catch them on sale i bought madewell jeans for like twenty dollars"
-    },
-    {
         video: 'https://www.youtube.com/watch?v=bGk8qcHc1A0',
         title: 'Joe Rogan & Lex Fridman: Lionel Messi Is The GOAT Over Cristiano Ronaldo',
         search: 'basketball',
         match: 'LeBron James and Michael Jordan'
+    },
+    {
+        video: 'https://www.youtube.com/watch?v=TuPyVPdH814',
+        title: 'the ultimate guide to closet essentials',
+        search: 'best jeans to get',
+        match: "If you're looking for a good pair of jeans that will last for a long time, you should look for a high-rise jean. High-rise jeans tend to last longer than low-rise ones, and they tend to be more expensive."
+    },
+    {
+        search: 'what shoes should i wear',
+        match: "If you're looking for a good pair of jeans that will last for a long time, you should look for a high-rise jean. High-rise jeans tend to last longer than low-rise ones, and they tend to be more expensive."
     },
     {
         video: 'https://www.youtube.com/watch?v=BrK7X_XlGB8',
@@ -32,23 +37,21 @@ function SearchAtlasExamples({onExampleClicked}: {onExampleClicked?: (video: Vid
         match: 'berkeley'
     },
     {
-        video: 'https://www.youtube.com/watch?v=Ubo9UaRxdVg',
-        title: 'Startup Grind hosts Patrick Collison (founder of Stripe)',
-        search: 'city in argentina',
-        match: 'Buenos Aires'
-    },
-    {
-        video: 'https://www.youtube.com/watch?v=ihNZlp7iUHE',
-        title: 'Intro to vectors & scalars | One-dimensional motion | Physics | Khan Academy',
-        search: 'what is velocity',
+        video: 'https://www.youtube.com/watch?v=juM2ROSLWfw',
+        title: 'Krebs / citric acid cycle | Cellular respiration | Biology | Khan Academy',
+        search: 'what are enzymes',
         match: "talking about how fast something is going, and you give direction..., you're talking about velocity"
     },
     {
-        search: 'how to fix jitteriness from coffee',
-        match: "If you want to get rid of the jitteriness, drink a cup of green tea. It has about 30-50 milligrams of caffeine"
+        video: 'https://www.youtube.com/watch?v=ZCFkWDdmXG8',
+        title: 'Explained | The Stock Market | FULL EPISODE | Netflix',
+        search: 'best way to invest',
+        match: "If you want to invest in the stock market, the best way to invest is to buy an index fund...Buy an S&P 500 Low-Cost Index Fund."
     },
     {
-        search: 'what is EGCG',
+        video: 'https://www.youtube.com/watch?v=mj0O_6oVhts',
+        title: 'LOVE LESSONS - 125+ Years of Marriage Advice in 3 Minutes',
+        search: 'how to find love',
         match: "EGCG is a polyphenol found in green tea and a potent antioxidant ...EGCG has also been shown to have anti-inflammatory and anti-oxidant properties, and has been used in the treatment of cancer."
     }
   ]
@@ -58,8 +61,7 @@ function SearchAtlasExamples({onExampleClicked}: {onExampleClicked?: (video: Vid
       <thead>
         <tr>
           <th scope="col" className="wide-column">Video</th>
-          <th scope="col" className="wide-column">Search</th>
-          <th scope="col" className="wide-column">Match Result</th>
+          <th scope="col" className="wide-column">Search Phrase</th>
           <th scope="col" className="wide-column">Search Video</th>
         </tr>
       </thead>
@@ -70,10 +72,12 @@ function SearchAtlasExamples({onExampleClicked}: {onExampleClicked?: (video: Vid
               <a href={item.video}>{item.title}</a>
             </td>
             <td>{item.search}</td>
-            <td>{item.match}</td>
             <td>
               <button onClick={() => handleClick(item)} className='btn btn-link'>
-                Search {item.video ? 'Video' : 'All Videos'}
+                <Link to={`/?q=${item.search}${item.video? '&url=' +item.video: ''}`}>
+                  Search {item.video ? 'Video' : 'All Videos'}
+                </Link>
+                
               </button>
             </td>
           </tr>
