@@ -10,7 +10,7 @@ function Atlas() {
                 Atlas
             </h1>
             <h3 className="text-center">
-                Search any Youtube video
+                Find Anything on Youtube
             </h3>
             <SearchAtlas />
         </div>
