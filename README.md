@@ -1,4 +1,14 @@
-# Atila Scholarship Helper Extension
+# Atlas UI
+
+
+The user interface (UI) for [Atlas](https://atlas.atila.ca/) and [Atlas browser extension](https://chrome.google.com/webstore/detail/atila-scholarship-helper/ippmodhmgofpojbjjcgpjelghailjomm?hl=en).
+
+
+## Quickstart
+
+`yarn install; yarn start` 
+
+# Atlas Browser Extension
 
 Chrome extension to save scholarships on any website and remind you when it's due
 
