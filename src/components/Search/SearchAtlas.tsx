@@ -5,9 +5,11 @@ import { AtlasService } from '../../services/AtlasService';
 import { Utils } from '../../services/Utils';
 import SearchAtlasExamples, { VideoItem } from './SearchAtlasExamples';
 import SearchResults, { SearchResultsProps } from './SearchResults';
+import Summaries from './Summaries';
 
 function SearchAtlas() {
   const [searchResults, setSearchResults] = useState<Partial<SearchResultsProps>>({});
+  const [video, setVideo] = useState<Partial<any>>({});
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [url, setUrl] = useState('');
@@ -34,8 +36,9 @@ function SearchAtlas() {
       message: '',
     });
     try {
-        const {data: {results}} = await (await AtlasService.search(query, url));
+        const {data: { results, video }} = await (await AtlasService.search(query, url));
         setSearchResults(results);
+        setVideo(video);
         setNetworkResponse({
           status: null,
           message: '',
@@ -122,8 +125,29 @@ function SearchAtlas() {
             </p>
             )}
             </div>)}
-        {searchResults && searchResults.matches && 
-        <SearchResults matches={searchResults.matches} answer={searchResults.answer} />}
+
+            <ul className="nav nav-tabs" id="popupTab" role="tablist">
+          <li className="nav-item" role="presentation">
+            <button className="nav-link active" id="save-tab" data-bs-toggle="tab" data-bs-target="#save" type="button" role="tab" aria-controls="save" aria-selected="true">
+                Summary
+            </button>
+          </li>
+          <li className="nav-item" role="presentation">
+            <button className="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab" aria-controls="search" aria-selected="false">
+                Search Results
+            </button>
+          </li>
+        </ul>
+        <div className="tab-content" id="popupTabContent">
+          <div className="tab-pane fade show active" id="save" role="tabpanel" aria-labelledby="save-tab">
+            {video?.summaries?.length > 0 ? <Summaries summaries={video.summaries} />: <button>Generate Summary</button>}
+          </div>
+          <div className="tab-pane fade" id="search" role="tabpanel" aria-labelledby="search-tab">
+            {searchResults && searchResults.matches && 
+          <SearchResults matches={searchResults.matches} answer={searchResults.answer} />}
+          </div>
+        </div>
+        
     </div>
   );
 }

@@ -7,6 +7,7 @@ interface DocumentSegment {
   id: string;
   length: number;
   start: number;
+  summary?: string;
   text: string;
   thumbnail: string;
   title: string;
@@ -30,23 +31,23 @@ export interface SearchResultsProps {
 
 
 interface SearchResultProps {
-  item: PineconeData;
+  item: DocumentSegment;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
+export const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
     const [showEmbed, setShowEmbed] = useState(false);
 
-    const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.metadata.start)
+    const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.start)
     return (
       <div className="card-text">
         {showEmbed ? (
-          <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
+          <ResponsiveEmbed url={item.url} title={`${item.title}_${item.text.slice(0,50)}`} />
         ) : null}
-        <p className='my-3'>{item.metadata.text}</p>
+        <p className='my-3'>{item.summary||item.text}</p>
         <button className="btn btn-outline-primary mx-3" onClick={() => setShowEmbed(!showEmbed)}>
           {showEmbed ? 'Hide' : 'Watch'} Snippet
         </button>
-        <a href={item.metadata.url} target='_blank'rel='noreferrer'>
+        <a href={item.url} target='_blank'rel='noreferrer'>
           Watch on YouTube at ({formattedTimestamp})
         </a>
         <hr/>
@@ -97,7 +98,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
               <h5 className="card-title"><a href={videoUrl} target='_blank'rel='noreferrer'>
                 {firstItem.metadata.title}
                 </a></h5>
-              {group.map((item) => <SearchResult item={item} key={item.id} />)}
+              {group.map((item) => <SearchResult item={item.metadata} key={item.id} />)}
           </div>
         </div>
       );
