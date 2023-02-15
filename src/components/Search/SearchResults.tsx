@@ -7,6 +7,7 @@ interface DocumentSegment {
   id: string;
   length: number;
   start: number;
+  summary?: string;
   text: string;
   thumbnail: string;
   title: string;
@@ -25,36 +26,36 @@ interface PineconeData {
 
 export interface SearchResultsProps {
   matches: PineconeData[];
-  answer?: string[]
 }
 
 
 interface SearchResultProps {
-  item: PineconeData;
+  item: DocumentSegment;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
+export const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
     const [showEmbed, setShowEmbed] = useState(false);
 
-    const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.metadata.start)
+    const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.start)
+    console.log({item, formattedTimestamp});
     return (
       <div className="card-text">
         {showEmbed ? (
-          <ResponsiveEmbed url={item.metadata.url} title={`${item.metadata.title}_${item.metadata.text.slice(0,50)}`} />
+          <ResponsiveEmbed url={item.url} title={`${item.title}_${item.text.slice(0,50)}`} />
         ) : null}
-        <p className='my-3'>{item.metadata.text}</p>
+        <p className='my-3'>{item.summary||item.text}</p>
         <button className="btn btn-outline-primary mx-3" onClick={() => setShowEmbed(!showEmbed)}>
-          {showEmbed ? 'Hide' : 'Watch'} Snippet
+          {showEmbed ? 'Hide' : 'Watch'} Snippet ({formattedTimestamp})
         </button>
-        <a href={item.metadata.url} target='_blank'rel='noreferrer'>
-          Watch on YouTube at ({formattedTimestamp})
+        <a href={item.url} target='_blank'rel='noreferrer'>
+          Watch on YouTube at {formattedTimestamp}
         </a>
         <hr/>
       </div>
     );
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ matches }) => {
   // Group the items by video_id
   const groups:{ [key: string]: PineconeData[] } = {};
   matches.forEach((item) => {
@@ -67,22 +68,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
 
   return (
     <div className="m-3 card-columns">
-      {answer && 
-        <>
-        <div style={{fontSize: 'large'}}>
-          <h2>
-            Answer
-          </h2>
-          <p>
-            {answer[0]}
-          </p>
-        </div>
-        <h2>
-          Sources
-        </h2>
-        </>
-      
-      }
       {Object.values(groups).map((group) => {
         const firstItem = group[0];
         const thumbnail = firstItem.metadata.thumbnail;
@@ -97,7 +82,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
               <h5 className="card-title"><a href={videoUrl} target='_blank'rel='noreferrer'>
                 {firstItem.metadata.title}
                 </a></h5>
-              {group.map((item) => <SearchResult item={item} key={item.id} />)}
+              {group.map((item) => <SearchResult item={item.metadata} key={item.id} />)}
           </div>
         </div>
       );
