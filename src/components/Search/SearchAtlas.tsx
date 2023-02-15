@@ -171,7 +171,7 @@ function SearchAtlas() {
               {Utils.sentenceCase(query)}
             </p>
             {searchResults && searchResults.matches && 
-          <SearchResults matches={searchResults.matches} answer={searchResults.answer} />}
+          <SearchResults matches={searchResults.matches} />}
           </div>
         </div>
         

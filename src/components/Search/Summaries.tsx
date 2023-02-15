@@ -3,7 +3,6 @@ import { SearchResult } from './SearchResults';
 
 function Summaries({summaries}: {summaries: any}) {
 
-  console.log({summaries});
   return (
     <div className='card container shadow'>
         <div className='card-body'>

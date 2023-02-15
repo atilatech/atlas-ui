@@ -26,7 +26,6 @@ interface PineconeData {
 
 export interface SearchResultsProps {
   matches: PineconeData[];
-  answer?: string[]
 }
 
 
@@ -55,7 +54,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
     );
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ matches }) => {
   // Group the items by video_id
   const groups:{ [key: string]: PineconeData[] } = {};
   matches.forEach((item) => {
@@ -68,22 +67,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ matches, answer }) => {
 
   return (
     <div className="m-3 card-columns">
-      {answer && 
-        <>
-        <div style={{fontSize: 'large'}}>
-          <h2>
-            Answer
-          </h2>
-          <p>
-            {answer[0]}
-          </p>
-        </div>
-        <h2>
-          Sources
-        </h2>
-        </>
-      
-      }
       {Object.values(groups).map((group) => {
         const firstItem = group[0];
         const thumbnail = firstItem.metadata.thumbnail;
