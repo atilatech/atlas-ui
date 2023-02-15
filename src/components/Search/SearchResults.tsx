@@ -37,6 +37,7 @@ export const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
     const [showEmbed, setShowEmbed] = useState(false);
 
     const formattedTimestamp = Utils.secondsToMinutesAndSeconds(item.start)
+    console.log({item, formattedTimestamp});
     return (
       <div className="card-text">
         {showEmbed ? (

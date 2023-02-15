@@ -147,19 +147,19 @@ function SearchAtlas() {
 
             <ul className="nav nav-tabs" id="popupTab" role="tablist">
           <li className="nav-item" role="presentation">
-            <button className="nav-link active" id="save-tab" data-bs-toggle="tab" data-bs-target="#save" type="button" role="tab" aria-controls="save" aria-selected="true">
+            <button className={`nav-link ${defaultTab === 'summary' ? 'active': ''}`} id="save-tab" data-bs-toggle="tab" data-bs-target="#save" type="button" role="tab" aria-controls="save" aria-selected="true">
                 Summary
             </button>
           </li>
           <li className="nav-item" role="presentation">
-            <button className="nav-link" id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab" aria-controls="search" aria-selected="false">
+            <button className={`nav-link ${defaultTab === 'search' ? 'active': ''}`} id="search-tab" data-bs-toggle="tab" data-bs-target="#search" type="button" role="tab" aria-controls="search" aria-selected="false">
                 Search Results
             </button>
           </li>
         </ul>
         <div className="tab-content" id="popupTabContent">
           <div className={`tab-pane fade ${defaultTab === 'summary' ? 'show active': ''}`} id="save" role="tabpanel" aria-labelledby="save-tab">
-            {video?.summaries?.length && video?.summaries?.length > 0 ? <Summaries summaries={video.summaries} />: 
+            {video?.summaries?.length && video?.summaries?.length > 0 ? <Summaries video={video} summaries={video.summaries} />: 
               <button className='btn btn-primary mt-3' onClick={(e) => handleSearch(e, true)}>
                 Generate Summary
               </button>
