@@ -3,12 +3,12 @@ import Environment from './Environment';
 
 export class AtlasService {
 
-  static async search(query: string, url: string = '') {
+  static async search(query: string, url: string = '', summarize: boolean = false) {
 
     const options: AxiosRequestConfig = {
       method: 'POST',
       url: `${Environment.atilaCoreServiceApiUrl}/atlas/search`,
-      data: { q: query, url },  // Add request body here
+      data: { q: query, url, summarize },  // Add request body here
     };
 
     const token = localStorage.getItem('token')!;
