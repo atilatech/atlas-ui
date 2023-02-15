@@ -33,7 +33,7 @@ function SearchAtlas() {
     setUrl(searchParamsUrl);
     setQuery(searchParamsQuery);
 
-    if(searchParamsUrl && searchParamsQuery) {
+    if(searchParamsQuery) {
       setDefaultTab('search');
     }
   
