@@ -45,10 +45,10 @@ export const SearchResult: React.FC<SearchResultProps> = ({ item }) => {
         ) : null}
         <p className='my-3'>{item.summary||item.text}</p>
         <button className="btn btn-outline-primary mx-3" onClick={() => setShowEmbed(!showEmbed)}>
-          {showEmbed ? 'Hide' : 'Watch'} Snippet
+          {showEmbed ? 'Hide' : 'Watch'} Snippet ({formattedTimestamp})
         </button>
         <a href={item.url} target='_blank'rel='noreferrer'>
-          Watch on YouTube at ({formattedTimestamp})
+          Watch on YouTube at {formattedTimestamp}
         </a>
         <hr/>
       </div>
