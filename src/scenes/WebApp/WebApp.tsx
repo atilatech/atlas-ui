@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import Login from "../../components/RegisterLogin/Login";
 import Register from "../../components/RegisterLogin/Register";
 import Atlas from "../Atlas/Atlas";
+import CollectionCreate from "../Collection/CollectionCreate";
 import UserProfileView from "../UserProfile/UserProfileView";
 export default function WebApp() {
   return (
@@ -14,6 +15,7 @@ export default function WebApp() {
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="profile" element={<UserProfileView />} />
+            <Route path="collection" element={<CollectionCreate />} />
             <Route path="/" element={<Atlas />}>
             </Route>
         </Routes>
