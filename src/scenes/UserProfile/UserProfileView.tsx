@@ -38,7 +38,7 @@ function UserProfileView() {
                     Username: {userProfile.user.username}
                 </p>
                 <p className='col-12'>
-                    Atlas Searches: {userProfile.atlas_searches}
+                    Atlas Credits: {userProfile.atlas_credits}
                 </p>
                 <p className='col-12'>
                     Account Type: {userProfile.is_premium ? 'Premiun': 'Basic'}

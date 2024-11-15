@@ -7,5 +7,5 @@ export interface UserProfile {
     id: string,
     user: User,
     is_premium: boolean,
-    atlas_searches: boolean,
+    atlas_credits: number,
 }
