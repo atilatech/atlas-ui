@@ -15,7 +15,7 @@ function SearchAtlasExamples({onExampleClicked}: {onExampleClicked?: (video: Vid
 
   const videoItems: VideoItem[] = [
     {
-        video: 'https://www.youtube.com/watch?v=51YVD2f5uig',
+        video: 'https://www.youtube.com/watch?v=cnFCGOWHQ7A',
         title: 'Joe Rogan & Lex Fridman: Lionel Messi Is The GOAT Over Cristiano Ronaldo',
         search: 'basketball',
         match: 'LeBron James and Michael Jordan'
