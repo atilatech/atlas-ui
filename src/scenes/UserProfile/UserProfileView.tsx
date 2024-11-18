@@ -38,22 +38,12 @@ function UserProfileView() {
                     Username: {userProfile.user.username}
                 </p>
                 <p className='col-12'>
-                    Atlas Credits: {userProfile.atlas_credits}
+                    Atlas Credits: {userProfile.atlas_credits}{' '}
+
+                    (<a href={Environment.stripePaymentsLink} target='_blank' rel='noreferrer'>
+                            Buy More Credits
+                        </a>)
                 </p>
-                <p className='col-12'>
-                    Account Type: {userProfile.is_premium ? 'Premiun': 'Basic'}
-                </p>
-                {userProfile.is_premium ?
-                <a href={Environment.stripeManageBillingLink} target='_blank' rel='noreferrer'>
-                    Manage Subscription
-                </a>
-                :<div>
-                Free accounts are limited to 20 searches. Upgrade to premium to get unlimited searches.{' '}
-                <a href={Environment.stripePaymentsLink} target='_blank' rel='noreferrer'>
-                            Upgrade to Premium{' '}($9/month)
-                        </a>
-                </div>  
-                }
             </div>
             
             }

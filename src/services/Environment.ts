@@ -5,7 +5,7 @@ export const EnvironmentDev = {
     // Note if you have atilaApiUrl and atilaCoreServiceApiUrl running at same time
     // you will have to set atilaCoreServiceApiUrl to run at 8001
     atilaCoreServiceApiUrl: 'http://127.0.0.1:8000/api',
-    stripePaymentsLink: 'https://buy.stripe.com/test_aEUaGs6j49qDaB28ww',
+    stripePaymentsLink: 'https://buy.stripe.com/test_9AQ9CobDo0U738AdQX',
     stripeManageBillingLink: 'https://billing.stripe.com/p/login/test_4gwaHfguVf2sgdWcMM',
 };
 
@@ -15,7 +15,7 @@ export const EnvironmentStaging = {
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/staging/api',
     atilaApiUrl: 'https://atila-7-staging.herokuapp.com/api',
     atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api',
-    stripePaymentsLink: 'https://buy.stripe.com/test_aEUaGs6j49qDaB28ww',
+    stripePaymentsLink: 'https://buy.stripe.com/test_9AQ9CobDo0U738AdQX',
     stripeManageBillingLink: 'https://billing.stripe.com/p/login/test_4gwaHfguVf2sgdWcMM',
 };
 
@@ -24,7 +24,7 @@ export const EnvironmentProd = {
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/prod/api',
     atilaApiUrl: 'https://atila-7.herokuapp.com/api',
     atilaCoreServiceApiUrl: 'https://atila-core-service.herokuapp.com/api',
-    stripePaymentsLink: 'https://buy.stripe.com/9AQaI6fEh9SV63KeUU',
+    stripePaymentsLink: 'https://buy.stripe.com/fZeg2q3Vzd574ZGfZc',
     stripeManageBillingLink: 'https://billing.stripe.com/p/login/cN2dRb9UE5PefSg4gg',
 };
 
