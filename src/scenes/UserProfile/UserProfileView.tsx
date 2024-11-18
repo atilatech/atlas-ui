@@ -3,6 +3,7 @@ import { UserProfile as UserProfileClass } from '../../models/UserProfile';
 import Environment from '../../services/Environment';
 import { UserProfileService } from '../../services/UserProfileService';
 import { Utils } from '../../services/Utils';
+import ApplyCredits from '../Atlas/ApplyCredits';
 
 
 
@@ -28,9 +29,10 @@ function UserProfileView() {
     
 
     return (
-        <div className="Atlas container card shadow my-5 p-5">
+        <div>
             {userProfile && 
-            <div>
+            <div className="Atlas container card shadow my-5 p-5">
+
                 <p className='col-12'>
                     Email: {userProfile.user.email}
                 </p>
@@ -44,9 +46,11 @@ function UserProfileView() {
                             Buy More Credits
                         </a>)
                 </p>
+
             </div>
-            
             }
+
+            <ApplyCredits />
         </div>
         
     );
