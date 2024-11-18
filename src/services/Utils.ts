@@ -190,7 +190,6 @@ export class Utils {
         const minutes = Math.floor((seconds) / 60);
         const remainingSeconds = Math.floor(seconds % 60);
         const minutesAndSeconds = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-        console.log(minutesAndSeconds)
         return minutesAndSeconds;
       }
 
