@@ -45,6 +45,18 @@ function UserProfileView() {
                     (<a href={Environment.stripePaymentsLink} target='_blank' rel='noreferrer'>
                             Buy More Credits
                         </a>)
+
+                        {Environment.name !== "prod" &&
+                            <p className="my-3">
+                                You can use a test credit card: 4000001240000000
+                                <br/>
+                                Use with any security code and future expiry date.
+                                <br/>
+                                <a href='https://docs.stripe.com/testing#cards' target='_blank' rel='noreferrer'>
+                                    More information: Strip Docs - Card Testing
+                                </a>
+                            </p>
+                            }
                 </p>
 
             </div>

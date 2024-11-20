@@ -1,4 +1,5 @@
 export const EnvironmentDev = {
+    name: 'dev',
     frontendUrl: 'http://localhost:3000',
     apiUrl: 'http://127.0.0.1:8080/api',
     atilaApiUrl: 'http://127.0.0.1:8000/api',
@@ -11,6 +12,7 @@ export const EnvironmentDev = {
 
 
 export const EnvironmentStaging = {
+    name: 'staging',
     frontendUrl: 'https://staging.atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/staging/api',
     atilaApiUrl: 'https://atila-7-staging.herokuapp.com/api',
@@ -20,6 +22,7 @@ export const EnvironmentStaging = {
 };
 
 export const EnvironmentProd = {
+    name: 'prod',
     frontendUrl: 'https://atila.ca',
     apiUrl: 'https://5dkl8h3luf.execute-api.us-east-1.amazonaws.com/prod/api',
     atilaApiUrl: 'https://atila-7.herokuapp.com/api',
