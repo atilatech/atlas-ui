@@ -22,4 +22,16 @@ export class AtlasService {
     const response = await axios.request(options);
     return response;
   }
+
+  static async applyCredits(email: string, code: string = '') {
+
+    const options: AxiosRequestConfig = {
+      method: 'POST',
+      url: `${Environment.atilaCoreServiceApiUrl}/atlas/credits/apply`,
+      data: { email, code },  // Add request body here
+    };
+    
+    const response = await axios.request(options);
+    return response;
+  }
 }

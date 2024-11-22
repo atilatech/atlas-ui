@@ -3,6 +3,7 @@ import { UserProfile as UserProfileClass } from '../../models/UserProfile';
 import Environment from '../../services/Environment';
 import { UserProfileService } from '../../services/UserProfileService';
 import { Utils } from '../../services/Utils';
+import ApplyCredits from '../Atlas/ApplyCredits';
 
 
 
@@ -28,9 +29,10 @@ function UserProfileView() {
     
 
     return (
-        <div className="Atlas container card shadow my-5 p-5">
+        <div>
             {userProfile && 
-            <div>
+            <div className="Atlas container card shadow my-5 p-5">
+
                 <p className='col-12'>
                     Email: {userProfile.user.email}
                 </p>
@@ -38,25 +40,29 @@ function UserProfileView() {
                     Username: {userProfile.user.username}
                 </p>
                 <p className='col-12'>
-                    Atlas Searches: {userProfile.atlas_searches}
+                    Atlas Credits: {userProfile.atlas_credits}{' '}
+
+                    (<a href={Environment.stripePaymentsLink} target='_blank' rel='noreferrer'>
+                            Buy More Credits
+                        </a>)
+
+                        {Environment.name !== "prod" &&
+                            <p className="my-3">
+                                You can use a test credit card: 4000001240000000
+                                <br/>
+                                Use with any security code and future expiry date.
+                                <br/>
+                                <a href='https://docs.stripe.com/testing#cards' target='_blank' rel='noreferrer'>
+                                    More information: Strip Docs - Card Testing
+                                </a>
+                            </p>
+                            }
                 </p>
-                <p className='col-12'>
-                    Account Type: {userProfile.is_premium ? 'Premiun': 'Basic'}
-                </p>
-                {userProfile.is_premium ?
-                <a href={Environment.stripeManageBillingLink} target='_blank' rel='noreferrer'>
-                    Manage Subscription
-                </a>
-                :<div>
-                Free accounts are limited to 20 searches. Upgrade to premium to get unlimited searches.{' '}
-                <a href={Environment.stripePaymentsLink} target='_blank' rel='noreferrer'>
-                            Upgrade to Premium{' '}($9/month)
-                        </a>
-                </div>  
-                }
+
             </div>
-            
             }
+
+            <ApplyCredits />
         </div>
         
     );
